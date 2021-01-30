@@ -1,21 +1,24 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-30 17:21:10
+ * @LastEditTime: 2021-01-30 21:11:29
  */
 // import logo from './logo.svg';
 import './App.css';
 import 'antd/dist/antd.css'
 import { Button ,Input ,List} from 'antd';
 import store from "./store";
-import { useState } from 'react';
-// import { CHANGE_IPUT,ADD_ITEM,DELETE_ITEM } from './store/actiion-types';
-import { getInputChangeAction ,getAddItemAction, getDeleteItemAction} from './store/actionCreators';
-
+import { useState,useEffect } from 'react';
+import { getTodoList, getInputChangeAction, getAddItemAction, getDeleteItemAction} from './store/actionCreators';
 
 function TodoList() {
   const [state, setState] = useState(store.getState())
   const [inputValue, setInputValue] = useState('')
+  useEffect(() => {
+    // 使用redux-thunk后，action也可以是个函数了
+    const action = getTodoList()
+    store.dispatch(action)
+  }, []);
   const handChange = (e)=> {
     setInputValue(e.target.value)
     const action = getInputChangeAction(e.target.value)
@@ -24,6 +27,9 @@ function TodoList() {
   const handClick = ()=> {
     const action = getAddItemAction(inputValue)
     store.dispatch(action)
+    // axios.get(`${url}/list`).then((res)=>{
+    //   console.log(res);
+    // })
   }
   function handDelete(index) {
     console.log(index);
@@ -53,7 +59,6 @@ function TodoList() {
           </List.Item>
         )}
       />
-
     </div>
   );
 }
