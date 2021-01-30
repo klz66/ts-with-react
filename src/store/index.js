@@ -1,7 +1,7 @@
 /*
  * @Description: yarn 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-30 21:10:37
+ * @LastEditTime: 2021-01-30 21:21:30
  */
 
 import { createStore, applyMiddleware, compose} from "redux";
@@ -30,7 +30,6 @@ const enhancer = composeEnhancers(
   const store = createStore(
     reducer,
     enhancer,
-  //  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
 
 export default store;

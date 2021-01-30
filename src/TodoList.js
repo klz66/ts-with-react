@@ -1,9 +1,8 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-30 21:11:29
+ * @LastEditTime: 2021-01-30 22:41:00
  */
-// import logo from './logo.svg';
 import './App.css';
 import 'antd/dist/antd.css'
 import { Button ,Input ,List} from 'antd';
@@ -27,9 +26,6 @@ function TodoList() {
   const handClick = ()=> {
     const action = getAddItemAction(inputValue)
     store.dispatch(action)
-    // axios.get(`${url}/list`).then((res)=>{
-    //   console.log(res);
-    // })
   }
   function handDelete(index) {
     console.log(index);
