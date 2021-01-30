@@ -1,12 +1,11 @@
 /*
  * @Description: yarn 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-30 21:21:30
+ * @LastEditTime: 2021-01-30 22:51:59
  */
 
-import { createStore, applyMiddleware, compose} from "redux";
+import { createStore } from "redux";
 import reducer from './reducer'
-import thunk from 'redux-thunk'
 // store是唯一的 只有store能够改变自己
 // reducer必须是纯函数 reducer既固定的输入，固定的输出可以接收state,但是绝不能修改state
 
@@ -15,21 +14,6 @@ import thunk from 'redux-thunk'
 // 关键方法 获取store的数据-> store.getState() 
 // 关键方法 订阅store改变-> store.subscribe(function)
 
-const composeEnhancers =
-  typeof window === 'object' &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-    }) : compose;
-
-const enhancer = composeEnhancers(
-  applyMiddleware(thunk),
-  // other store enhancers if any
-);
-
-  const store = createStore(
-    reducer,
-    enhancer,
-  );
+const store = createStore(reducer)
 
 export default store;

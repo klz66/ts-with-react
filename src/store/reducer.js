@@ -1,11 +1,11 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-30 20:25:47
+ * @LastEditTime: 2021-01-30 22:56:07
  */
 import { CHANGE_IPUT, ADD_ITEM, DELETE_ITEM, INIT_LIST } from './actiion-types';
 const defaultState = {
-  inputValue: '',
+  inputValue: 'hello World',
   list: ['test 1','test 1','test 1','test 1']
 }
 
