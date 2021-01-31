@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 15:55:03
+ * @LastEditTime: 2021-01-31 23:36:23
  */
 import styled from 'styled-components';
 import logoPic from '../../statics/logo.png';
@@ -173,8 +173,5 @@ export const Button = styled.div`
 	&.writting {
 		color: #fff;
 		background: #ec6149;
-  }
-  .ddd {
-    color: red;
   }
 `

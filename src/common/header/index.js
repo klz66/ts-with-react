@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 23:00:19
+ * @LastEditTime: 2021-01-31 23:35:46
  */
 
 import 'antd/dist/antd.css'
@@ -67,7 +67,8 @@ function Header(props) {
 }
 
 const mapStateToProps = (state) => ({
-  focused:state.header.focused,
+  // focused:state.get('header').get('focused'),
+  focused:state.getIn(['header','focused'])
 })
 const mapDispatchToProps = (dispatch) => ({
   changeFocusOn(){
