@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 23:35:46
+ * @LastEditTime: 2021-02-01 00:10:56
  */
 
 import 'antd/dist/antd.css'
@@ -28,6 +28,32 @@ import {
 import React, { useState, useEffect } from 'react';
 function Header(props) {
   console.log(props);
+  const getListArea = () => {
+    if(props.focused) {
+      return (
+        <SearchInfo>
+        <SearchInfoTitle>
+          热门搜索
+          <SearchInfoSwitch 
+          >
+            换一批
+          </SearchInfoSwitch>
+        </SearchInfoTitle>
+        <SearchInfoList>
+          <SearchInfoItem>2020</SearchInfoItem>
+          <SearchInfoItem>2020</SearchInfoItem>
+          <SearchInfoItem>2020</SearchInfoItem>
+          <SearchInfoItem>2020</SearchInfoItem>
+          <SearchInfoItem>2020</SearchInfoItem>
+          <SearchInfoItem>2020</SearchInfoItem>
+        </SearchInfoList>
+      </SearchInfo>
+      )
+    }
+    else {
+      return null
+    }
+  }
   return (
     <HeaderWrapper>
       <Logo/>
@@ -50,6 +76,25 @@ function Header(props) {
           />
         </CSSTransition>
         <i className="iconfont zoom">&#xe6e4;</i>
+        {getListArea()}
+        {/* <SearchInfo>
+          <SearchInfoTitle>
+            热门搜索
+            <SearchInfoSwitch 
+						>
+							换一批
+						</SearchInfoSwitch>
+          </SearchInfoTitle>
+          <SearchInfoList>
+            <SearchInfoItem>2020</SearchInfoItem>
+            <SearchInfoItem>2020</SearchInfoItem>
+            <SearchInfoItem>2020</SearchInfoItem>
+            <SearchInfoItem>2020</SearchInfoItem>
+            <SearchInfoItem>2020</SearchInfoItem>
+            <SearchInfoItem>2020</SearchInfoItem>
+					</SearchInfoList>
+        </SearchInfo>
+       */}
       </SearchWrapper>
       </Nav>
 
