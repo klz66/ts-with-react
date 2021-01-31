@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 13:44:20
+ * @LastEditTime: 2021-01-31 15:55:03
  */
 import styled from 'styled-components';
 import logoPic from '../../statics/logo.png';
@@ -51,7 +51,7 @@ export const NavItem = styled.div`
 
 export const SearchWrapper = styled.div`
 	position: relative;
-	float: left;
+  float: left;
 	.zoom {
 		position: absolute;
 		right: 5px;
@@ -173,5 +173,8 @@ export const Button = styled.div`
 	&.writting {
 		color: #fff;
 		background: #ec6149;
-	}
+  }
+  .ddd {
+    color: red;
+  }
 `

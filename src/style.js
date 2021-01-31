@@ -1,11 +1,11 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 13:18:49
+ * @LastEditTime: 2021-01-31 14:51:43
  */
 import { createGlobalStyle  } from 'styled-components'
 
-createGlobalStyle `
+export const GlobalStyled = createGlobalStyle `
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
