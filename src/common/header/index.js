@@ -1,12 +1,13 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 17:04:20
+ * @LastEditTime: 2021-01-31 23:00:19
  */
 
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
-import { getInputFocusOn,getInputFocusOff } from "../../store/actionCreators";
+import  {  actionCreators  }  from "./store";
+
 import { CSSTransition } from "react-transition-group";
 import {
 	HeaderWrapper,
@@ -70,11 +71,11 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = (dispatch) => ({
   changeFocusOn(){
-    const action = getInputFocusOn(true);
+    const action = actionCreators.getInputFocusOn(true);
     dispatch(action)
   },
   changeFocusOff(){
-    const action = getInputFocusOff(false);
+    const action = actionCreators.getInputFocusOff(false);
     dispatch(action)
   },
 })
