@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 14:52:10
+ * @LastEditTime: 2021-01-31 16:12:35
  */
 /*
  * @Description: 
@@ -11,17 +11,19 @@
 
 import 'antd/dist/antd.css'
 import Header from './common/header/index'
-import {GlobalIconStyled} from './statics/iconfont/iconfont';
-import {GlobalStyled} from './style.js';
+import { GlobalIconStyled } from './statics/iconfont/iconfont';
+import { GlobalStyled } from './style.js';
+import { Provider } from 'react-redux';
+import store from "./store";
 
 function App(props) {
   return (
     <div>
       <GlobalIconStyled />
       <GlobalStyled />
-      <div>
+      <Provider store={store}>
       <Header />
-      </div>
+      </Provider>
     </div>
   );
 }

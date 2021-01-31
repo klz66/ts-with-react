@@ -1,20 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 15:55:43
- */
-/*
- * @Description: 
- * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 13:25:30
- */
-/*
- * @Description: 
- * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 00:02:11
+ * @LastEditTime: 2021-01-31 17:04:20
  */
 
 import 'antd/dist/antd.css'
+import { connect } from "react-redux";
+import { getInputFocusOn,getInputFocusOff } from "../../store/actionCreators";
 import { CSSTransition } from "react-transition-group";
 import {
 	HeaderWrapper,
@@ -34,13 +26,7 @@ import {
  
 import React, { useState, useEffect } from 'react';
 function Header(props) {
-  const [state, setState] = useState(false)
-  const handleFocus = () => {
-    setState(true)
-  }
-  const handleBlur = () => {
-    setState(false)
-  }
+  console.log(props);
   return (
     <HeaderWrapper>
       <Logo/>
@@ -53,13 +39,13 @@ function Header(props) {
        </NavItem>
        <SearchWrapper>
         <CSSTransition
-          in={state}
+          in={props.focused}
           timeout={300}
           classNames='slide'
         >
-          <NavSearch className={state?'focused':''}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+          <NavSearch className={props.focused?'focused':''}
+            onFocus={props.changeFocusOn}
+            onBlur={props.changeFocusOff}
           />
         </CSSTransition>
         <i className="iconfont zoom">&#xe6e4;</i>
@@ -71,6 +57,7 @@ function Header(props) {
           注册
         </Button>
         <Button className='writting'>
+        <i className="iconfont zoom">&#xe742;</i>
           写文章
         </Button>
       </Addition>
@@ -78,4 +65,19 @@ function Header(props) {
   );
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+  focused:state.header.focused,
+})
+const mapDispatchToProps = (dispatch) => ({
+  changeFocusOn(){
+    const action = getInputFocusOn(true);
+    dispatch(action)
+  },
+  changeFocusOff(){
+    const action = getInputFocusOff(false);
+    dispatch(action)
+  },
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

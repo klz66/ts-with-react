@@ -1,38 +1,19 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-30 22:56:07
+ * @LastEditTime: 2021-01-31 17:08:22
  */
-import { CHANGE_IPUT, ADD_ITEM, DELETE_ITEM, INIT_LIST } from './actiion-types';
-const defaultState = {
-  inputValue: 'hello World',
-  list: ['test 1','test 1','test 1','test 1']
-}
+import { combineReducers } from 'redux';
+import headerReduce from '../common/header/store/reducer';
+// import { reducer as homeReducer } from '../pages/home/store';
+// import { reducer as detailReducer } from '../pages/detail/store';
+// import { reducer as loginReducer } from '../pages/login/store';
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default (state = defaultState,action) => {
-  console.log(state,action);
-  console.log(action.type);
-  if(action.type === CHANGE_IPUT){
-    const newState = JSON.parse(JSON.stringify(state))
-    newState.inputValue = action.value
-    return newState
-  }
-  if(action.type === ADD_ITEM){
-    const newState = JSON.parse(JSON.stringify(state))
-    newState.inputValue = ''
-    newState.list.push(action.value)
-    return newState
-  }
-  if(action.type === DELETE_ITEM){
-    const newState = JSON.parse(JSON.stringify(state))
-    newState.list.splice(action.index,1)
-    return newState
-  }
-  if(action.type === INIT_LIST){
-    const newState = JSON.parse(JSON.stringify(state))
-    newState.list = action.value
-    return newState
-  }
-  return state;
-}
+const reducer = combineReducers({
+  header: headerReduce,
+	// home: homeReducer,
+	// detail: detailReducer,
+	// login: loginReducer
+});
+
+export default reducer;
