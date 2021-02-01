@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-01 00:10:56
+ * @LastEditTime: 2021-02-01 23:35:13
  */
 
 import 'antd/dist/antd.css'
@@ -40,12 +40,11 @@ function Header(props) {
           </SearchInfoSwitch>
         </SearchInfoTitle>
         <SearchInfoList>
-          <SearchInfoItem>2020</SearchInfoItem>
-          <SearchInfoItem>2020</SearchInfoItem>
-          <SearchInfoItem>2020</SearchInfoItem>
-          <SearchInfoItem>2020</SearchInfoItem>
-          <SearchInfoItem>2020</SearchInfoItem>
-          <SearchInfoItem>2020</SearchInfoItem>
+          {props.list.map(item => {
+            return (
+              <SearchInfoItem>{item}</SearchInfoItem>
+            )
+          })}
         </SearchInfoList>
       </SearchInfo>
       )
@@ -77,24 +76,6 @@ function Header(props) {
         </CSSTransition>
         <i className="iconfont zoom">&#xe6e4;</i>
         {getListArea()}
-        {/* <SearchInfo>
-          <SearchInfoTitle>
-            热门搜索
-            <SearchInfoSwitch 
-						>
-							换一批
-						</SearchInfoSwitch>
-          </SearchInfoTitle>
-          <SearchInfoList>
-            <SearchInfoItem>2020</SearchInfoItem>
-            <SearchInfoItem>2020</SearchInfoItem>
-            <SearchInfoItem>2020</SearchInfoItem>
-            <SearchInfoItem>2020</SearchInfoItem>
-            <SearchInfoItem>2020</SearchInfoItem>
-            <SearchInfoItem>2020</SearchInfoItem>
-					</SearchInfoList>
-        </SearchInfo>
-       */}
       </SearchWrapper>
       </Nav>
 
@@ -113,16 +94,17 @@ function Header(props) {
 
 const mapStateToProps = (state) => ({
   // focused:state.get('header').get('focused'),
-  focused:state.getIn(['header','focused'])
+  // redux-immutable 的用法
+  focused:state.getIn(['header','focused']),
+  list:state.getIn(['header','list'])
 })
 const mapDispatchToProps = (dispatch) => ({
   changeFocusOn(){
-    const action = actionCreators.getInputFocusOn(true);
-    dispatch(action)
+    dispatch(actionCreators.getListApi())
+    dispatch(actionCreators.getInputFocusOn(true))
   },
   changeFocusOff(){
-    const action = actionCreators.getInputFocusOff(false);
-    dispatch(action)
+    dispatch(actionCreators.getInputFocusOff(false))
   },
 })
 

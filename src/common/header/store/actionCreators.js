@@ -1,11 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 22:25:39
+ * @LastEditTime: 2021-02-02 00:12:48
  */
-// import { CHANGE_FOCUS_ON, CHANGE_FOCUS_OFF } from '../../../store/actiion-types'
+import axios from 'axios'
 import * as constants from './constants';
-// import { CHANGE_FOCUS_ON, CHANGE_FOCUS_OFF } from './actiion-types';
+
+const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/todolist'
  export const getInputFocusOn = (value) => ({
    type:constants.SEARCH_FOCUS,
    value
@@ -14,3 +15,17 @@ import * as constants from './constants';
    type:constants.SEARCH_BLUR,
    value
  })
+ export const getList = (value) => ({
+   type:constants.GET_LIST,
+   value
+ })
+ export const getListApi = () => {
+   return (dispatch) => {
+     axios.get(`${url}/api/getList`).then((res)=>{
+       console.log(res);
+       dispatch(getList(res.data))
+     }).catch(()=>{
+       alert('error')
+     })
+   }
+ }
