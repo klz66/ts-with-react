@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-01 00:01:03
+ * @LastEditTime: 2021-02-02 23:24:22
  */
 import styled from 'styled-components';
 import logoPic from '../../statics/logo.png';
@@ -104,7 +104,7 @@ export const NavSearch = styled.input.attrs({
 
 export const SearchInfo = styled.div`
 	position: absolute;
-	left: 0;
+	left: 20px;
   top: 56px;
 	width: 240px;
 	padding: 0 20px;

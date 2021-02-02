@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-02 23:18:19
+ * @LastEditTime: 2021-02-03 00:01:42
  */
 import axios from 'axios'
 import { fromJS } from 'immutable'
@@ -16,6 +16,16 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
    type:constants.SEARCH_BLUR,
    value
  })
+ export const getMouseIn = () => ({
+   type:constants.MOUSE_ENTER,
+ })
+ export const getMouseOut = () => ({
+   type:constants.MOUSE_LEAVE,
+ })
+ export const getPage = (index) => ({
+   type:constants.CHANGE_LIST,
+   index
+ })
  const getList = (value) => ({
    type:constants.GET_LIST,
    value:fromJS(value),
@@ -25,7 +35,7 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
  export const getListApi = () => {
    return (dispatch) => {
      axios.get(`${url}/api/getList`).then((res)=>{
-       console.log(res);
+      //  console.log(res);
        dispatch(getList(res.data))
      }).catch(()=>{
        alert('error')
