@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-01 23:35:13
+ * @LastEditTime: 2021-02-02 22:57:12
  */
 
 import 'antd/dist/antd.css'
@@ -28,8 +28,9 @@ import {
 import React, { useState, useEffect } from 'react';
 function Header(props) {
   console.log(props);
+  const {focused,list,changeFocusOn,changeFocusOff}=props;
   const getListArea = () => {
-    if(props.focused) {
+    if(focused) {
       return (
         <SearchInfo>
         <SearchInfoTitle>
@@ -40,7 +41,7 @@ function Header(props) {
           </SearchInfoSwitch>
         </SearchInfoTitle>
         <SearchInfoList>
-          {props.list.map(item => {
+          {list.map(item => {
             return (
               <SearchInfoItem>{item}</SearchInfoItem>
             )
@@ -65,13 +66,13 @@ function Header(props) {
        </NavItem>
        <SearchWrapper>
         <CSSTransition
-          in={props.focused}
+          in={focused}
           timeout={300}
           classNames='slide'
         >
-          <NavSearch className={props.focused?'focused':''}
-            onFocus={props.changeFocusOn}
-            onBlur={props.changeFocusOff}
+          <NavSearch className={focused?'focused':''}
+            onFocus={changeFocusOn}
+            onBlur={changeFocusOff}
           />
         </CSSTransition>
         <i className="iconfont zoom">&#xe6e4;</i>

@@ -1,9 +1,10 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-02 00:12:48
+ * @LastEditTime: 2021-02-02 23:18:19
  */
 import axios from 'axios'
+import { fromJS } from 'immutable'
 import * as constants from './constants';
 
 const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/todolist'
@@ -15,9 +16,11 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
    type:constants.SEARCH_BLUR,
    value
  })
- export const getList = (value) => ({
+ const getList = (value) => ({
    type:constants.GET_LIST,
-   value
+   value:fromJS(value),
+   totalPage: Math.ceil(value.length/3)
+  //  state里的数据是immutable了的
  })
  export const getListApi = () => {
    return (dispatch) => {
