@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-02 23:24:22
+ * @LastEditTime: 2021-02-18 10:50:39
  */
 import styled from 'styled-components';
 import logoPic from '../../statics/logo.png';
@@ -28,7 +28,7 @@ export const Nav = styled.div`
 	width: 960px;
 	height: 100%;
 	padding-right: 70px;
-	box-sizing: border-box;
+  padding-left: 100px;
 	margin: 0 auto;
 `;
 

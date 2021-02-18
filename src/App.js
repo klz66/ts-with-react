@@ -1,16 +1,13 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 16:12:35
+ * @LastEditTime: 2021-02-18 10:35:27
  */
-/*
- * @Description: 
- * @Author: Zhong Kailong
- * @LastEditTime: 2021-01-31 00:02:11
- */
-
 import 'antd/dist/antd.css'
+import { BrowserRouter,Route } from "react-router-dom";
 import Header from './common/header/index'
+import Home from './pages/home'
+import Deatil from './pages/detail'
 import { GlobalIconStyled } from './statics/iconfont/iconfont';
 import { GlobalStyled } from './style.js';
 import { Provider } from 'react-redux';
@@ -22,7 +19,15 @@ function App(props) {
       <GlobalIconStyled />
       <GlobalStyled />
       <Provider store={store}>
-      <Header />
+        <div>
+        <Header />
+        <BrowserRouter>
+          <div>
+          <Route path='/' exact component={Home}></Route>
+          <Route path='/detail' exact component={Deatil}></Route>
+          </div>
+        </BrowserRouter>
+        </div>
       </Provider>
     </div>
   );

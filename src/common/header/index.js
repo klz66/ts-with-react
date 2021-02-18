@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-03 00:10:41
+ * @LastEditTime: 2021-02-03 11:36:08
  */
 
 import 'antd/dist/antd.css'
@@ -85,7 +85,7 @@ function Header(props) {
           classNames='slide'
         >
           <NavSearch className={focused?'focused':''}
-            onFocus={changeFocusOn}
+            onFocus={()=>changeFocusOn(list)}
             onBlur={changeFocusOff}
           />
         </CSSTransition>
@@ -117,8 +117,9 @@ const mapStateToProps = (state) => ({
   totalPage:state.getIn(['header','totalPage']),
 })
 const mapDispatchToProps = (dispatch) => ({
-  changeFocusOn(){
-    dispatch(actionCreators.getListApi())
+  changeFocusOn(list){
+    list.size === 0 && dispatch(actionCreators.getListApi())
+    // dispatch(actionCreators.getListApi())
     dispatch(actionCreators.getInputFocusOn(true))
   },
   changeFocusOff(){
