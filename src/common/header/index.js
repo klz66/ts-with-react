@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-03 11:36:08
+ * @LastEditTime: 2021-02-18 13:45:43
  */
 
 import 'antd/dist/antd.css'
@@ -138,7 +138,6 @@ const mapDispatchToProps = (dispatch) => ({
     } else {
       dispatch(actionCreators.getPage(0))
     }
-    
   }
 })
 
