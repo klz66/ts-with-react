@@ -87,8 +87,14 @@ export const RecommendWrapper = styled.div`
 export const RecommendItem = styled.div`
 	width: 280px;
 	height: 50px;
-	background: url(${(props) => props.imgUrl});
+	background: ${(props) => props.color};
 	background-size: contain;
+  .title {
+    padding-top: 10px;
+    padding-left: 10px;
+    height: 30px;
+    line-height: 30px;
+  }
 `;
 
 export const WriterWrapper = styled.div`

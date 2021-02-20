@@ -1,3 +1,8 @@
+/*
+ * @Description: 
+ * @Author: Zhong Kailong
+ * @LastEditTime: 2021-02-20 16:27:19
+ */
 import { fromJS } from 'immutable';
 // import * as constants from './constants';
 
@@ -14,8 +19,32 @@ const defaultState = fromJS({
       imgUrl: 'https://browser9.qhimg.com/bdm/1000_618_80/t01b85e62ab512342e5.jpg'
     }
   ],
-	articleList: [],
-	recommendList: [],
+	articleList: [
+    {
+      id: 1,
+      title: '母猪上树',
+      desc: '震惊！！！',
+      imgUrl: 'https://browser9.qhimg.com/bdm/1000_618_80/t019fd908f724f51900.jpg'
+    },
+    {
+      id: 1,
+      title: '窝窝头',
+      desc: '一块钱8个',
+      imgUrl: 'https://browser9.qhimg.com/bdm/1000_618_80/t019fd908f724f51900.jpg'
+    },
+  ],
+	recommendList: [
+    {
+      id: 1,
+      title: '前端必备',
+      color: '#AEDD81'
+    },
+    {
+      id: 2,
+      title: '好书推荐',
+      color: '#00CCFF'
+    },
+  ],
 	articlePage: 1,
 	showScroll: false
 });

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-18 17:36:28
+ * @LastEditTime: 2021-02-20 11:40:16
  */
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
@@ -12,11 +12,10 @@ import {
 } from '../style';
 function Topic(props) {
   const { list } = props;
-  console.log(list);
   return (
     <div>
      <TopicWrapper>
-     {
+       {
 				list.map((item) => (
 						<TopicItem key={item.get('id')}>
 							<img
@@ -27,7 +26,7 @@ function Topic(props) {
 							{item.get('title')}
 						</TopicItem>
 					))
-				}
+			  }
      </TopicWrapper>
     </div>
   );
@@ -37,4 +36,4 @@ const mapStateToProps = (state) => ({
   // redux-immutable 的用法
   list:state.getIn(['home','topicList']),
 })
-export default connect(mapStateToProps, null)(Topic);;
+export default connect(mapStateToProps, null)(Topic);
