@@ -1,10 +1,11 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-18 13:46:09
+ * @LastEditTime: 2021-02-22 14:37:41
  */
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
+import  {  actionCreators  }  from "./store";
 import Topic from './components/Topic'
 import List from './components/List'
 import Recommend from './components/Recommend'
@@ -15,7 +16,12 @@ import {
 	HomeRight
 } from './style';
 import homePic from '../../statics/home-pic.jpg';
+import { useEffect } from 'react';
 function Home(props) {
+  const { changeHomeData } = props
+  useEffect(() => {
+    changeHomeData();
+  }, [changeHomeData]);
   return (
     <HomeWrapper>
       <HomeLeft>
@@ -24,6 +30,7 @@ function Home(props) {
           src={homePic}
           alt=''
         />
+        
         <Topic />
         <List />
       </HomeLeft>
@@ -45,7 +52,11 @@ const mapStateToProps = (state) => ({
   totalPage:state.getIn(['header','totalPage']),
 })
 const mapDispatchToProps = (dispatch) => ({
-  
+  changeHomeData(){
+    dispatch(actionCreators.getHomeInfo())
+  },
 })
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

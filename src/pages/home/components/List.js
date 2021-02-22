@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-20 11:28:38
+ * @LastEditTime: 2021-02-21 10:23:51
  */
 import 'antd/dist/antd.css'
 import { ListItem, ListInfo, LoadMore } from '../style';
@@ -13,7 +13,7 @@ function List(props) {
     <div>
             {
 				articleList.map((item) => (
-            <ListItem>
+            <ListItem key={item.get('id')}>
               <ListInfo>
                 <img
                   className='pic'
