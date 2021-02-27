@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-22 14:37:41
+ * @LastEditTime: 2021-02-24 11:36:53
  */
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
@@ -13,15 +13,28 @@ import Write from './components/Write'
 import { 
 	HomeWrapper,
 	HomeLeft,
-	HomeRight
+	HomeRight,
+  BackTop
 } from './style';
 import homePic from '../../statics/home-pic.jpg';
 import { useEffect } from 'react';
 function Home(props) {
-  const { changeHomeData } = props
+  const { showScroll,changeHomeData } = props
   useEffect(() => {
     changeHomeData();
-  }, [changeHomeData]);
+    bindEvents();
+  });
+  useEffect(() => {
+    return () => {
+      window.removeEventListener('scroll',()=>props.changeShowScroll(showScroll))
+    }
+})
+  const handScrollTop = () =>{
+    window.scrollTo(0,0)
+  }
+  const bindEvents = () =>{
+    window.addEventListener('scroll',()=>props.changeShowScroll(showScroll))
+  }
   return (
     <HomeWrapper>
       <HomeLeft>
@@ -38,6 +51,14 @@ function Home(props) {
         <Recommend />
         <Write />
       </HomeRight>
+      {
+        props.showScroll && (
+        <BackTop onClick={()=>{handScrollTop()}}>
+          回到顶部
+        </BackTop>
+        )
+      }
+
     </HomeWrapper>
   );
 }
@@ -45,16 +66,19 @@ function Home(props) {
 const mapStateToProps = (state) => ({
   // focused:state.get('header').get('focused'),
   // redux-immutable 的用法
-  focused:state.getIn(['header','focused']),
-  page:state.getIn(['header','page']),
-  list:state.getIn(['header','list']),
-  mouseIn:state.getIn(['header','mouseIn']),
-  totalPage:state.getIn(['header','totalPage']),
+  showScroll:state.getIn(['home','showScroll']),
 })
 const mapDispatchToProps = (dispatch) => ({
   changeHomeData(){
     dispatch(actionCreators.getHomeInfo())
   },
+  changeShowScroll(){
+    if(document.documentElement.scrollTop>100){
+      dispatch(actionCreators.toggleTopShow(true))
+    } else {
+      dispatch(actionCreators.toggleTopShow(false))
+    }
+  }
 })
 
 

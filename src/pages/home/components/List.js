@@ -1,45 +1,46 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-21 10:23:51
+ * @LastEditTime: 2021-02-23 10:16:29
  */
 import 'antd/dist/antd.css'
 import { ListItem, ListInfo, LoadMore } from '../style';
 import { connect } from "react-redux";
+import  {  actionCreators  }  from "../store";
 function List(props) {
-  const { articleList }= props
+  const { articlePage,articleList }= props
 
   return (
     <div>
-            {
-				articleList.map((item) => (
-            <ListItem key={item.get('id')}>
-              <ListInfo>
-                <img
-                  className='pic'
-                  src={item.get('imgUrl')}
-                  alt=''
-                />
-                <h3 className='title'>{item.get('title')}</h3>
-                <p className='desc'>{item.get('desc')}</p>
-              </ListInfo>
-            </ListItem>
-					))
-			  }
+      {
+      articleList.map((item,index) => (
+          <ListItem key={index}>
+            <ListInfo>
+              <img
+                className='pic'
+                src={item.get('imgUrl')}
+                alt=''
+              />
+              <h3 className='title'>{item.get('title')}</h3>
+              <p className='desc'>{item.get('desc')}</p>
+            </ListInfo>
+          </ListItem>
+        ))
+      }
+      <LoadMore onClick={()=>{props.getMoreList(articlePage)}}>
+        加载更多
+      </LoadMore>
     </div>
-    // <ListItem>
-    //   <ListInfo>
-
-    //     <img className='pic' src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3183234132,536203321&fm=26&gp=0.jpg" />
-    //     <h3 className='title'>2222</h3>
-    //     <p className='desc'>2222</p>
-    //   </ListInfo>
-    // </ListItem>
   );
 }
 const mapStateToProps = (state) => ({
-  // focused:state.get('header').get('focused'),
-  // redux-immutable 的用法
+  articlePage:state.getIn(['home','articlePage']),
   articleList:state.getIn(['home','articleList']),
 })
-export default connect(mapStateToProps, null)(List);
+const mapDispatchToProps = (dispatch) => ({
+  getMoreList(articlePage){
+    dispatch(actionCreators.getMoreList(articlePage+1))
+  },
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);

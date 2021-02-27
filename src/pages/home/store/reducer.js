@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-21 10:57:28
+ * @LastEditTime: 2021-02-24 11:31:52
  */
 import { fromJS } from 'immutable';
 import * as constants from './constants';
@@ -13,14 +13,6 @@ const defaultState = fromJS({
 	articlePage: 1,
 	showScroll: false
 });
-
-// const changeHomeData = (state, action) => {
-// 	return state.merge({
-// 		topicList: fromJS(action.topicList),
-// 		articleList: fromJS(action.articleList),
-// 		recommendList: fromJS(action.recommendList)
-// 	});
-// };
 
 // const addArticleList = (state, action) => {
 // 	return state.merge({
@@ -40,6 +32,13 @@ export default (state = defaultState, action) => {
         articleList: fromJS(action.articleList),
         recommendList: fromJS(action.recommendList)
       })
+    case constants.ADD_ARTICLE_LIST:
+      return state.merge({
+        articlePage: action.nextPage,
+        articleList: state.get('articleList').concat(action.articleList)
+      })
+    case constants.TOGGLE_SCROLL_TOP:
+      return state.set('showScroll',action.showScroll)
       default:
 			return state;
 	}
