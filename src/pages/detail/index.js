@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-27 11:34:31
+ * @LastEditTime: 2021-02-28 14:51:33
  */
 /*
  * @Description: 
@@ -10,12 +10,18 @@
  */
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
+import  {  actionCreators  }  from "./store";
 import { DetailWrapper, Header, Content } from './style';
+import { useEffect } from 'react';
 function Detail(props) {
   console.log(props);
+  const {getDetail}= props;
+  useEffect(() => {
+    getDetail();
+  });
   return (
     <DetailWrapper>
-				<Header>艾迪康才能覅就是v你</Header>
+				<Header>{props.title}</Header>
 				<Content dangerouslySetInnerHTML={{__html:props.content}}/>
 			</DetailWrapper>
   );
@@ -25,7 +31,8 @@ const mapStateToProps = (state) => ({
   content:state.getIn(['detail','content']),
 })
 const mapDispatchToProps = (dispatch) => ({
-  changeHomeData(){
+  getDetail(){
+    dispatch(actionCreators.getDetail())
   },
 })
 

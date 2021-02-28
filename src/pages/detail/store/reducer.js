@@ -1,11 +1,17 @@
+/*
+ * @Description: 
+ * @Author: Zhong Kailong
+ * @LastEditTime: 2021-02-28 14:48:20
+ */
 import { fromJS } from 'immutable';
 import * as constants from './constants';
 
 const defaultState = fromJS({
-	title: 'meinv',
-	content: '<img src="https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3638833909,3878332730&fm=26&gp=0.jpg" />'
+	title: '',
+	content: ''
 });
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (state = defaultState, action) => {
 	switch(action.type) {
 		case constants.CHANGE_DETAIL:
