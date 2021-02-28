@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-28 16:26:51
+ * @LastEditTime: 2021-02-28 19:26:07
  */
 /*
  * @Description: 
@@ -10,6 +10,7 @@
  */
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom';
 import  {  actionCreators  }  from "./store";
 import { DetailWrapper, Header, Content } from './style';
 import { useEffect } from 'react';
@@ -36,4 +37,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Detail);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Detail));
