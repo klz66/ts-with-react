@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-18 10:35:27
+ * @LastEditTime: 2021-02-27 10:43:11
  */
 import 'antd/dist/antd.css'
 import { BrowserRouter,Route } from "react-router-dom";
@@ -19,15 +19,13 @@ function App(props) {
       <GlobalIconStyled />
       <GlobalStyled />
       <Provider store={store}>
-        <div>
-        <Header />
         <BrowserRouter>
           <div>
+          <Header />
           <Route path='/' exact component={Home}></Route>
           <Route path='/detail' exact component={Deatil}></Route>
           </div>
         </BrowserRouter>
-        </div>
       </Provider>
     </div>
   );

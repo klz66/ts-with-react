@@ -1,11 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-23 10:16:29
+ * @LastEditTime: 2021-02-27 10:39:38
  */
 import 'antd/dist/antd.css'
 import { ListItem, ListInfo, LoadMore } from '../style';
 import { connect } from "react-redux";
+import { Link } from 'react-router-dom'
 import  {  actionCreators  }  from "../store";
 function List(props) {
   const { articlePage,articleList }= props
@@ -14,7 +15,8 @@ function List(props) {
     <div>
       {
       articleList.map((item,index) => (
-          <ListItem key={index}>
+        <Link key={index} to='detail'>
+          <ListItem>
             <ListInfo>
               <img
                 className='pic'
@@ -25,6 +27,7 @@ function List(props) {
               <p className='desc'>{item.get('desc')}</p>
             </ListInfo>
           </ListItem>
+          </Link>
         ))
       }
       <LoadMore onClick={()=>{props.getMoreList(articlePage)}}>

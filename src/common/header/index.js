@@ -1,13 +1,13 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-18 13:45:43
+ * @LastEditTime: 2021-02-27 10:45:01
  */
 
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
 import  {  actionCreators  }  from "./store";
-
+import { Link } from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
 import {
 	HeaderWrapper,
@@ -42,7 +42,6 @@ function Header(props) {
         //   <SearchInfoItem key={jsList[i]}>{jsList[i]}</SearchInfoItem>
         // )
       }
-      // console.log(pageList,202020);
 
       return (
         <SearchInfo onMouseEnter={handMouseIn} onMouseLeave={handMouseOut}>
@@ -59,7 +58,6 @@ function Header(props) {
               <SearchInfoItem>{item}</SearchInfoItem>
             )
           })}
-          {/* {pageList} */}
         </SearchInfoList>
       </SearchInfo>
       )
@@ -70,7 +68,10 @@ function Header(props) {
   }
   return (
     <HeaderWrapper>
-      <Logo/>
+      <Link to='/'>
+        <Logo/>
+      </Link>
+      
       <Nav>
        <NavItem className='left'>首页</NavItem>
        <NavItem className='left'>下载</NavItem>
