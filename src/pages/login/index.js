@@ -1,36 +1,52 @@
-import React, { PureComponent } from 'react';
+/*
+ * @Description: 
+ * @Author: Zhong Kailong
+ * @LastEditTime: 2021-02-28 16:59:42
+ */
+/*
+ * @Description: 
+ * @Author: Zhong Kailong
+ * @LastEditTime: 2021-02-28 14:51:33
+ */
+/*
+ * @Description: 
+ * @Author: Zhong Kailong
+ * @LastEditTime: 2021-02-18 10:32:30
+ */
+import 'antd/dist/antd.css'
+import { connect } from "react-redux";
+import  {  actionCreators  }  from "./store";
 import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { LoginWrapper, LoginBox, Input, Button } from './style';
-import { actionCreators } from './store';
+import { useRef } from 'react';
+function Login(props) {
+  const { loginStatus } = props;
+  let accountRef = useRef()
+  let pwdRef = useRef()
+  console.log(loginStatus);
+  return (
+    <div>
+    { 
+      !loginStatus?<LoginWrapper>
+      <LoginBox>
+        <Input placeholder='账号' ref={accountRef} />
+        <Input placeholder='密码' type='password' ref={pwdRef}/>
+        <Button onClick={() => props.login(accountRef,pwdRef)}>登陆</Button>
+      </LoginBox>
+    </LoginWrapper>:<Redirect to='/'/>
 
-class Login extends PureComponent {
-	render() {
-		const { loginStatus } = this.props;
-		if (!loginStatus) {
-			return (
-				<LoginWrapper>
-					<LoginBox>
-						<Input placeholder='账号' innerRef={(input) => {this.account = input}}/>
-						<Input placeholder='密码' type='password' innerRef={(input) => {this.password = input}}/>
-						<Button onClick={() => this.props.login(this.account, this.password)}>登陆</Button>
-					</LoginBox>
-				</LoginWrapper>
-			)
-		}else {
-			return <Redirect to='/'/>
-		}
-	}
+    }
+    </div>
+  );
 }
-
-const mapState = (state) => ({
-	loginStatus: state.getIn(['login', 'login'])
+const mapStateToProps = (state) => ({
+  loginStatus: state.getIn(['login', 'login'])
+})
+const mapDispatchToProps = (dispatch) => ({
+  login(accountRef,pwdRef){
+    dispatch(actionCreators.login())
+    console.log(accountRef.current.value,pwdRef.current.value);
+  }
 })
 
-const mapDispatch = (dispatch) => ({
-	login(accountElem, passwordElem){
-		dispatch(actionCreators.login(accountElem.value, passwordElem.value))
-	}
-})
-
-export default connect(mapState, mapDispatch)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

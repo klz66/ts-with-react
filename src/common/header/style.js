@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-18 10:50:39
+ * @LastEditTime: 2021-02-28 17:12:23
  */
 import styled from 'styled-components';
 import logoPic from '../../statics/logo.png';
@@ -28,7 +28,7 @@ export const Nav = styled.div`
 	width: 960px;
 	height: 100%;
 	padding-right: 70px;
-  padding-left: 100px;
+	box-sizing: border-box;
 	margin: 0 auto;
 `;
 
@@ -51,7 +51,7 @@ export const NavItem = styled.div`
 
 export const SearchWrapper = styled.div`
 	position: relative;
-  float: left;
+	float: left;
 	.zoom {
 		position: absolute;
 		right: 5px;
@@ -104,8 +104,8 @@ export const NavSearch = styled.input.attrs({
 
 export const SearchInfo = styled.div`
 	position: absolute;
-	left: 20px;
-  top: 56px;
+	left: 0;
+	top: 56px;
 	width: 240px;
 	padding: 0 20px;
 	box-shadow: 0 0 8px rgba(0, 0, 0, .2);
@@ -139,6 +139,7 @@ export const SearchInfoList = styled.div`
 `;
 
 export const SearchInfoItem = styled.a`
+	display: block;
 	float: left;
 	line-height: 20px;
 	padding: 0 5px;
@@ -172,5 +173,5 @@ export const Button = styled.div`
 	&.writting {
 		color: #fff;
 		background: #ec6149;
-  }
+	}
 `

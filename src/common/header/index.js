@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-27 10:45:01
+ * @LastEditTime: 2021-02-28 17:37:30
  */
 
 import 'antd/dist/antd.css'
@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import  {  actionCreators  }  from "./store";
 import { Link } from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
+import { actionCreators as loginActionCreators } from '../../pages/login/store'
 import {
 	HeaderWrapper,
 	Logo,
@@ -25,10 +26,10 @@ import {
 	Button
 } from './style';
  
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 function Header(props) {
-  // console.log(props);
-  const {page,totalPage,focused,mouseIn,list,changeFocusOn,changeFocusOff,handMouseIn,handMouseOut,changePage}=props;
+  console.log(props);
+  const {login,page,totalPage,focused,mouseIn,list,changeFocusOn,changeFocusOff,handMouseIn,handMouseOut,changePage}=props;
   const getListArea = () => {
     if(focused || mouseIn) {
       let newList = [];
@@ -66,45 +67,54 @@ function Header(props) {
       return null
     }
   }
+  const ifLogin = () => {
+    return (
+      <HeaderWrapper>
+        <Link to='/'>
+          <Logo/>
+        </Link>
+        <Nav>
+         <NavItem className='left'>首页</NavItem>
+         <NavItem className='left'>下载</NavItem>
+         <SearchWrapper>
+          <CSSTransition
+            in={focused}
+            timeout={300}
+            classNames='slide'
+          >
+            <NavSearch className={focused?'focused':''}
+              onFocus={()=>changeFocusOn(list)}
+              onBlur={changeFocusOff}
+            />
+          </CSSTransition>
+          {/* <i className="iconfont zoom">&#xe6e4;</i> */}
+          <i className={focused ? 'focused iconfont zoom': 'iconfont zoom'}>
+                &#xe6e4;
+              </i>
+          {getListArea()}
+        </SearchWrapper>
+        </Nav>
+  
+        <Addition>
+  
+          <Link to='/write'>
+              <Button className='writting'>
+                <i className="iconfont">&#xe742;</i>
+                写文章
+              </Button>
+            </Link>
+            <Button className='reg'>注册</Button>
+            {
+              login?<NavItem className='right' onClick={()=>props.loginOut()}>退出</NavItem>:<Link to='/login'><NavItem className='right'>登录</NavItem></Link>
+            }
+        </Addition>
+      </HeaderWrapper>
+    );
+  }
   return (
-    <HeaderWrapper>
-      <Link to='/'>
-        <Logo/>
-      </Link>
-      
-      <Nav>
-       <NavItem className='left'>首页</NavItem>
-       <NavItem className='left'>下载</NavItem>
-       <NavItem className='right'>登录</NavItem>
-       <NavItem className='right'>
-         <i className="iconfont">&#xe636;</i>
-       </NavItem>
-       <SearchWrapper>
-        <CSSTransition
-          in={focused}
-          timeout={300}
-          classNames='slide'
-        >
-          <NavSearch className={focused?'focused':''}
-            onFocus={()=>changeFocusOn(list)}
-            onBlur={changeFocusOff}
-          />
-        </CSSTransition>
-        <i className="iconfont zoom">&#xe6e4;</i>
-        {getListArea()}
-      </SearchWrapper>
-      </Nav>
-
-      <Addition>
-        <Button className='reg'>
-          注册
-        </Button>
-        <Button className='writting'>
-        <i className="iconfont zoom">&#xe742;</i>
-          写文章
-        </Button>
-      </Addition>
-    </HeaderWrapper>
+    <div>
+      {ifLogin()}
+    </div>
   );
 }
 
@@ -116,6 +126,7 @@ const mapStateToProps = (state) => ({
   list:state.getIn(['header','list']),
   mouseIn:state.getIn(['header','mouseIn']),
   totalPage:state.getIn(['header','totalPage']),
+  login:state.getIn(['login','login']),
 })
 const mapDispatchToProps = (dispatch) => ({
   changeFocusOn(list){
@@ -139,6 +150,9 @@ const mapDispatchToProps = (dispatch) => ({
     } else {
       dispatch(actionCreators.getPage(0))
     }
+  },
+  loginOut(){
+    dispatch(loginActionCreators.logout())
   }
 })
 
