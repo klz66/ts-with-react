@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-13 13:25:23
+ * @LastEditTime: 2021-03-13 16:27:23
  */
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
@@ -10,7 +10,7 @@ import Topic from './components/Topic'
 import List from './components/List'
 import Recommend from './components/Recommend'
 import Write from './components/Write'
-import {url} from '../../utils/utils'
+import {url} from '@/utils/utils'
 import { 
 	HomeWrapper,
 	HomeLeft,
