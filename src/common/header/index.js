@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-28 17:37:30
+ * @LastEditTime: 2021-03-13 19:18:47
  */
 
 import 'antd/dist/antd.css'
@@ -105,7 +105,7 @@ function Header(props) {
             </Link>
             <Button className='reg'>注册</Button>
             {
-              login?<NavItem className='right' onClick={()=>props.loginOut()}>退出</NavItem>:<Link to='/login'><NavItem className='right'>登录</NavItem></Link>
+              login?<NavItem className='right' onClick={()=>props.loginOut()}>退出</NavItem>:<NavItem onClick={()=>props.loginIn()} className='right'>登录</NavItem>
             }
         </Addition>
       </HeaderWrapper>
@@ -153,6 +153,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   loginOut(){
     dispatch(loginActionCreators.logout())
+  },
+  loginIn(){
+    dispatch(loginActionCreators.login())
   }
 })
 

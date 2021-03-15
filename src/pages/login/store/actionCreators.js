@@ -1,12 +1,13 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-28 16:57:25
+ * @LastEditTime: 2021-03-15 09:35:34
  */
-import axios from 'axios';
 import * as constants from './constants';
+import http from '@/utils/request'
 
-const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/todolist'
+// const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/todolist'
+const url = 'http://localhost:8000'
 const changeLogin = () => ({
 	type: constants.CHANGE_LOGIN,
 	value: true
@@ -19,16 +20,13 @@ export const logout = () => ({
 
 export const login = (accout, password) => {
 	return (dispatch) => {
-    
-		axios.get(`${url}/api/login?account=' + accout + '&password=' + password`).then((res) => {
-			const result = res.data;
-      console.log(result.accout);
-      console.log(result);
-			if (result) {
-				dispatch(changeLogin())
-			}else {
-				alert('登陆失败')
-			}
-		})
+    http.get(`${url}/eduservice/user/info`).then(res=>{
+      console.log(res)
+      if (res) {
+        dispatch(changeLogin())
+      }else {
+        alert('登陆失败')
+      }
+    })
 	}
 }
