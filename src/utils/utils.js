@@ -1,6 +1,6 @@
 /*
- * @Description: 
+ * @Description: 配置了nginx的反向代理
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-13 13:08:13
+ * @LastEditTime: 2021-03-15 10:03:33
  */
-export const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/todolist/api'
+export const url = 'http://localhost:9001'

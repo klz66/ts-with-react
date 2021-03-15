@@ -1,13 +1,14 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-15 09:35:34
+ * @LastEditTime: 2021-03-15 10:01:11
  */
 import * as constants from './constants';
 import http from '@/utils/request'
+import {url} from '@/utils/utils'
 
 // const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/todolist'
-const url = 'http://localhost:8000'
+// const url = 'http://localhost:8000'
 const changeLogin = () => ({
 	type: constants.CHANGE_LOGIN,
 	value: true
