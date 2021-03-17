@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-13 16:27:23
+ * @LastEditTime: 2021-03-17 23:33:05
  */
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
@@ -20,10 +20,11 @@ import {
 import homePic from '../../statics/home-pic.jpg';
 import { useEffect } from 'react';
 function Home(props) {
-  const { showScroll,changeHomeData } = props
+  const { showScroll,changeHomeData,getArticleList } = props
   console.log(url,202020);
   useEffect(() => {
     changeHomeData();
+    getArticleList();
     bindEvents();
   });
   useEffect(() => {
@@ -73,6 +74,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeHomeData(){
     dispatch(actionCreators.getHomeInfo())
+  },
+  getArticleList(){
+    dispatch(actionCreators.getArticleList())
   },
   changeShowScroll(){
     if(document.documentElement.scrollTop>100){

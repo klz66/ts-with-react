@@ -1,19 +1,18 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-17 22:58:40
+ * @LastEditTime: 2021-03-17 23:23:12
  */
-import React, { useRef ,useEffect,useState} from 'react';
+import React, { useRef} from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { Input,Button,notification  } from 'antd';
 import {demoUrl} from '@/utils/utils';
 import http from '@/utils/request'
-import styles from './index.less';
+import './index.css';
 
 function Write(props) {
-  console.log(styles);
   const openNotificationWithIcon = type => {
     notification[type]({
       message: '发表成功',
@@ -37,10 +36,12 @@ function Write(props) {
   const couterRef = useRef();
 		if (props.loginStatus) {
 			return (
-				<div className={styles['content']}>
+				<div className='content'>
           <Input ref={couterRef} placeholder="Basic usage" />
-          <Button type="primary" size={16} onClick={handPost}>发表</Button>
-          <Link to='/'><Button type="primary" size={16}>返回主页面</Button></Link>
+          <div className='footer'>
+            <Button type="primary" size={16} onClick={handPost}>发表</Button>
+            <Link to='/'><Button type="primary" size={16}>返回主页面</Button></Link>
+          </div>
         </div>
 			)
 		}else {

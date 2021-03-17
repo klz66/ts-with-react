@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-13 19:33:34
+ * @LastEditTime: 2021-03-18 00:00:47
  */
 import axios from "axios";
 
@@ -42,6 +42,15 @@ const http = {
         }
       );
     });
+  },
+  delete (url, data) {
+    return new Promise((resolve, reject) => {
+      axios.delete(url, { data }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
   },
 }
 

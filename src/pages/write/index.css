@@ -1,0 +1,9 @@
+.content {
+  height: 800px;
+  width: 400px;
+}
+.footer {
+  margin-top: 300px;
+  display: flex;
+  justify-content: space-between;
+}

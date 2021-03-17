@@ -1,21 +1,40 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-28 15:03:49
+ * @LastEditTime: 2021-03-18 00:09:37
  */
 import 'antd/dist/antd.css'
 import { ListItem, ListInfo, LoadMore } from '../style';
 import { connect } from "react-redux";
+import http from '@/utils/request'
+import {demoUrl} from '@/utils/utils';
 import { Link } from 'react-router-dom'
+import { Input,Button,notification  } from 'antd';
 import  {  actionCreators  }  from "../store";
+import  {  actionCreators as actionHomeCreators  }  from "../../home/store";
 function List(props) {
   const { articlePage,articleList }= props
+  const openNotificationWithIcon = type => {
+    notification[type]({
+      message: '发表成功',
+      // description:
+      //   'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+    });
+  };
+  const handleDelete = async(id)=>{
+    let res = await http.delete(`${demoUrl}/blogservice/blog-curd/${id}`);
+    console.log(res);
+    if(res.data.code === 20000) {
+      openNotificationWithIcon('success')
+      props.getArticleList()
+    }
+  }
 
   return (
     <div>
       {
       articleList.map((item,index) => (
-        <Link key={index} to={'detail/'+item.get('id')}>
+        // <Link key={index} to={'detail/'+item.get('id')}>
           <ListItem>
             <ListInfo>
               <img
@@ -26,8 +45,9 @@ function List(props) {
               <h3 className='title'>{item.get('title')}</h3>
               <p className='desc'>{item.get('desc')}</p>
             </ListInfo>
+            <span onClick={()=>handleDelete(item.get('id'))}>删除</span>
           </ListItem>
-          </Link>
+          // </Link>
         ))
       }
       <LoadMore onClick={()=>{props.getMoreList(articlePage)}}>
@@ -43,6 +63,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getMoreList(articlePage){
     dispatch(actionCreators.getMoreList(articlePage+1))
+  },
+  getArticleList(){
+    dispatch(actionHomeCreators.getArticleList())
   },
 })
 

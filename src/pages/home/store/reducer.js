@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-24 11:31:52
+ * @LastEditTime: 2021-03-17 23:26:53
  */
 import { fromJS } from 'immutable';
 import * as constants from './constants';
@@ -26,11 +26,14 @@ export default (state = defaultState, action) => {
   console.log(action);
 	switch(action.type) {
     case constants.CHANGE_HOME_DATA:
-      // return state.set('topicList',action.topicList).set('articleList',action.articleList).set('recommendList',action.recommendList)
-		  return state.merge({
+        return state.merge({
         topicList: fromJS(action.topicList),
-        articleList: fromJS(action.articleList),
+        // articleList: fromJS(action.articleList),
         recommendList: fromJS(action.recommendList)
+      })
+    case constants.ARTICLE_LIST:
+        return state.merge({
+        articleList: fromJS(action.articleList),
       })
     case constants.ADD_ARTICLE_LIST:
       return state.merge({
