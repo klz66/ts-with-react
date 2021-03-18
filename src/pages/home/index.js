@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-17 23:33:05
+ * @LastEditTime: 2021-03-18 16:49:27
  */
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
@@ -10,7 +10,6 @@ import Topic from './components/Topic'
 import List from './components/List'
 import Recommend from './components/Recommend'
 import Write from './components/Write'
-import {url} from '@/utils/utils'
 import { 
 	HomeWrapper,
 	HomeLeft,
@@ -21,7 +20,6 @@ import homePic from '../../statics/home-pic.jpg';
 import { useEffect } from 'react';
 function Home(props) {
   const { showScroll,changeHomeData,getArticleList } = props
-  console.log(url,202020);
   useEffect(() => {
     changeHomeData();
     getArticleList();

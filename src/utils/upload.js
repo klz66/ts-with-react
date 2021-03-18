@@ -1,7 +1,12 @@
+/*
+ * @Description: 
+ * @Author: Zhong Kailong
+ * @LastEditTime: 2021-03-18 16:48:40
+ */
 import React, { useState ,useRef} from 'react';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
-import {url} from '@/utils/utils'
+import {uploadUrl} from '@/utils/utils'
 
 const Demo = () => {
   const [fileList, setFileList] = useState([
@@ -36,7 +41,7 @@ const Demo = () => {
     <div>
     <ImgCrop rotate>
       <Upload
-        action={`${url}/eduoss/fileoss`}
+        action={`${uploadUrl}/eduoss/fileoss`}
         listType="picture-card"
         fileList={fileList}
         ref={inputRef}
