@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 00:09:37
+ * @LastEditTime: 2021-03-18 20:58:33
  */
 import 'antd/dist/antd.css'
 import { ListItem, ListInfo, LoadMore } from '../style';
@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import { Input,Button,notification  } from 'antd';
 import  {  actionCreators  }  from "../store";
 import  {  actionCreators as actionHomeCreators  }  from "../../home/store";
@@ -30,6 +31,13 @@ function List(props) {
     }
   }
 
+  const goToDetail = async(id)=>{
+    console.log(2020,id);
+    props.history.push('/detail/' + id)
+
+    // props.dispatch
+  }
+
   return (
     <div>
       {
@@ -43,7 +51,8 @@ function List(props) {
                 alt=''
               />
               <h3 className='title'>{item.get('title')}</h3>
-              <p className='desc'>{item.get('desc')}</p>
+              {/* <p className='desc'>{item.get('desc')}</p> */}
+              <div className='desc' onClick={()=>goToDetail(item.get('id'))} dangerouslySetInnerHTML={{__html: item.get('desc')}}/>
             </ListInfo>
             <span onClick={()=>handleDelete(item.get('id'))}>删除</span>
           </ListItem>
@@ -69,4 +78,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(List));

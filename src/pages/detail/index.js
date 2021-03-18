@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-28 19:26:07
+ * @LastEditTime: 2021-03-18 21:05:53
  */
 /*
  * @Description: 
@@ -18,7 +18,8 @@ function Detail(props) {
   console.log(props);
   const {getDetail}= props;
   useEffect(() => {
-    getDetail();
+    console.log(props.match.params.id);
+    getDetail(props.match.params.id);
   });
   return (
     <DetailWrapper>
@@ -32,8 +33,8 @@ const mapStateToProps = (state) => ({
   content:state.getIn(['detail','content']),
 })
 const mapDispatchToProps = (dispatch) => ({
-  getDetail(){
-    dispatch(actionCreators.getDetail())
+  getDetail(id){
+    dispatch(actionCreators.getDetail(id))
   },
 })
 

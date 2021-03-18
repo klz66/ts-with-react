@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 16:49:27
+ * @LastEditTime: 2021-03-18 20:43:53
  */
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
@@ -10,33 +10,23 @@ import Topic from './components/Topic'
 import List from './components/List'
 import Recommend from './components/Recommend'
 import Write from './components/Write'
+import Header from '@/common/header'
 import { 
 	HomeWrapper,
 	HomeLeft,
 	HomeRight,
-  BackTop
 } from './style';
 import homePic from '../../statics/home-pic.jpg';
 import { useEffect } from 'react';
 function Home(props) {
-  const { showScroll,changeHomeData,getArticleList } = props
+  const { changeHomeData,getArticleList } = props
   useEffect(() => {
     changeHomeData();
     getArticleList();
-    bindEvents();
   });
-  useEffect(() => {
-    return () => {
-      window.removeEventListener('scroll',()=>props.changeShowScroll(showScroll))
-    }
-})
-  const handScrollTop = () =>{
-    window.scrollTo(0,0)
-  }
-  const bindEvents = () =>{
-    window.addEventListener('scroll',()=>props.changeShowScroll(showScroll))
-  }
   return (
+    <div>
+      <Header/>
     <HomeWrapper>
       <HomeLeft>
         <img
@@ -52,22 +42,15 @@ function Home(props) {
         <Recommend />
         <Write />
       </HomeRight>
-      {
-        props.showScroll && (
-        <BackTop onClick={()=>{handScrollTop()}}>
-          回到顶部
-        </BackTop>
-        )
-      }
 
     </HomeWrapper>
+    </div>
   );
 }
 
 const mapStateToProps = (state) => ({
   // focused:state.get('header').get('focused'),
   // redux-immutable 的用法
-  showScroll:state.getIn(['home','showScroll']),
 })
 const mapDispatchToProps = (dispatch) => ({
   changeHomeData(){
@@ -76,13 +59,6 @@ const mapDispatchToProps = (dispatch) => ({
   getArticleList(){
     dispatch(actionCreators.getArticleList())
   },
-  changeShowScroll(){
-    if(document.documentElement.scrollTop>100){
-      dispatch(actionCreators.toggleTopShow(true))
-    } else {
-      dispatch(actionCreators.toggleTopShow(false))
-    }
-  }
 })
 
 

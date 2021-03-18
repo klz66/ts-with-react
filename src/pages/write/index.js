@@ -1,9 +1,9 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 19:34:30
+ * @LastEditTime: 2021-03-18 20:00:43
  */
-import React, { useRef} from 'react';
+import React, { useState, useRef} from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import http from '@/utils/request'
@@ -16,10 +16,12 @@ import { Editor } from '@tinymce/tinymce-react';
 import styles from './index.less'
 
 function Write(props) {
+  let [content,setContent] = useState('')
   const handleEditorChange = (content, editor) => {
     console.log('Content was updated:', content);
     // setContent(content);
-    console.log(content);
+    // console.log(content);
+    setContent(content)
   };
   const openNotificationWithIcon = type => {
     notification[type]({
@@ -29,12 +31,13 @@ function Write(props) {
     });
   };
   const handPost = async() =>{
-    // POST /blogservice/blog-curd/addTeacher
+    // POST /blogservice/blog-curd/addBlog
     const params = {
-      "content": couterRef.current.state.value,
+      // "content": couterRef.current.state.value,
+      "content": content,
       'name': 'kl'
     }
-    let res = await http.post(`${demoUrl}/blogservice/blog-curd/addTeacher`,params);
+    let res = await http.post(`${demoUrl}/blogservice/blog-curd/addBlog`,params);
     console.log(res);
     if(res.code === 20000) {
       openNotificationWithIcon('success')

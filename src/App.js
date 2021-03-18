@@ -1,11 +1,10 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-17 08:56:09
+ * @LastEditTime: 2021-03-18 20:10:49
  */
 import 'antd/dist/antd.css'
 import { BrowserRouter,Route } from "react-router-dom";
-import Header from './common/header/index'
 import Login from './pages/login'
 import Home from './pages/home'
 import Write from './pages/write'
@@ -25,7 +24,6 @@ function App(props) {
       <Provider store={store}>
         <BrowserRouter>
           <div>
-          <Header />
           <Route path='/login' exact component={Login}></Route>
           <Route path='/' exact component={Home}></Route> 
           <Route path='/write' exact component={Write}></Route> 

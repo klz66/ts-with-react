@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-17 23:52:07
+ * @LastEditTime: 2021-03-18 21:17:25
  */
 import axios from 'axios'
 import { fromJS } from 'immutable'
@@ -41,7 +41,7 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
       console.log(res.data.item);
       let articleList = res.data.item.map((i)=>(
         {
-          'title': i.content,
+          'title': i.name+'发表的文章',
           'desc': i.content,
           'id':i.id,
           'imgUrl':'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2084631030,3185655172&fm=26&gp=0.jpg'
@@ -66,9 +66,3 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
     })
   }
 }
-// TOGGLE_SCROLL_TOP
- export const toggleTopShow = (flag) => ({
-  type:constants.TOGGLE_SCROLL_TOP,
-  showScroll:flag
-//  state里的数据是immutable了的
-})

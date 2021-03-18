@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-17 23:26:53
+ * @LastEditTime: 2021-03-18 20:42:59
  */
 import { fromJS } from 'immutable';
 import * as constants from './constants';
@@ -11,7 +11,6 @@ const defaultState = fromJS({
 	articleList: [],
 	recommendList: [],
 	articlePage: 1,
-	showScroll: false
 });
 
 // const addArticleList = (state, action) => {
@@ -40,8 +39,6 @@ export default (state = defaultState, action) => {
         articlePage: action.nextPage,
         articleList: state.get('articleList').concat(action.articleList)
       })
-    case constants.TOGGLE_SCROLL_TOP:
-      return state.set('showScroll',action.showScroll)
       default:
 			return state;
 	}
