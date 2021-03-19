@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 09:43:33
+ * @LastEditTime: 2021-03-19 17:20:25
  */
 import axios from 'axios'
 import { fromJS } from 'immutable'
@@ -22,6 +22,11 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
     articleList: fromJS(value),
   //  state里的数据是immutable了的
  })
+ const getMoreArticleContentList = (value) => ({
+    type:constants.GET_MORE_ARTICLE_LIST,
+    articleList: fromJS(value),
+  //  state里的数据是immutable了的
+ })
 
  export const getHomeInfo = () => {
    return (dispatch) => {
@@ -33,13 +38,13 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
      })
    }
  }
- export const getArticleList = () => {
+ export const getArticleList = (current,limit) => {
    return async(dispatch) => {
-    let res = await http.get(`${demoUrl}/blogservice/blog-curd/findAll`);
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/pageBlogList/${current}/${limit}`);
     
     if(res.code === 20000) {
       console.log(res.data.item);
-      let articleList = res.data.item.map((i)=>(
+      let articleList = res.data.rows.map((i)=>(
         {
           'title': i.name+'发表的文章',
           'desc': i.content,
@@ -50,19 +55,26 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
     }
   }
  }
+ export const getMoreArticleList = (current,limit) => {
+   return async(dispatch) => {
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/pageBlogList/${current}/${limit}`);
+    
+    if(res.code === 20000) {
+      console.log(res.data.item);
+      let articleList = res.data.rows.map((i)=>(
+        {
+          'title': i.name+'发表的文章',
+          'desc': i.content,
+          'id':i.id,
+          // 'imgUrl':'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2084631030,3185655172&fm=26&gp=0.jpg'
+        }));
+      dispatch(getMoreArticleContentList(articleList))
+    }
+  }
+ }
  const getAddArticleList = (value,nextPage) => ({
   type:constants.ADD_ARTICLE_LIST,
   nextPage,
   articleList: fromJS(value.articleList),
 //  state里的数据是immutable了的
 })
- export const getMoreList = (articlePage) => {
-  return (dispatch) => {
-    axios.get(`${url}/api/home/getMoreList?page=`+articlePage).then((res)=>{
-      console.log(res);
-      dispatch(getAddArticleList(res.data,articlePage))
-    }).catch((e)=>{
-      console.log(e);
-    })
-  }
-}

@@ -1,14 +1,14 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 11:35:04
+ * @LastEditTime: 2021-03-19 17:28:52
  */
-import React, { useState, useRef} from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import http from '@/utils/request'
 import { Link } from 'react-router-dom'
-import { Input,Button,notification  } from 'antd';
+import { Button,notification  } from 'antd';
 import {demoUrl,uploadUrl} from '@/utils/utils';
 // import './index.css';
 import { Editor } from '@tinymce/tinymce-react';
@@ -30,7 +30,6 @@ function Write(props) {
   const handPost = async() =>{
     // POST /blogservice/blog-curd/addBlog
     const params = {
-      // "content": couterRef.current.state.value,
       "content": content,
       'name': 'kl'
     }
@@ -41,7 +40,6 @@ function Write(props) {
     }
     
   }
-  const couterRef = useRef();
 		if (props.loginStatus) {
 			return (
 				<div className='content'>
@@ -74,8 +72,7 @@ function Write(props) {
           }}
           onEditorChange={handleEditorChange}
         />
-          <Input ref={couterRef} placeholder="Basic usage" />
-          <div>
+          <div className='footer'>
             <Button type="primary" size={16} onClick={handPost}>发表</Button>
             <Link to='/'><Button type="primary" size={16}>返回主页面</Button></Link>
           </div>

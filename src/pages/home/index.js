@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 20:43:53
+ * @LastEditTime: 2021-03-19 16:53:09
  */
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
@@ -19,10 +19,9 @@ import {
 import homePic from '../../statics/home-pic.jpg';
 import { useEffect } from 'react';
 function Home(props) {
-  const { changeHomeData,getArticleList } = props
+  const { changeHomeData } = props
   useEffect(() => {
     changeHomeData();
-    getArticleList();
   });
   return (
     <div>
@@ -57,7 +56,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actionCreators.getHomeInfo())
   },
   getArticleList(){
-    dispatch(actionCreators.getArticleList())
+    dispatch(actionCreators.getArticleList(1,3))
   },
 })
 

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 20:42:59
+ * @LastEditTime: 2021-03-19 17:15:54
  */
 import { fromJS } from 'immutable';
 import * as constants from './constants';
@@ -10,15 +10,7 @@ const defaultState = fromJS({
 	topicList: [],
 	articleList: [],
 	recommendList: [],
-	articlePage: 1,
 });
-
-// const addArticleList = (state, action) => {
-// 	return state.merge({
-// 		'articleList': state.get('articleList').concat(action.list),
-// 		'articlePage': action.nextPage
-// 	});
-// };
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = defaultState, action) => {
@@ -30,14 +22,13 @@ export default (state = defaultState, action) => {
         // articleList: fromJS(action.articleList),
         recommendList: fromJS(action.recommendList)
       })
+    case constants.GET_MORE_ARTICLE_LIST:
+        return state.merge({
+        articleList: state.get('articleList').concat(action.articleList),
+      })
     case constants.ARTICLE_LIST:
         return state.merge({
-        articleList: fromJS(action.articleList),
-      })
-    case constants.ADD_ARTICLE_LIST:
-      return state.merge({
-        articlePage: action.nextPage,
-        articleList: state.get('articleList').concat(action.articleList)
+        articleList: action.articleList,
       })
       default:
 			return state;

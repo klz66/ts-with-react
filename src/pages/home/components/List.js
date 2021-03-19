@@ -1,23 +1,26 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 09:43:47
+ * @LastEditTime: 2021-03-19 17:13:19
  */
 import 'antd/dist/antd.css'
+import { useState, useEffect } from 'react';
 import { ListItem, ListInfo, LoadMore } from '../style';
 import { connect } from "react-redux";
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
-import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom';
-import { Input,Button,notification  } from 'antd';
+import { notification  } from 'antd';
 import  {  actionCreators  }  from "../store";
-import  {  actionCreators as actionHomeCreators  }  from "../../home/store";
 function List(props) {
-  const { articlePage,articleList }= props
+  let [current,setCurrent]=useState(1)
+  useEffect(() => {
+    props.getArticleList(current,3)
+  }, []);
+  const { articleList }= props
   const openNotificationWithIcon = type => {
     notification[type]({
-      message: '发表成功',
+      message: '删除成功',
       // description:
       //   'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
     });
@@ -27,15 +30,17 @@ function List(props) {
     console.log(res);
     if(res.data.code === 20000) {
       openNotificationWithIcon('success')
-      props.getArticleList()
+      props.getArticleList(1,3)
     }
   }
 
   const goToDetail = async(id)=>{
-    console.log(2020,id);
     props.history.push('/detail/' + id)
+  }
 
-    // props.dispatch
+  const getMore = ()=>{
+    setCurrent(current+1)
+    props.getMoreList(current)
   }
 
   return (
@@ -59,22 +64,21 @@ function List(props) {
           // </Link>
         ))
       }
-      <LoadMore onClick={()=>{props.getMoreList(articlePage)}}>
+      <LoadMore onClick={getMore}>
         加载更多
       </LoadMore>
     </div>
   );
 }
 const mapStateToProps = (state) => ({
-  articlePage:state.getIn(['home','articlePage']),
   articleList:state.getIn(['home','articleList']),
 })
 const mapDispatchToProps = (dispatch) => ({
-  getMoreList(articlePage){
-    dispatch(actionCreators.getMoreList(articlePage+1))
+  getMoreList(current){
+    dispatch(actionCreators.getMoreArticleList(current,3))
   },
-  getArticleList(){
-    dispatch(actionHomeCreators.getArticleList())
+  getArticleList(current,limit){
+    dispatch(actionCreators.getArticleList(current,limit))
   },
 })
 
