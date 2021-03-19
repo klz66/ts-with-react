@@ -1,13 +1,13 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 21:13:02
+ * @LastEditTime: 2021-03-19 11:16:04
  */
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import * as constants from './constants';
 
-const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/todolist'
+// const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/todolist'
 const changeDetail = (title, content) => ({
 	type: constants.CHANGE_DETAIL,
 	title,

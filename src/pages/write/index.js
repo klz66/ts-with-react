@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 20:00:43
+ * @LastEditTime: 2021-03-19 11:35:04
  */
 import React, { useState, useRef} from 'react';
 import { Redirect } from 'react-router-dom';
@@ -10,17 +10,14 @@ import http from '@/utils/request'
 import { Link } from 'react-router-dom'
 import { Input,Button,notification  } from 'antd';
 import {demoUrl,uploadUrl} from '@/utils/utils';
-import './index.css';
-// import Tinymce from './component/tinymce'
+// import './index.css';
 import { Editor } from '@tinymce/tinymce-react';
-import styles from './index.less'
+import './index.less'
 
 function Write(props) {
   let [content,setContent] = useState('')
   const handleEditorChange = (content, editor) => {
     console.log('Content was updated:', content);
-    // setContent(content);
-    // console.log(content);
     setContent(content)
   };
   const openNotificationWithIcon = type => {

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 21:05:53
+ * @LastEditTime: 2021-03-19 10:53:35
  */
 /*
  * @Description: 
@@ -12,7 +12,7 @@ import 'antd/dist/antd.css'
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import  {  actionCreators  }  from "./store";
-import { DetailWrapper, Header, Content } from './style';
+import { DetailWrapper, Header } from './style';
 import { useEffect } from 'react';
 function Detail(props) {
   console.log(props);
@@ -24,7 +24,7 @@ function Detail(props) {
   return (
     <DetailWrapper>
 				<Header>{props.title}</Header>
-				<Content dangerouslySetInnerHTML={{__html:props.content}}/>
+				<div dangerouslySetInnerHTML={{__html:props.content}}/>
 			</DetailWrapper>
   );
 }

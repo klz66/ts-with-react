@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 20:58:33
+ * @LastEditTime: 2021-03-19 09:43:47
  */
 import 'antd/dist/antd.css'
 import { ListItem, ListInfo, LoadMore } from '../style';
@@ -45,11 +45,11 @@ function List(props) {
         // <Link key={index} to={'detail/'+item.get('id')}>
           <ListItem>
             <ListInfo>
-              <img
+              {/* <img
                 className='pic'
                 src={item.get('imgUrl')}
                 alt=''
-              />
+              /> */}
               <h3 className='title'>{item.get('title')}</h3>
               {/* <p className='desc'>{item.get('desc')}</p> */}
               <div className='desc' onClick={()=>goToDetail(item.get('id'))} dangerouslySetInnerHTML={{__html: item.get('desc')}}/>

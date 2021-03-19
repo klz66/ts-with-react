@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 21:17:25
+ * @LastEditTime: 2021-03-19 09:43:33
  */
 import axios from 'axios'
 import { fromJS } from 'immutable'
@@ -44,7 +44,7 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
           'title': i.name+'发表的文章',
           'desc': i.content,
           'id':i.id,
-          'imgUrl':'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2084631030,3185655172&fm=26&gp=0.jpg'
+          // 'imgUrl':'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2084631030,3185655172&fm=26&gp=0.jpg'
         }));
       dispatch(getArticleContentList(articleList))
     }
