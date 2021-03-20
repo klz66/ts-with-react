@@ -1,13 +1,14 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 20:10:49
+ * @LastEditTime: 2021-03-19 22:11:29
  */
 import 'antd/dist/antd.css'
 import { BrowserRouter,Route } from "react-router-dom";
 import Login from './pages/login'
 import Home from './pages/home'
 import Write from './pages/write'
+import Trash from './pages/trash'
 // import Deatil from './pages/detail'
 import Detail from './pages/detail/loadable.js';
 import { GlobalIconStyled } from './statics/iconfont/iconfont';
@@ -28,6 +29,7 @@ function App(props) {
           <Route path='/' exact component={Home}></Route> 
           <Route path='/write' exact component={Write}></Route> 
           <Route path='/avatar' exact component={Avatar}></Route> 
+          <Route path='/trash' exact component={Trash}></Route> 
           <Route path='/detail/:id' exact component={Detail}></Route>
           </div>
         </BrowserRouter>
