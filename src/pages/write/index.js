@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 17:28:52
+ * @LastEditTime: 2021-03-21 20:57:36
  */
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
@@ -44,6 +44,7 @@ function Write(props) {
 			return (
 				<div className='content'>
           <Editor
+            initialValue="<p>This is the initial content of the editor</p>"
             apiKey='i24scrj5aegi7posl2kwbygrvkcgywqul11wtqrwoltystrh'
             selecector='editorStateRef'
             init={{

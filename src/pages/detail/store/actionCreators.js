@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 11:16:04
+ * @LastEditTime: 2021-03-21 19:40:41
  */
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
@@ -21,13 +21,5 @@ export const getDetail = (id) => {
     if(res.code === 20000) {
       dispatch(changeDetail(res.data.blogDetail.content.slice(0,5), res.data.blogDetail.content));
     }
-    
-    // axios.get(`${url}/api/detail?id=`+id).then((res)=>{
-		// 	// const result = res.data.data;
-    //   console.log(res.data);
-		// 	dispatch(changeDetail(res.data.title, res.data.content));
-		// }).catch(() => {
-			
-		// })
 	}
 };
