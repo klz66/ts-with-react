@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 17:13:19
+ * @LastEditTime: 2021-03-21 23:01:30
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -26,7 +26,7 @@ function List(props) {
     });
   };
   const handleDelete = async(id)=>{
-    let res = await http.delete(`${demoUrl}/blogservice/blog-curd/${id}`);
+    let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/${id}`);
     console.log(res);
     if(res.data.code === 20000) {
       openNotificationWithIcon('success')

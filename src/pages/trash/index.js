@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-21 20:26:33
+ * @LastEditTime: 2021-03-21 23:13:07
  */
 /*
  * @Description: 
@@ -37,6 +37,16 @@ function List(props) {
       getArticleList()
     }
   }
+  const handleSelectedRecovery = async()=>{
+    let res = await http.delete(`${demoUrl}/blogservice/blog-curd/recovery/selected/${selectedRowIds.join()}`);
+    if(res.data.code === 20000) {
+      notification['success']({
+        message: '批量恢复成功',
+        duration: 1,
+      });
+      getArticleList()
+    }
+  }
   const lookDetail = async(id)=>{
     console.log(id);
   }
@@ -49,9 +59,12 @@ function List(props) {
     }
   }
   const handleRecovery = async(id)=>{
-    let res = await http.delete(`${demoUrl}/blogservice/blog-curd/recovery/${id}`);
+    let res = await http.delete(`${demoUrl}/blogservice/blog-curd/recovery/single/${id}`);
     if(res.data.code === 20000) {
-      openNotificationWithIcon('success')
+      notification['success']({
+        message: '恢复成功',
+        duration: 1,
+      });
       getArticleList()
     }
   }
@@ -130,15 +143,18 @@ function List(props) {
     <div>
       <div  className='header'>
       回收站
-      <Popconfirm
-        title="确定删除吗，将无法恢复"
-        onConfirm={confirm}
-        onCancel={cancel}
-        okText="Yes"
-        cancelText="No"
-      >
-        <Button href="#">永久删除</Button>
-      </Popconfirm>
+      <div>
+        <Popconfirm
+          title="确定删除吗，将无法恢复"
+          onConfirm={confirm}
+          onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button href="#">永久删除</Button>
+        </Popconfirm>
+        <Button onClick={()=>handleSelectedRecovery()} href="#">恢复</Button>
+        </div>
       </div>
       {Demo()}
     </div>
