@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-21 19:40:41
+ * @LastEditTime: 2021-03-22 10:05:21
  */
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
@@ -17,6 +17,15 @@ const changeDetail = (title, content) => ({
 export const getDetail = (id) => {
 	return async(dispatch) => {
     let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/${id}`);
+    console.log(res);
+    if(res.code === 20000) {
+      dispatch(changeDetail(res.data.blogDetail.content.slice(0,5), res.data.blogDetail.content));
+    }
+	}
+};
+export const getTrashDetail = (id) => {
+	return async(dispatch) => {
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/trash/${id}`);
     console.log(res);
     if(res.code === 20000) {
       dispatch(changeDetail(res.data.blogDetail.content.slice(0,5), res.data.blogDetail.content));

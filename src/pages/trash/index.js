@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-21 23:13:07
+ * @LastEditTime: 2021-03-22 10:36:10
  */
 /*
  * @Description: 
@@ -47,8 +47,9 @@ function List(props) {
       getArticleList()
     }
   }
-  const lookDetail = async(id)=>{
+  const goToDetail = async(id)=>{
     console.log(id);
+    props.history.push('/TrashDetail/' + id)
   }
   const handleDelete = async(id)=>{
     let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/forever/${id}`);
@@ -76,6 +77,7 @@ function List(props) {
         {
           'key': i.id,
           'title': i.name+'发表的文章',
+          // /<.+?>(.+?)<.+?>/
           'desc': i.content.replace(/<[^>]+>|&[^>]+;/g,"").trim(),
           'detail': i.content,
           'id':i.id,
@@ -84,6 +86,7 @@ function List(props) {
         }));
       setData(articleList)
     }
+    // console.log();
   }
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -126,7 +129,7 @@ function List(props) {
             render={(text, record) => (
               <Space size="middle">
                 {/* <a>Invite {record.lastName}</a> */}
-                <Button onClick={()=>lookDetail(record.id)} type='primary'>详情</Button>
+                <Button onClick={()=>goToDetail(record.id)} type='primary'>详情</Button>
                 <Button onClick={()=>handleDelete(record.id)} type='primary' danger>删除</Button>
                 <Button onClick={()=>handleRecovery(record.id)} className='green'>恢复</Button>
               </Space>
