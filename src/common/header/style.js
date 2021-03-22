@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-02-28 17:12:23
+ * @LastEditTime: 2021-03-22 23:59:26
  */
 import styled from 'styled-components';
 import logoPic from '../../statics/logo.png';
@@ -54,6 +54,7 @@ export const SearchWrapper = styled.div`
 	float: left;
 	.zoom {
 		position: absolute;
+    cursor: pointer;
 		right: 5px;
 		bottom: 5px;
 		width: 30px;

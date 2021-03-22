@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 17:20:25
+ * @LastEditTime: 2021-03-22 23:21:51
  */
 import axios from 'axios'
 import { fromJS } from 'immutable'
@@ -13,8 +13,6 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
  const getList = (value) => ({
     type:constants.CHANGE_HOME_DATA,
     topicList: fromJS(value.topicList),
-    // articleList: fromJS(value.articleList),
-    recommendList: fromJS(value.recommendList)
   //  state里的数据是immutable了的
  })
  const getArticleContentList = (value) => ({

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 17:15:54
+ * @LastEditTime: 2021-03-22 23:22:04
  */
 import { fromJS } from 'immutable';
 import * as constants from './constants';
@@ -19,8 +19,6 @@ export default (state = defaultState, action) => {
     case constants.CHANGE_HOME_DATA:
         return state.merge({
         topicList: fromJS(action.topicList),
-        // articleList: fromJS(action.articleList),
-        recommendList: fromJS(action.recommendList)
       })
     case constants.GET_MORE_ARTICLE_LIST:
         return state.merge({

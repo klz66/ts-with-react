@@ -89,6 +89,9 @@ export const RecommendItem = styled.div`
 	height: 50px;
 	background: ${(props) => props.color};
 	background-size: contain;
+  div {
+    cursor: pointer
+  }
   .title {
     padding-top: 10px;
     padding-left: 10px;

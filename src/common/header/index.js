@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-17 08:53:47
+ * @LastEditTime: 2021-03-22 23:58:09
  */
 
 import 'antd/dist/antd.css'
@@ -75,7 +75,7 @@ function Header(props) {
         </Link>
         <Nav>
          <NavItem className='left'>首页</NavItem>
-         <NavItem className='left'>下载</NavItem>
+         <NavItem className='left'>发现</NavItem>
          <SearchWrapper>
           <CSSTransition
             in={focused}
