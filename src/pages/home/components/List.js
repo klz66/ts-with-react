@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-21 23:01:30
+ * @LastEditTime: 2021-03-22 16:26:14
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -21,8 +21,7 @@ function List(props) {
   const openNotificationWithIcon = type => {
     notification[type]({
       message: '删除成功',
-      // description:
-      //   'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+      duration: 1,
     });
   };
   const handleDelete = async(id)=>{
