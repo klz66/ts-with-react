@@ -1,3 +1,8 @@
+/*
+ * @Description: 
+ * @Author: Zhong Kailong
+ * @LastEditTime: 2021-03-25 00:08:50
+ */
 import styled from 'styled-components';
 
 export const LoginWrapper = styled.div`
@@ -11,12 +16,17 @@ export const LoginWrapper = styled.div`
 `;
 
 export const LoginBox = styled.div`
-	width: 400px;
-	height: 180px;
+  display: flex;
+  j
+	width: 600px;
+	height: 280px;
 	margin: 100px auto;
 	padding-top: 20px;
 	background: #fff;
 	box-shadow: 0 0 8px rgba(0,0,0,.1);
+  Input {
+    width:80%
+  }
 `;
 
 export const Input = styled.input`
