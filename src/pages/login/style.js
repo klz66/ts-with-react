@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-25 00:08:50
+ * @LastEditTime: 2021-03-25 09:59:23
  */
 import styled from 'styled-components';
 
@@ -13,39 +13,4 @@ export const LoginWrapper = styled.div`
 	bottom: 0;
 	top: 0;
 	background: #eee;
-`;
-
-export const LoginBox = styled.div`
-  display: flex;
-  j
-	width: 600px;
-	height: 280px;
-	margin: 100px auto;
-	padding-top: 20px;
-	background: #fff;
-	box-shadow: 0 0 8px rgba(0,0,0,.1);
-  Input {
-    width:80%
-  }
-`;
-
-export const Input = styled.input`
-	display: block;
-	width: 200px;
-	height: 30px;
-	line-height: 30px;
-	padding: 0 10px;
-	margin: 10px auto;
-	color: #777;
-`;
-
-export const Button = styled.div`
-	width: 220px;
-	height: 30px;
-	line-height: 30px;
-	color: #fff;
-	background: #3194d0;
-	border-radius: 15px;
-	margin: 10px auto;
-	text-align: center;
 `;
