@@ -1,12 +1,11 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-26 08:55:00
+ * @LastEditTime: 2021-03-26 22:59:55
  */
 import { useState,useEffect } from 'react'
 import 'antd/dist/antd.css'
-import { notification  } from 'antd';
-import { InputNumber  } from 'antd';
+import { notification,InputNumber } from 'antd';
 
 var _ = require('lodash');
 
@@ -16,6 +15,7 @@ function Verify(props) {
   let [c,setC] = useState(0)
   let [operator,setOperator] = useState(0)
   useEffect(() => {
+    console.log(2020);
     let obj = getVerify();
     setA(obj.a)
     setB(obj.b)
@@ -63,6 +63,7 @@ function Verify(props) {
     if(value === c) {
       notification['success']({
         message: '验证成功',
+        duration: 1,
       });
       props.sureVerify(true)
     } else {

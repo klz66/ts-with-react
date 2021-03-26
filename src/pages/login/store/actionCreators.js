@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-26 08:41:20
+ * @LastEditTime: 2021-03-26 23:10:37
  */
 import * as constants from './constants';
 import http from '@/utils/request'
@@ -27,5 +27,15 @@ export const login = (account, password) => {
     if(res.code === 20000) {
       dispatch(changeLogin())
     }
+	}
+}
+export const register = (account, password) => {
+	return async(dispatch) => {
+    let params = {
+      account,
+      password
+    }
+    let res = await http.post(`${demoUrl}/blogservice/blog-member/register`,params);
+    console.log(res);
 	}
 }
