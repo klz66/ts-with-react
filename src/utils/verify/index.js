@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-25 11:13:16
+ * @LastEditTime: 2021-03-26 08:55:00
  */
 import { useState,useEffect } from 'react'
 import 'antd/dist/antd.css'
@@ -64,6 +64,9 @@ function Verify(props) {
       notification['success']({
         message: '验证成功',
       });
+      props.sureVerify(true)
+    } else {
+      props.sureVerify(false)
     }
   }
   return (

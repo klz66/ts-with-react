@@ -1,14 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-17 22:56:58
+ * @LastEditTime: 2021-03-26 08:41:20
  */
 import * as constants from './constants';
-// import http from '@/utils/request'
-// import {url} from '@/utils/utils'
+import http from '@/utils/request'
+import {demoUrl} from '@/utils/utils'
 
-// const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/todolist'
-// const url = 'http://localhost:8000'
 const changeLogin = () => ({
 	type: constants.CHANGE_LOGIN,
 	value: true
@@ -19,16 +17,15 @@ export const logout = () => ({
 	value: false
 })
 
-export const login = (accout, password) => {
-	return (dispatch) => {
-    dispatch(changeLogin())
-    // http.get(`${url}/eduservice/user/info`).then(res=>{
-    //   console.log(res)
-    //   if (res) {
-    //     dispatch(changeLogin())
-    //   }else {
-    //     alert('登陆失败')
-    //   }
-    // })
+export const login = (account, password) => {
+	return async(dispatch) => {
+    let params = {
+      account,
+      password
+    }
+    let res = await http.post(`${demoUrl}/blogservice/blog-member/login`,params);
+    if(res.code === 20000) {
+      dispatch(changeLogin())
+    }
 	}
 }

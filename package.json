@@ -12,6 +12,7 @@
     "@tinymce/tinymce-react": "^3.10.4",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
+    "@umijs/hooks": "^1.9.3",
     "antd": "^4.11.2",
     "antd-img-crop": "^3.14.1",
     "axios": "^0.21.1",
