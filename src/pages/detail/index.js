@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 10:53:35
+ * @LastEditTime: 2021-03-27 19:05:54
  */
 /*
  * @Description: 
@@ -15,7 +15,6 @@ import  {  actionCreators  }  from "./store";
 import { DetailWrapper, Header } from './style';
 import { useEffect } from 'react';
 function Detail(props) {
-  console.log(props);
   const {getDetail}= props;
   useEffect(() => {
     console.log(props.match.params.id);

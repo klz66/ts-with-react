@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-26 23:10:37
+ * @LastEditTime: 2021-03-27 19:18:34
  */
 import * as constants from './constants';
 import http from '@/utils/request'
@@ -25,8 +25,14 @@ export const login = (account, password) => {
     }
     let res = await http.post(`${demoUrl}/blogservice/blog-member/login`,params);
     if(res.code === 20000) {
+      localStorage.setItem('token',res.data.token)
+      console.log('储存token成功',localStorage.getItem('token'));
+      let resp = await http.get(`${demoUrl}/blogservice/blog-member/getMemberInfo`);
+      localStorage.setItem('memberInfo',JSON.stringify(resp.data.userInfo))
+      console.log(localStorage.getItem('memberInfo'));
       dispatch(changeLogin())
     }
+
 	}
 }
 export const register = (account, password) => {
@@ -36,6 +42,10 @@ export const register = (account, password) => {
       password
     }
     let res = await http.post(`${demoUrl}/blogservice/blog-member/register`,params);
-    console.log(res);
+    if(res.code === 20000) {
+      dispatch(login(account,password))
+      // let resp = await http.get(`${demoUrl}/blogservice/blog-member/getMemberInfo`,res.data.token);
+      // console.log(resp);
+    }
 	}
 }

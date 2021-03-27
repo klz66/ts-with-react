@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-22 21:53:37
+ * @LastEditTime: 2021-03-27 19:06:50
  */
 import React, { useRef } from 'react';
 import { connect } from 'react-redux';
@@ -35,7 +35,6 @@ function Write(props) {
       'name': 'kl'
     }
     let res = await http.post(`${demoUrl}/blogservice/blog-curd/addBlog`,params);
-    console.log(res);
     if(res.code === 20000) {
       openNotificationWithIcon('success')
     }
@@ -56,7 +55,6 @@ function Write(props) {
               let formData = new FormData();
               formData.append('file',blobInfo.blob())
               let res = await http.post(`${uploadUrl}/eduoss/fileoss`,formData)
-              console.log(res);
               if(res.code === 20000) {
                 succFun(res.data.url);
               }

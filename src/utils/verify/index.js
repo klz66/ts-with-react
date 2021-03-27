@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-26 22:59:55
+ * @LastEditTime: 2021-03-27 19:07:19
  */
 import { useState,useEffect } from 'react'
 import 'antd/dist/antd.css'
@@ -15,7 +15,6 @@ function Verify(props) {
   let [c,setC] = useState(0)
   let [operator,setOperator] = useState(0)
   useEffect(() => {
-    console.log(2020);
     let obj = getVerify();
     setA(obj.a)
     setB(obj.b)

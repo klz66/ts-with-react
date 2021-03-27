@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-26 23:45:38
+ * @LastEditTime: 2021-03-27 18:40:12
  */
 
 import 'antd/dist/antd.css'
@@ -9,9 +9,9 @@ import { connect } from "react-redux";
 import  {  actionCreators  }  from "./store";
 import { Redirect } from 'react-router-dom';
 import { LoginWrapper } from './style';
-import { useRef,useState } from 'react';
+import { useRef,useState,useEffect } from 'react';
+// import { Link, } from 'react-router-dom'
 import { useDebounce } from '@/utils/utils';
-// import { useDebounceFn } from '@umijs/hooks';
 import { Input,Button,notification } from 'antd';
 import Verify from '@/utils/verify'
 import { UserOutlined ,LockFilled } from '@ant-design/icons';
@@ -23,7 +23,7 @@ function Login(props) {
   let accountRef = useRef()
   let pwdRef = useRef()
   let [isVerify,setIsVerify] = useState(false)
-  let [isLogin,setIsLogin] = useState(false)
+  let [isLogin,setIsLogin] = useState(true)
   function sureVerify(bool) {
     setIsVerify(bool)
   }
@@ -32,6 +32,11 @@ function Login(props) {
     accountRef.current.state.value = ''
     pwdRef.current.state.value = ''
   }
+  useEffect(()=>{
+    if(props.location.state.login === false){
+      setIsLogin(false)
+    } 
+  },[])
   const loginFn = useDebounce(() => {
     if(!isVerify){
       notification['error']({
@@ -84,7 +89,6 @@ function Login(props) {
         </div>
         <div className='verify'>
         {isLogin&&<Verify sureVerify={sureVerify}/>}
-        {!isLogin&&<Verify sureVerify={sureVerify} />}
         </div>
         {isLogin&&<Button className='LoginButton' onClick={() => loginFn()}>登陆</Button>}
         {!isLogin&&<Button className='LoginButton' onClick={() => register()}>注册</Button>}

@@ -1,14 +1,15 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 00:00:47
+ * @LastEditTime: 2021-03-27 16:29:27
  */
-import axios from "axios";
+// import axios from "axios";
+import {authedAxios} from './config'
 
 const http = {
   get(url, params = {}) {
     return new Promise((resolve, reject) => {
-      axios.get(url, {
+      authedAxios.get(url, {
           params: params,
         }).then((response) => {
           resolve(response.data);
@@ -20,7 +21,7 @@ const http = {
   },
   put(url, data = {}) {
     return new Promise((resolve, reject) => {
-      axios.put(url, data).then(
+      authedAxios.put(url, data).then(
         (response) => {
           resolve(response.data);
         },
@@ -32,7 +33,7 @@ const http = {
   },
   post(url, data) {
     return new Promise((resolve, reject) => {
-      axios.post(url, data).then(
+      authedAxios.post(url, data).then(
         (response) => {
           //关闭进度条
           resolve(response.data);
@@ -45,7 +46,7 @@ const http = {
   },
   delete (url, data) {
     return new Promise((resolve, reject) => {
-      axios.delete(url, { data }).then((response) => {
+      authedAxios.delete(url, { data }).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)

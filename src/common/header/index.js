@@ -1,15 +1,17 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-22 23:58:09
+ * @LastEditTime: 2021-03-27 19:33:55
  */
 
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
 import  {  actionCreators  }  from "./store";
-import { Link } from 'react-router-dom'
+import { Link,withRouter } from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
+import { Menu, Dropdown, Avatar } from 'antd';
 import { actionCreators as loginActionCreators } from '../../pages/login/store'
+import { DownCircleTwoTone } from '@ant-design/icons';
 import {
 	HeaderWrapper,
 	Logo,
@@ -28,7 +30,8 @@ import {
  
 import React from 'react';
 function Header(props) {
-  console.log(props);
+  let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
+  // console.log(JSON.parse(window.localStorage.getItem('memberInfo')));
   const {login,page,totalPage,focused,mouseIn,list,changeFocusOn,changeFocusOff,handMouseIn,handMouseOut,changePage}=props;
   const getListArea = () => {
     if(focused || mouseIn) {
@@ -67,7 +70,41 @@ function Header(props) {
       return null
     }
   }
-  const ifLogin = () => {
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+          1st menu item
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+          2nd menu item
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+          3rd menu item
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
+  const toRegister = () => {
+    props.history.push( {pathname:'/login',state:{login:false}});
+  }
+  const toLogin = () => {
+    props.history.push( {pathname:'/login',state:{login:true}});
+  }
+  const isLogin = ()=>{
+    return (
+      <>
+       <Button onClick={()=>toRegister()} className='reg'>注册</Button>
+         <NavItem onClick={()=>toLogin()} className='right'>登录</NavItem>
+          {/* <NavItem onClick={()=>props.loginIn()} className='right'>注册</NavItem> */}
+      </>   
+    )
+  }
+  const Header = () => {
     return (
       <HeaderWrapper>
         <Link to='/'>
@@ -103,17 +140,24 @@ function Header(props) {
                 写文章
               </Button>
             </Link>
-            <Button className='reg'>注册</Button>
+           
             {
-              login?<NavItem className='right' onClick={()=>props.loginOut()}>退出</NavItem>:<NavItem onClick={()=>props.loginIn()} className='right'>登录</NavItem>
+              localStorage.getItem('token') && isLogin()
             }
+            <Dropdown overlay={menu} placement="bottomCenter">
+              <div style={{float:'right',marginTop: '9px'}}>
+              <Avatar src={memberInfo.avatar}></Avatar>
+              <DownCircleTwoTone color='red'/>
+              </div>
+            </Dropdown>
+            {/* <Avatar src={memberInfo.avatar}></Avatar> */}
         </Addition>
       </HeaderWrapper>
     );
   }
   return (
     <div>
-      {ifLogin()}
+      {Header()}
     </div>
   );
 }
@@ -144,20 +188,18 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actionCreators.getMouseOut())
   },
   changePage(page,totalPage,list){
-    console.log(list);
     if(page<totalPage-1){
       dispatch(actionCreators.getPage(page+1))
     } else {
       dispatch(actionCreators.getPage(0))
     }
   },
-  loginOut(){
-    dispatch(loginActionCreators.logout())
-  },
+  // loginOut(){
+  //   dispatch(loginActionCreators.logout())
+  // },
   loginIn(){
-    dispatch(loginActionCreators.login())
   }
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

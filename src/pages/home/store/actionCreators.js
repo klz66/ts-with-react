@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-22 23:21:51
+ * @LastEditTime: 2021-03-27 19:06:18
  */
 import axios from 'axios'
 import { fromJS } from 'immutable'
@@ -29,7 +29,6 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
  export const getHomeInfo = () => {
    return (dispatch) => {
      axios.get(`${url}/api/home/getHomeData`).then((res)=>{
-       console.log(res);
        dispatch(getList(res.data))
      }).catch((e)=>{
        console.log(e);
@@ -41,7 +40,6 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
     let res = await http.get(`${demoUrl}/blogservice/blog-curd/pageBlogList/${current}/${limit}`);
     
     if(res.code === 20000) {
-      console.log(res.data.item);
       let articleList = res.data.rows.map((i)=>(
         {
           'title': i.name+'发表的文章',
