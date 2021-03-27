@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 19:06:50
+ * @LastEditTime: 2021-03-27 23:25:26
  */
 import React, { useRef } from 'react';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ import './index.less'
 
 
 function Write(props) {
+  console.log(localStorage);
   let editorRef = useRef()
   const handleEditorChange = (content, editor) => {
     console.log('Content was updated:', content);
@@ -30,9 +31,11 @@ function Write(props) {
       })
       return
     }
+    let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
     const params = {
       "content": content,
-      'name': 'kl'
+      'name': 'kl',
+      'authorId': memberInfo.id
     }
     let res = await http.post(`${demoUrl}/blogservice/blog-curd/addBlog`,params);
     if(res.code === 20000) {

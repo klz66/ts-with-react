@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 19:33:55
+ * @LastEditTime: 2021-03-27 23:52:07
  */
 
 import 'antd/dist/antd.css'
@@ -111,8 +111,9 @@ function Header(props) {
           <Logo/>
         </Link>
         <Nav>
-         <NavItem className='left'>首页</NavItem>
-         <NavItem className='left'>发现</NavItem>
+         <NavItem className='left' style={{color: props.showTab===2 &&'red'}} onClick={()=>{props.changeShowTab(2)}}>关注</NavItem>
+         <NavItem className='left' style={{color: props.showTab===1 &&'red'}} onClick={()=>{props.changeShowTab(1)}}>发现</NavItem>
+         <NavItem className='left' style={{color: props.showTab===3 &&'red'}} onClick={()=>{props.changeShowTab(3)}}>消息</NavItem>
          <SearchWrapper>
           <CSSTransition
             in={focused}

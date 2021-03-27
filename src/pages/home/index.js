@@ -1,12 +1,15 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 16:53:09
+ * @LastEditTime: 2021-03-27 23:54:04
  */
 import 'antd/dist/antd.css'
+import {useState } from 'react'
 import { connect } from "react-redux";
 import  {  actionCreators  }  from "./store";
 import Topic from './components/Topic'
+import FocusIndex from './focusIndex'
+import MessageIndex from './messageIndex'
 import List from './components/List'
 import Recommend from './components/Recommend'
 import Write from './components/Write'
@@ -19,14 +22,18 @@ import {
 import homePic from '../../statics/home-pic.jpg';
 import { useEffect } from 'react';
 function Home(props) {
+  // 1 发现  2 关注  3消息
+  let [showTab,setShowTab] = useState(1)
   const { changeHomeData } = props
   useEffect(() => {
     changeHomeData();
   });
-  return (
-    <div>
-      <Header/>
-    <HomeWrapper>
+  function changeShowTab(showTab) {
+    setShowTab(showTab)
+  }
+  function showLook() {
+    return (
+      <HomeWrapper>
       <HomeLeft>
         <img
           className='banner-img'
@@ -34,7 +41,7 @@ function Home(props) {
           alt=''
         />
         
-        <Topic />
+        {/* <Topic /> */}
         <List />
       </HomeLeft>
       <HomeRight>
@@ -43,7 +50,17 @@ function Home(props) {
       </HomeRight>
 
     </HomeWrapper>
-    </div>
+    
+    )
+  }
+
+  return (
+    <div>
+      <Header changeShowTab={changeShowTab} showTab={showTab} />
+      {showTab === 1 && showLook()}
+      {showTab === 2 && <FocusIndex/>}
+      {showTab === 3 && <MessageIndex/>}
+      </div>
   );
 }
 
