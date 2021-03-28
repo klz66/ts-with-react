@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 21:41:36
+ * @LastEditTime: 2021-03-28 22:05:46
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -9,6 +9,7 @@ import http from '@/utils/request'
 import { notification,List  } from 'antd';
 import {demoUrl,uploadUrl} from '@/utils/utils';
 
+import zh_CN from '../../../public/tinymce/langs/zh_CN';
 import tinyMce from 'tinymce/tinymce';
 import { Editor } from '@tinymce/tinymce-react';
 
@@ -172,6 +173,7 @@ function Write(props) {
             init={{
             height: 500,
             width:900,
+            language_url: zh_CN,
             language:'zh_CN',
             images_upload_handler: async function (blobInfo, succFun, failFun) {
               let formData = new FormData();
