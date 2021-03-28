@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 18:25:25
+ * @LastEditTime: 2021-03-28 19:59:45
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -9,6 +9,8 @@ import http from '@/utils/request'
 import { notification,List  } from 'antd';
 import {demoUrl,uploadUrl} from '@/utils/utils';
 // import './index.css';
+
+// import tinyMCE from 'tinymce/tinymce';
 import { Editor } from '@tinymce/tinymce-react';
 import './index.less'
 var _ = require('lodash');
@@ -17,16 +19,26 @@ var _ = require('lodash');
 function Write(props) {
   let editorRef = useRef()
   let [draftList,setDraftList] = useState([]);
+  // let [content,setContent] = useState('请输入');
   useEffect(() => {
-    async function fn(){
-      let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDraftList`);
-      if(res.code === 20000) {
-        console.log(res,'获取相应用户的草稿箱');
-        console.log(res.data.list);
-      }
-    }
-    fn();
+    updateDraftList();
   },[]);
+  const changeContent = (item)=>{
+    console.log(editorRef.current);
+  }
+  async function updateDraftList(){
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDraftList`);
+    if(res.code === 20000) {
+      console.log(res,'获取相应用户的草稿箱');
+      let ASSS= res.data.list.map(i=>i.gmtCreate)
+      console.log(ASSS,'获取相应用户的草稿箱');
+      setDraftList(res.data.list.map(i=>({
+        title: i.title==='无标题'? i.gmtCreate.slice(0,10):i.title,
+        content: i.content
+      })))
+      // console.log(draftList,2020);
+    }
+  }
   const handleEditorChange = (content, editor) => {
     console.log('Content was updated:', content);
   };
@@ -35,6 +47,28 @@ function Write(props) {
       message: '发表成功',
     });
   };
+  const handSave = async(content) =>{
+    if(content.length === 0) {
+      notification['error']({
+        message: '内容不能为空'
+      })
+      return
+    }
+    let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
+    const params = {
+      "title": formatTitle(content),
+      "content": content,
+      'name': 'kl',
+      'authorId': memberInfo.id
+    }
+    let res = await http.post(`${demoUrl}/blogservice/blog-curd/saveDraftBlog`,params);
+    if(res.code === 20000) {
+      notification['success']({
+        message: '保存成功',
+      });
+      updateDraftList();
+    }
+  }
   const handPost = async(content) =>{
     if(content.length === 0) {
       notification['error']({
@@ -53,7 +87,6 @@ function Write(props) {
     if(res.code === 20000) {
       openNotificationWithIcon('success')
     }
-    
   }
   function formatTitle(content) {
     if(!_.isEmpty(content.match(/((?<=<h1>).+?)(?=<\/h1>)/))) {
@@ -88,13 +121,15 @@ function Write(props) {
               footer={<div>清除草稿箱</div>}
               bordered
               dataSource={draftList}
-              renderItem={item => <List.Item>{item}</List.Item>}
+              renderItem={item => <List.Item onClick={()=>{
+                changeContent(item);
+              }}>{item.title}</List.Item>}
             />
           </div>
 				<div className='content'>
           <Editor
             ref={editorRef}
-            initialValue="<p>请输入</p>"
+            initialValue={'请输入'}
             apiKey='i24scrj5aegi7posl2kwbygrvkcgywqul11wtqrwoltystrh'
             selecector='editorStateRef'
             init={{
@@ -118,13 +153,14 @@ function Write(props) {
             
             toolbar: 'undo redo image| formatselect | bold italic backcolor | \
                alignleft aligncenter alignright alignjustify | \
-                bullist numlist outdent indent fullscreen save sumbit back',
+                fullscreen save sumbit back',
               setup: (editor) => {
                 editor.ui.registry.addButton('save', {
                   text: '保存',
                   icon: 'new-document',
                   onAction: function(){
-                    console.log('保存');
+                    let content = editorRef.current.currentContent?editorRef.current.currentContent:editorRef.current.props.initialValue;
+                    handSave(content)
                   }
                 })
                 editor.ui.registry.addButton('sumbit', {
