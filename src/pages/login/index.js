@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 18:14:26
+ * @LastEditTime: 2021-03-28 23:15:28
  */
 
 import 'antd/dist/antd.css'
@@ -33,6 +33,10 @@ function Login(props) {
     pwdRef.current.state.value = ''
   }
   useEffect(()=>{
+    console.log(props.location);
+    if(props.location.state === undefined) {
+      return;
+    }
     if(props.location.state.login === false){
       setIsLogin(false)
     } 

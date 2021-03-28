@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 21:46:05
+ * @LastEditTime: 2021-03-28 23:33:27
  */
 
 import 'antd/dist/antd.css'
@@ -31,8 +31,13 @@ import {
 import React from 'react';
 function Header(props) {
   let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
-  // console.log(JSON.parse(window.localStorage.getItem('memberInfo')));
-  const {login,page,totalPage,focused,mouseIn,list,changeFocusOn,changeFocusOff,handMouseIn,handMouseOut,changePage}=props;
+  const {page,totalPage,focused,mouseIn,list,changeFocusOn,changeFocusOff,handMouseIn,handMouseOut,changePage}=props;
+  const handleOut = () =>{
+    console.log(2020);
+    props.history.push( {pathname:'/login',state:{login:false}});
+    localStorage.removeItem('token');
+    localStorage.removeItem('memberInfo')
+  }
   const getListArea = () => {
     if(focused || mouseIn) {
       let newList = [];
@@ -42,9 +47,6 @@ function Header(props) {
       let RightIndex = Math.min(((page+1)*3),jsList.length);
       for(let i=(page*3);i<RightIndex;i++){
         newList.push(jsList[i])
-        // pageList.push(
-        //   <SearchInfoItem key={jsList[i]}>{jsList[i]}</SearchInfoItem>
-        // )
       }
 
       return (
@@ -74,18 +76,18 @@ function Header(props) {
     <Menu>
       <Menu.Item>
         <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-          1st menu item
+          个人主页
         </a>
       </Menu.Item>
       <Menu.Item>
         <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-          2nd menu item
+          个人设置
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-          3rd menu item
-        </a>
+        <span target="_blank" onClick={()=>{handleOut()}}>
+          退出
+        </span>
       </Menu.Item>
     </Menu>
   );
@@ -143,15 +145,18 @@ function Header(props) {
             </Link>
            
             {
-              localStorage.getItem('token') && isLogin()
+              !localStorage.getItem('token') && isLogin()
             }
-            <Dropdown overlay={menu} placement="bottomCenter">
-              <div style={{float:'right',marginTop: '9px'}}>
-              <Avatar src={memberInfo.avatar}></Avatar>
-              <DownCircleTwoTone color='red'/>
-              </div>
-            </Dropdown>
-            {/* <Avatar src={memberInfo.avatar}></Avatar> */}
+            {
+              localStorage.getItem('token') &&  
+              <Dropdown overlay={menu} placement="bottomCenter">
+                <div style={{float:'right',marginTop: '9px'}}>
+                <Avatar src={memberInfo?.avatar}></Avatar>
+                <DownCircleTwoTone color='red'/>
+                </div>
+              </Dropdown>
+            }
+           
         </Addition>
       </HeaderWrapper>
     );

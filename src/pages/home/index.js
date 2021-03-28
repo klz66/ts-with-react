@@ -1,13 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 23:54:04
+ * @LastEditTime: 2021-03-28 23:35:40
  */
 import 'antd/dist/antd.css'
-import {useState } from 'react'
+import {useState,useEffect } from 'react'
 import { connect } from "react-redux";
 import  {  actionCreators  }  from "./store";
-import Topic from './components/Topic'
 import FocusIndex from './focusIndex'
 import MessageIndex from './messageIndex'
 import List from './components/List'
@@ -19,13 +18,14 @@ import {
 	HomeLeft,
 	HomeRight,
 } from './style';
-import homePic from '../../statics/home-pic.jpg';
-import { useEffect } from 'react';
 function Home(props) {
   // 1 发现  2 关注  3消息
   let [showTab,setShowTab] = useState(1)
   const { changeHomeData } = props
   useEffect(() => {
+    // if(!localStorage.getItem('token')){
+      
+    // }
     changeHomeData();
   });
   function changeShowTab(showTab) {
@@ -35,13 +35,6 @@ function Home(props) {
     return (
       <HomeWrapper>
       <HomeLeft>
-        <img
-          className='banner-img'
-          src={homePic}
-          alt=''
-        />
-        
-        {/* <Topic /> */}
         <List />
       </HomeLeft>
       <HomeRight>
@@ -73,7 +66,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actionCreators.getHomeInfo())
   },
   getArticleList(){
-    dispatch(actionCreators.getArticleList(1,3))
+    dispatch(actionCreators.getArticleList(1,5))
   },
 })
 

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 22:05:46
+ * @LastEditTime: 2021-03-28 23:39:33
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ var _ = require('lodash');
 function Write(props) {
   let editorRef = useRef()
   let [draftList,setDraftList] = useState([]);
-  // let [content,setContent] = useState('请输入');
+  localStorage.removeItem('blogId')
   useEffect(() => {
     updateDraftList();
   },[]);
