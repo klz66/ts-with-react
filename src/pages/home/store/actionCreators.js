@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 19:06:18
+ * @LastEditTime: 2021-03-28 16:39:14
  */
 import axios from 'axios'
 import { fromJS } from 'immutable'
@@ -42,7 +42,7 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
     if(res.code === 20000) {
       let articleList = res.data.rows.map((i)=>(
         {
-          'title': i.name+'发表的文章',
+          'title': i.title,
           'desc': i.content,
           'id':i.id,
           // 'imgUrl':'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2084631030,3185655172&fm=26&gp=0.jpg'
@@ -59,7 +59,7 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
       console.log(res.data.item);
       let articleList = res.data.rows.map((i)=>(
         {
-          'title': i.name+'发表的文章',
+          'title': i.title,
           'desc': i.content,
           'id':i.id,
           // 'imgUrl':'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2084631030,3185655172&fm=26&gp=0.jpg'
@@ -68,9 +68,3 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
     }
   }
  }
- const getAddArticleList = (value,nextPage) => ({
-  type:constants.ADD_ARTICLE_LIST,
-  nextPage,
-  articleList: fromJS(value.articleList),
-//  state里的数据是immutable了的
-})

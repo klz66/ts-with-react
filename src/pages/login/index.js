@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 23:43:33
+ * @LastEditTime: 2021-03-28 18:14:26
  */
 
 import 'antd/dist/antd.css'
@@ -89,6 +89,7 @@ function Login(props) {
         </div>
         <div className='verify'>
         {isLogin&&<Verify sureVerify={sureVerify}/>}
+        {!isLogin&&<Verify sureVerify={sureVerify}/>}
         </div>
         {isLogin&&<Button className='LoginButton' onClick={() => loginFn()}>登陆</Button>}
         {!isLogin&&<Button className='LoginButton' onClick={() => register()}>注册</Button>}

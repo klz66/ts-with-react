@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 19:06:28
+ * @LastEditTime: 2021-03-28 16:39:25
  */
 /*
  * @Description: 
@@ -73,8 +73,7 @@ function List(props) {
       let articleList = res.data.item.map((i)=>(
         {
           'key': i.id,
-          'title': i.name+'发表的文章',
-          // /<.+?>(.+?)<.+?>/
+          'title': i.title,
           'desc': i.content.replace(/<[^>]+>|&[^>]+;/g,"").trim(),
           'detail': i.content,
           'id':i.id,

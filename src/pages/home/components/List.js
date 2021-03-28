@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-22 16:26:14
+ * @LastEditTime: 2021-03-28 16:26:41
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -34,7 +34,7 @@ function List(props) {
   }
 
   const goToDetail = async(id)=>{
-    props.history.push('/detail/' + id)
+    window.open('/detail/' + id)
   }
 
   const getMore = ()=>{
@@ -58,7 +58,7 @@ function List(props) {
               {/* <p className='desc'>{item.get('desc')}</p> */}
               <div className='desc' onClick={()=>goToDetail(item.get('id'))} dangerouslySetInnerHTML={{__html: item.get('desc')}}/>
             </ListInfo>
-            <span onClick={()=>handleDelete(item.get('id'))}>删除</span>
+            {/* <span onClick={()=>handleDelete(item.get('id'))}>删除</span> */}
           </ListItem>
           // </Link>
         ))

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 23:30:35
+ * @LastEditTime: 2021-03-28 16:24:46
  */
 import 'antd/dist/antd.css'
 import { BrowserRouter,Route } from "react-router-dom";
@@ -10,7 +10,6 @@ import Home from './pages/home'
 import Write from './pages/write'
 import Trash from './pages/trash'
 import TrashDetail from './pages/detail/trashIndex'
-import Header from './common/header'
 import Detail from './pages/detail/loadable.js';
 import { GlobalIconStyled } from './statics/iconfont/iconfont';
 import { GlobalStyled } from './style.js';

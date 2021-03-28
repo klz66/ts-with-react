@@ -1,12 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 16:09:03
+ * @LastEditTime: 2021-03-28 18:13:28
  */
 import axios from 'axios'
 
 const authedAxios = axios.create({
-  timeout: 20000
+  timeout: 20000,
 })
 
 // 添加请求拦截器

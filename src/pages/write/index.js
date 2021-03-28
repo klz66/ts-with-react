@@ -1,21 +1,32 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 23:25:26
+ * @LastEditTime: 2021-03-28 18:25:25
  */
-import React, { useRef } from 'react';
+import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
 import http from '@/utils/request'
-import { notification  } from 'antd';
+import { notification,List  } from 'antd';
 import {demoUrl,uploadUrl} from '@/utils/utils';
 // import './index.css';
 import { Editor } from '@tinymce/tinymce-react';
 import './index.less'
+var _ = require('lodash');
 
 
 function Write(props) {
-  console.log(localStorage);
   let editorRef = useRef()
+  let [draftList,setDraftList] = useState([]);
+  useEffect(() => {
+    async function fn(){
+      let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDraftList`);
+      if(res.code === 20000) {
+        console.log(res,'获取相应用户的草稿箱');
+        console.log(res.data.list);
+      }
+    }
+    fn();
+  },[]);
   const handleEditorChange = (content, editor) => {
     console.log('Content was updated:', content);
   };
@@ -33,6 +44,7 @@ function Write(props) {
     }
     let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
     const params = {
+      "title": formatTitle(content),
       "content": content,
       'name': 'kl',
       'authorId': memberInfo.id
@@ -43,7 +55,42 @@ function Write(props) {
     }
     
   }
+  function formatTitle(content) {
+    if(!_.isEmpty(content.match(/((?<=<h1>).+?)(?=<\/h1>)/))) {
+      return content.match(/((?<=<h1>).+?)(?=<\/h1>)/)[0];
+    }
+    else if(!_.isEmpty(content.match(/((?<=<h2>).+?)(?=<\/h2>)/))) {
+      return content.match(/((?<=<h2>).+?)(?=<\/h2>)/)[0]
+    }
+    else if(!_.isEmpty(content.match(/((?<=<h3>).+?)(?=<\/h3>)/))) {
+      return content.match(/((?<=<h3>).+?)(?=<\/h3>)/)[0]
+    }
+    else if(!_.isEmpty(content.match(/((?<=<h4>).+?)(?=<\/h4>)/))) {
+      return content.match(/((?<=<h4>).+?)(?=<\/h4>)/)[0]
+    }
+    else if(!_.isEmpty(content.match(/((?<=<h5>).+?)(?=<\/h5>)/))) {
+      return content.match(/((?<=<h5>).+?)(?=<\/h5>)/)[0]
+    }
+    else if(!_.isEmpty(content.match(/((?<=<h6>).+?)(?=<\/h6>)/))) {
+      return content.match(/((?<=<h6>).+?)(?=<\/h6>)/)[0]
+    }
+    else{
+      return '无标题'
+    } 
+  }
+  
 			return (
+        <div style={{display:'flex'}}>
+          <div style={{width:'180px',marginRight:'50px'}}>
+            <List
+              size="small"
+              header={<div>新建文章</div>}
+              footer={<div>清除草稿箱</div>}
+              bordered
+              dataSource={draftList}
+              renderItem={item => <List.Item>{item}</List.Item>}
+            />
+          </div>
 				<div className='content'>
           <Editor
             ref={editorRef}
@@ -52,7 +99,7 @@ function Write(props) {
             selecector='editorStateRef'
             init={{
             height: 500,
-            width:1000,
+            width:900,
             language:'zh_CN',
             images_upload_handler: async function (blobInfo, succFun, failFun) {
               let formData = new FormData();
@@ -99,6 +146,8 @@ function Write(props) {
           }}
           onEditorChange={handleEditorChange}
         />
+        </div>
+
         </div>
 			)
   
