@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 16:26:41
+ * @LastEditTime: 2021-03-28 21:44:02
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -39,7 +39,7 @@ function List(props) {
 
   const getMore = ()=>{
     setCurrent(current+1)
-    props.getMoreList(current)
+    props.getMoreList(current+1)
   }
 
   return (

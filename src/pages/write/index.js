@@ -1,17 +1,17 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 19:59:45
+ * @LastEditTime: 2021-03-28 21:41:36
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
 import http from '@/utils/request'
 import { notification,List  } from 'antd';
 import {demoUrl,uploadUrl} from '@/utils/utils';
-// import './index.css';
 
-// import tinyMCE from 'tinymce/tinymce';
+import tinyMce from 'tinymce/tinymce';
 import { Editor } from '@tinymce/tinymce-react';
+
 import './index.less'
 var _ = require('lodash');
 
@@ -24,19 +24,20 @@ function Write(props) {
     updateDraftList();
   },[]);
   const changeContent = (item)=>{
-    console.log(editorRef.current);
+    localStorage.setItem('blogId',item.id)
+    console.log(item);
+    let trialDom=tinyMce.activeEditor.contentDocument
+    let dom=trialDom.getElementById('tinymce')
+    dom.innerHTML=item.content
   }
   async function updateDraftList(){
     let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDraftList`);
     if(res.code === 20000) {
-      console.log(res,'获取相应用户的草稿箱');
-      let ASSS= res.data.list.map(i=>i.gmtCreate)
-      console.log(ASSS,'获取相应用户的草稿箱');
       setDraftList(res.data.list.map(i=>({
+        id: i.id,
         title: i.title==='无标题'? i.gmtCreate.slice(0,10):i.title,
         content: i.content
       })))
-      // console.log(draftList,2020);
     }
   }
   const handleEditorChange = (content, editor) => {
@@ -47,7 +48,25 @@ function Write(props) {
       message: '发表成功',
     });
   };
+  const handAdd = async() =>{
+    localStorage.setItem('blogId','')
+    let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
+    const params = {
+      'title':'无标题',
+      'name': 'kl',
+      'authorId': memberInfo.id
+    }
+    let res = await http.post(`${demoUrl}/blogservice/blog-curd/saveDraftBlog`,params);
+    if(res.code === 20000) {
+      notification['success']({
+        message: '新增成功成功',
+      });
+      updateDraftList();
+    }
+  }
   const handSave = async(content) =>{
+    console.log(localStorage.getItem('blogId'));
+    let blogId = localStorage.getItem('blogId')
     if(content.length === 0) {
       notification['error']({
         message: '内容不能为空'
@@ -56,6 +75,7 @@ function Write(props) {
     }
     let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
     const params = {
+      "id": blogId,
       "title": formatTitle(content),
       "content": content,
       'name': 'kl',
@@ -77,35 +97,52 @@ function Write(props) {
       return
     }
     let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
-    const params = {
-      "title": formatTitle(content),
-      "content": content,
-      'name': 'kl',
-      'authorId': memberInfo.id
-    }
-    let res = await http.post(`${demoUrl}/blogservice/blog-curd/addBlog`,params);
-    if(res.code === 20000) {
-      openNotificationWithIcon('success')
+
+    if(localStorage.getItem('blogId')){
+      const params = {
+        "id": localStorage.getItem('blogId'),
+        "title": formatTitle(content),
+        "content": content,
+        'name': 'kl',
+        'authorId': memberInfo.id
+      }
+      let res = await http.post(`${demoUrl}/blogservice/blog-curd/updateDraftBlog`,params);
+      if(res.code === 20000) {
+        openNotificationWithIcon('success')
+        updateDraftList();
+      }
+    }else {
+      const params = {
+        "title": formatTitle(content),
+        "content": content,
+        'name': 'kl',
+        'authorId': memberInfo.id
+      }
+      let res = await http.post(`${demoUrl}/blogservice/blog-curd/addBlog`,params);
+      if(res.code === 20000) {
+        openNotificationWithIcon('success')
+      }
     }
   }
   function formatTitle(content) {
+    var re1 = new RegExp("<.+?>","g");//匹配html标签的正则表达式，"g"是搜索匹配多个符合的内容
     if(!_.isEmpty(content.match(/((?<=<h1>).+?)(?=<\/h1>)/))) {
-      return content.match(/((?<=<h1>).+?)(?=<\/h1>)/)[0];
+      return content.match(/((?<=<h1>).+?)(?=<\/h1>)/)[0].replace(re1,'');
     }
     else if(!_.isEmpty(content.match(/((?<=<h2>).+?)(?=<\/h2>)/))) {
-      return content.match(/((?<=<h2>).+?)(?=<\/h2>)/)[0]
+      return content.match(/((?<=<h2>).+?)(?=<\/h2>)/)[0].replace(re1,'');
     }
     else if(!_.isEmpty(content.match(/((?<=<h3>).+?)(?=<\/h3>)/))) {
-      return content.match(/((?<=<h3>).+?)(?=<\/h3>)/)[0]
+      return content.match(/((?<=<h3>).+?)(?=<\/h3>)/)[0].replace(re1,'');
     }
     else if(!_.isEmpty(content.match(/((?<=<h4>).+?)(?=<\/h4>)/))) {
-      return content.match(/((?<=<h4>).+?)(?=<\/h4>)/)[0]
+      return content.match(/((?<=<h4>).+?)(?=<\/h4>)/)[0].replace(re1,'');
     }
     else if(!_.isEmpty(content.match(/((?<=<h5>).+?)(?=<\/h5>)/))) {
-      return content.match(/((?<=<h5>).+?)(?=<\/h5>)/)[0]
+      return content.match(/((?<=<h5>).+?)(?=<\/h5>)/)[0].replace(re1,'');
     }
     else if(!_.isEmpty(content.match(/((?<=<h6>).+?)(?=<\/h6>)/))) {
-      return content.match(/((?<=<h6>).+?)(?=<\/h6>)/)[0]
+      return content.match(/((?<=<h6>).+?)(?=<\/h6>)/)[0].replace(re1,'');
     }
     else{
       return '无标题'
@@ -117,7 +154,7 @@ function Write(props) {
           <div style={{width:'180px',marginRight:'50px'}}>
             <List
               size="small"
-              header={<div>新建文章</div>}
+              header={<div onClick={()=>handAdd()}>新建文章</div>}
               footer={<div>清除草稿箱</div>}
               bordered
               dataSource={draftList}
