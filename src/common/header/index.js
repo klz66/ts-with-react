@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 23:33:27
+ * @LastEditTime: 2021-03-29 17:21:29
  */
 
 import 'antd/dist/antd.css'
@@ -94,6 +94,14 @@ function Header(props) {
   const toRegister = () => {
     props.history.push( {pathname:'/login',state:{login:false}});
   }
+  const handWrite = () => {
+    if(localStorage.getItem('token')){
+      props.history.push( {pathname:'/write'});
+    } else {
+      props.history.push( {pathname:'/login'});
+    }
+    
+  }
   const toLogin = () => {
     props.history.push( {pathname:'/login',state:{login:true}});
   }
@@ -113,9 +121,12 @@ function Header(props) {
           <Logo/>
         </Link>
         <Nav>
-         <NavItem className='left' style={{color: props.showTab===2 &&'red'}} onClick={()=>{props.changeShowTab(2)}}>关注</NavItem>
+          {localStorage.getItem('token') && <NavItem className='left' style={{color: props.showTab===2 &&'red'}} onClick={()=>{props.changeShowTab(2)}}>关注</NavItem>}
+          <NavItem className='left' style={{color: props.showTab===1 &&'red'}} onClick={()=>{props.changeShowTab(1)}}>发现</NavItem>
+          {localStorage.getItem('token') && <NavItem className='left' style={{color: props.showTab===3 &&'red'}} onClick={()=>{props.changeShowTab(3)}}>消息</NavItem>}
+         {/* <NavItem className='left' style={{color: props.showTab===2 &&'red'}} onClick={()=>{props.changeShowTab(2)}}>关注</NavItem>
          <NavItem className='left' style={{color: props.showTab===1 &&'red'}} onClick={()=>{props.changeShowTab(1)}}>发现</NavItem>
-         <NavItem className='left' style={{color: props.showTab===3 &&'red'}} onClick={()=>{props.changeShowTab(3)}}>消息</NavItem>
+         <NavItem className='left' style={{color: props.showTab===3 &&'red'}} onClick={()=>{props.changeShowTab(3)}}>消息</NavItem> */}
          <SearchWrapper>
           <CSSTransition
             in={focused}
@@ -136,14 +147,10 @@ function Header(props) {
         </Nav>
   
         <Addition>
-  
-          <Link to='/write'>
-              <Button className='writting'>
-                <i className="iconfont">&#xe742;</i>
-                写文章
-              </Button>
-            </Link>
-           
+            <Button className='writting' onClick={handWrite}>
+              <i className="iconfont">&#xe742;</i>
+              写文章
+            </Button>
             {
               !localStorage.getItem('token') && isLogin()
             }

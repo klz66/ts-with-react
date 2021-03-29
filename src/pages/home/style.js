@@ -54,20 +54,20 @@ export const ListItem = styled.div`
 	overflow: hidden;
 	padding: 20px 0;
 	border-bottom: 1px solid #dcdcdc;
+  display: flex;
+  justify-content: space-between;
 	.pic {
 		width: 125px;
     height: 60px;
     float: right;
     border-radius: 10px;
-    position: absolute;
-    right: 130px;
 	}
 `;
 
 export const ListInfo =	styled.div`
 	width: 500px;
-	float: left;
-  height: 50px;
+  flex: 1;
+  height: 60px;
   overflow:hidden;
 	.title {
 		line-height: 27px;
