@@ -1,20 +1,22 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-29 08:28:08
+ * @LastEditTime: 2021-03-29 23:48:59
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
 import http from '@/utils/request'
-import { notification,List  } from 'antd';
+import { notification,List,Popconfirm  } from 'antd';
 import {demoUrl,uploadUrl} from '@/utils/utils';
 
 import zh_CN from '../../../public/tinymce/langs/zh_CN';
 import tinyMce from 'tinymce/tinymce';
 import { Editor } from '@tinymce/tinymce-react';
-
+import { StopOutlined } from '@ant-design/icons';
 import './index.less'
 var _ = require('lodash');
+
+
 
 
 function Write(props) {
@@ -22,7 +24,7 @@ function Write(props) {
   let [draftList,setDraftList] = useState([]);
   localStorage.removeItem('blogId')
   useEffect(() => {
-    updateDraftList();
+    updateDraftList(); 
   },[]);
   const changeContent = (item)=>{
     localStorage.setItem('blogId',item.id)
@@ -60,7 +62,7 @@ function Write(props) {
     let res = await http.post(`${demoUrl}/blogservice/blog-curd/saveDraftBlog`,params);
     if(res.code === 20000) {
       notification['success']({
-        message: '新增成功成功',
+        message: '新增成功',
       });
       updateDraftList();
     }
@@ -125,6 +127,25 @@ function Write(props) {
       }
     }
   }
+  async function confirmDelete(id){
+    let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/forever/${id}`);
+    if(res.data.code === 20000) {
+      notification['success']({
+        message: '删除成功',
+      });
+      updateDraftList()
+    }
+  }
+  async function confirmDeleteAll(){
+    let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
+    let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/draft/all/${memberInfo.id}`);
+    if(res.data.code === 20000) {
+      notification['success']({
+        message: '清除成功',
+      });
+      updateDraftList()
+    }
+  }
   function formatTitle(content) {
     var re1 = new RegExp("<.+?>","g");//匹配html标签的正则表达式，"g"是搜索匹配多个符合的内容
     if(!_.isEmpty(content.match(/((?<=<h1>).+?)(?=<\/h1>)/))) {
@@ -151,20 +172,40 @@ function Write(props) {
   }
   
 			return (
-        <div style={{display:'flex'}}>
+        <div style={{display:'flex',height:'100vh'}}>
           <div style={{width:'180px',marginRight:'50px'}}>
+            
             <List
               size="small"
+              style = {{overflowY:'scroll'}}
               header={<div onClick={()=>handAdd()}>新建文章</div>}
-              footer={<div>清除草稿箱</div>}
+              footer={
+                <Popconfirm
+                title="确定清除草稿箱？"
+                onConfirm={()=>confirmDeleteAll()}
+                okText="Yes"
+                cancelText="No"
+              ><div>             
+              清除草稿箱
+              </div>
+              </Popconfirm>
+              }
               bordered
               dataSource={draftList}
-              renderItem={item => <List.Item onClick={()=>{
+              renderItem={item => <List.Item style={{display:'flex',justifyContent:'space-between'}} onClick={()=>{
                 changeContent(item);
-              }}>{item.title}</List.Item>}
+              }}>{item.title} 
+              <Popconfirm
+                title="确认删除此草稿"
+                onConfirm={()=>confirmDelete(item.id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <StopOutlined />
+              </Popconfirm></List.Item>}
             />
           </div>
-				<div className='content'>
+				<div>
           <Editor
             ref={editorRef}
             initialValue={'请输入'}

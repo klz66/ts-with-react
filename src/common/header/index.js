@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-29 17:21:29
+ * @LastEditTime: 2021-03-29 22:01:40
  */
 
 import 'antd/dist/antd.css'
@@ -10,7 +10,6 @@ import  {  actionCreators  }  from "./store";
 import { Link,withRouter } from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
 import { Menu, Dropdown, Avatar } from 'antd';
-import { actionCreators as loginActionCreators } from '../../pages/login/store'
 import { DownCircleTwoTone } from '@ant-design/icons';
 import {
 	HeaderWrapper,
@@ -96,9 +95,9 @@ function Header(props) {
   }
   const handWrite = () => {
     if(localStorage.getItem('token')){
-      props.history.push( {pathname:'/write'});
+      props.history.push('/write');
     } else {
-      props.history.push( {pathname:'/login'});
+      props.history.push('/login');
     }
     
   }
@@ -207,9 +206,6 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(actionCreators.getPage(0))
     }
   },
-  // loginOut(){
-  //   dispatch(loginActionCreators.logout())
-  // },
   loginIn(){
   }
 })
