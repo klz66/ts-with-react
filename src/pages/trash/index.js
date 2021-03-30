@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 16:39:25
+ * @LastEditTime: 2021-03-30 17:55:54
  */
 /*
  * @Description: 
@@ -74,12 +74,14 @@ function List(props) {
         {
           'key': i.id,
           'title': i.title,
-          'desc': i.content.replace(/<[^>]+>|&[^>]+;/g,"").trim(),
+          'desc': i.content.replace(/<[^>]+>|&[^>]+;/g,"").trim().slice(0,20),
           'detail': i.content,
           'id':i.id,
-          
-          // 'imgUrl':'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2084631030,3185655172&fm=26&gp=0.jpg'
-        }));
+          'gmtCreate':i.gmtCreate,
+          'gmtModified':i.gmtModified,
+          'collectedNum':i.collectedNum,
+          'zangNum':i.zangNum,
+         }));
       setData(articleList)
     }
     // console.log();
@@ -117,8 +119,12 @@ function List(props) {
           dataSource={data}
           onChange={handleTableChange}
         >
-          <Table.Column title="Title" dataIndex="title" />
-          <Table.Column title="Desc" dataIndex="desc"  />
+          <Table.Column title="标题" dataIndex="title" />
+          <Table.Column title="内容" dataIndex="desc"  />
+          <Table.Column title="点赞" dataIndex="collectedNum"  />
+          <Table.Column title="收藏" dataIndex="zangNum"  />
+          <Table.Column title="创建时间" dataIndex="gmtCreate"  />
+          <Table.Column title="修改时间" dataIndex="gmtModified"  />
           <Table.Column
             title="Action"
             key="action"

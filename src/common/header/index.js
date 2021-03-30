@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-29 22:01:40
+ * @LastEditTime: 2021-03-30 20:09:36
  */
 
 import 'antd/dist/antd.css'
@@ -10,7 +10,7 @@ import  {  actionCreators  }  from "./store";
 import { Link,withRouter } from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
 import { Menu, Dropdown, Avatar } from 'antd';
-import { DownCircleTwoTone } from '@ant-design/icons';
+import { CaretDownFilled ,SettingOutlined,UserOutlined,HeartOutlined,InteractionOutlined ,PoweroffOutlined} from '@ant-design/icons';
 import {
 	HeaderWrapper,
 	Logo,
@@ -28,6 +28,7 @@ import {
 } from './style';
  
 import React from 'react';
+{/* <UserOutlined /> */}
 function Header(props) {
   let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
   const {page,totalPage,focused,mouseIn,list,changeFocusOn,changeFocusOff,handMouseIn,handMouseOut,changePage}=props;
@@ -75,16 +76,29 @@ function Header(props) {
     <Menu>
       <Menu.Item>
         <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        <UserOutlined/>
           个人主页
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-          个人设置
+        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        <HeartOutlined/>
+          收藏文章
         </a>
       </Menu.Item>
       <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+          <SettingOutlined />
+          个人设置
+        </a>
+      </Menu.Item>
+      <Menu.Item onClick={()=>{ props.history.push('recycle')}}>
+          <InteractionOutlined/>
+          回收站
+      </Menu.Item>
+      <Menu.Item>
         <span target="_blank" onClick={()=>{handleOut()}}>
+          <PoweroffOutlined/>
           退出
         </span>
       </Menu.Item>
@@ -108,8 +122,7 @@ function Header(props) {
     return (
       <>
        <Button onClick={()=>toRegister()} className='reg'>注册</Button>
-         <NavItem onClick={()=>toLogin()} className='right'>登录</NavItem>
-          {/* <NavItem onClick={()=>props.loginIn()} className='right'>注册</NavItem> */}
+        <NavItem onClick={()=>toLogin()} className='right'>登录</NavItem>
       </>   
     )
   }
@@ -156,9 +169,9 @@ function Header(props) {
             {
               localStorage.getItem('token') &&  
               <Dropdown overlay={menu} placement="bottomCenter">
-                <div style={{float:'right',marginTop: '9px'}}>
+                <div style={{float:'right',marginTop: '9px',marginRight:'10px'}}>
                 <Avatar src={memberInfo?.avatar}></Avatar>
-                <DownCircleTwoTone color='red'/>
+                <CaretDownFilled  color='red'/>
                 </div>
               </Dropdown>
             }
