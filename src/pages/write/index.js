@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-30 15:27:39
+ * @LastEditTime: 2021-03-31 01:23:42
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -18,8 +18,8 @@ var _ = require('lodash');
 
 
 
-
 function Write(props) {
+  let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
   let editorRef = useRef()
   let [draftList,setDraftList] = useState([]);
   let [actice,setActice] = useState(-1);
@@ -28,20 +28,16 @@ function Write(props) {
     updateDraftList(); 
   },[]);
   useEffect(() => {
-    if(draftList.length===0){
-      console.log(2020);
-      localStorage.setItem('blogId',null)
-      console.log('没有文章了',localStorage.getItem('blogId'));
-    }
     if(draftList.length===1){
       setActice(0)
       changeContent(0)
     }
   },[draftList]);
   function changeContent(index,item) {
+    setActice(index)
+    console.log(draftList);
     if(draftList.length>0){
       let item = draftList[index]
-      setActice(index)
       localStorage.setItem('blogId',item.id)
       let trialDom=tinyMce.activeEditor.contentDocument
       if(trialDom){
@@ -55,7 +51,6 @@ function Write(props) {
         },1000)
       }
     }
-    
   }
   async function updateDraftList(){
     let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDraftList`);
@@ -66,6 +61,15 @@ function Write(props) {
         content: i.content
       })))
     }
+    if(res.data.list.length === 0){
+      setTimeout(function(){
+        let trialDom=tinyMce.activeEditor.contentDocument
+        let dom=trialDom.getElementById('tinymce')
+        dom.innerHTML=null
+        localStorage.setItem('blogId',null)
+      },400)
+    }
+    
     changeContent(actice)
   }
   const handleEditorChange = (content, editor) => {
@@ -83,10 +87,9 @@ function Write(props) {
     let trialDom=tinyMce.activeEditor.contentDocument
     let dom=trialDom.getElementById('tinymce')
     dom.innerHTML=null
-    let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
     const params = {
       'title':'无标题',
-      'name': 'kl',
+      'name': memberInfo.nickname,
       'authorId': memberInfo.id
     }
     let res = await http.post(`${demoUrl}/blogservice/blog-curd/saveDraftBlog`,params);
@@ -104,7 +107,7 @@ function Write(props) {
     }
   }
   async function handleSave(content){
-    console.log(localStorage.getItem('blogId'));
+    console.log(draftList)
     if(localStorage.getItem('blogId').length!==19){
       notification['error']({
         message: '请先选择文章'
@@ -120,12 +123,11 @@ function Write(props) {
       })
       return
     }
-    let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
     const params = {
       "id": blogId,
       "title": formatTitle(content),
       "content": content,
-      'name': 'kl',
+      'name': memberInfo.nickname,
       'authorId': memberInfo.id
     }
     let res = await http.post(`${demoUrl}/blogservice/blog-curd/saveDraftBlog`,params);
@@ -138,36 +140,6 @@ function Write(props) {
   }
   const handSave = async(content) =>{
     handleSave(content)
-    // console.log(localStorage.getItem('blogId'));
-    // console.log(Boolean(localStorage.getItem('blogId')));
-    // if(Boolean(localStorage.getItem('blogId'))){
-    //   notification['error']({
-    //     message: '请先选择文章'
-    //   })
-    //   return
-    // }
-    // let blogId = localStorage.getItem('blogId')
-    // if(content.length === 0) {
-    //   notification['error']({
-    //     message: '内容不能为空'
-    //   })
-    //   return
-    // }
-    // let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
-    // const params = {
-    //   "id": blogId,
-    //   "title": formatTitle(content),
-    //   "content": content,
-    //   'name': 'kl',
-    //   'authorId': memberInfo.id
-    // }
-    // let res = await http.post(`${demoUrl}/blogservice/blog-curd/saveDraftBlog`,params);
-    // if(res.code === 20000) {
-    //   notification['success']({
-    //     message: '保存成功',
-    //   });
-    //   updateDraftList();
-    // }
   }
   const handPost = async(content) =>{
     console.log(localStorage.getItem('blogId'));
@@ -183,7 +155,6 @@ function Write(props) {
       })
       return
     }
-    let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
     if(formatTitle(content).length>30){
       notification['error']({
         message: '标题长度太长'
@@ -195,7 +166,6 @@ function Write(props) {
         "id": localStorage.getItem('blogId'),
         "title": formatTitle(content),
         "content": content,
-        'name': 'kl',
         'authorId': memberInfo.id
       }
       let res = await http.post(`${demoUrl}/blogservice/blog-curd/updateDraftBlog`,params);
@@ -204,10 +174,12 @@ function Write(props) {
         updateDraftList();
       }
     }else {
+
+
       const params = {
         "title": formatTitle(content),
         "content": content,
-        'name': 'kl',
+        'name': memberInfo.nickname,
         'authorId': memberInfo.id
       }
       let res = await http.post(`${demoUrl}/blogservice/blog-curd/addBlog`,params);
@@ -226,14 +198,14 @@ function Write(props) {
     }
   }
   async function confirmDeleteAll(){
-    let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
     let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/draft/all/${memberInfo.id}`);
     if(res.data.code === 20000) {
       notification['success']({
         message: '清除成功',
       });
       localStorage.setItem('blogId',null)
-      updateDraftList()
+      setTimeout( updateDraftList(),200)
+      // updateDraftList()
     }
   }
   function formatTitle(content) {

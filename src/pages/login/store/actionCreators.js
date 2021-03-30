@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 18:15:18
+ * @LastEditTime: 2021-03-30 23:40:00
  */
 import { notification } from 'antd';
 import * as constants from './constants';
@@ -60,7 +60,8 @@ export const register = (account, password) => {
     }
     let params = {
       account,
-      password
+      password,
+      nickname:'新用户'
     }
     let res = await http.post(`${demoUrl}/blogservice/blog-member/register`,params);
     if(res.code === 20000) {
