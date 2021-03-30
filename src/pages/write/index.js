@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-29 23:48:59
+ * @LastEditTime: 2021-03-30 15:27:39
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -12,7 +12,7 @@ import {demoUrl,uploadUrl} from '@/utils/utils';
 import zh_CN from '../../../public/tinymce/langs/zh_CN';
 import tinyMce from 'tinymce/tinymce';
 import { Editor } from '@tinymce/tinymce-react';
-import { StopOutlined } from '@ant-design/icons';
+import { StopOutlined,CheckCircleOutlined } from '@ant-design/icons';
 import './index.less'
 var _ = require('lodash');
 
@@ -22,26 +22,51 @@ var _ = require('lodash');
 function Write(props) {
   let editorRef = useRef()
   let [draftList,setDraftList] = useState([]);
-  localStorage.removeItem('blogId')
+  let [actice,setActice] = useState(-1);
+
   useEffect(() => {
     updateDraftList(); 
   },[]);
-  const changeContent = (item)=>{
-    localStorage.setItem('blogId',item.id)
-    console.log(item);
-    let trialDom=tinyMce.activeEditor.contentDocument
-    let dom=trialDom.getElementById('tinymce')
-    dom.innerHTML=item.content
+  useEffect(() => {
+    if(draftList.length===0){
+      console.log(2020);
+      localStorage.setItem('blogId',null)
+      console.log('没有文章了',localStorage.getItem('blogId'));
+    }
+    if(draftList.length===1){
+      setActice(0)
+      changeContent(0)
+    }
+  },[draftList]);
+  function changeContent(index,item) {
+    if(draftList.length>0){
+      let item = draftList[index]
+      setActice(index)
+      localStorage.setItem('blogId',item.id)
+      let trialDom=tinyMce.activeEditor.contentDocument
+      if(trialDom){
+        let dom=trialDom.getElementById('tinymce')
+        dom.innerHTML=item.content
+      } else{
+        setTimeout(function(){
+          let trialDom=tinyMce.activeEditor.contentDocument
+          let dom=trialDom.getElementById('tinymce')
+          dom.innerHTML=item.content
+        },1000)
+      }
+    }
+    
   }
   async function updateDraftList(){
     let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDraftList`);
     if(res.code === 20000) {
       setDraftList(res.data.list.map(i=>({
         id: i.id,
-        title: i.title==='无标题'? i.gmtCreate.slice(0,10):i.title,
+        title: i.title==='无标题'? i.gmtCreate.slice(0,10):i.title.slice(0,10),
         content: i.content
       })))
     }
+    changeContent(actice)
   }
   const handleEditorChange = (content, editor) => {
     console.log('Content was updated:', content);
@@ -50,9 +75,14 @@ function Write(props) {
     notification[type]({
       message: '发表成功',
     });
+    let trialDom=tinyMce.activeEditor.contentDocument
+    let dom=trialDom.getElementById('tinymce')
+    dom.innerHTML=''
   };
   const handAdd = async() =>{
-    localStorage.setItem('blogId','')
+    let trialDom=tinyMce.activeEditor.contentDocument
+    let dom=trialDom.getElementById('tinymce')
+    dom.innerHTML=null
     let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
     const params = {
       'title':'无标题',
@@ -64,11 +94,25 @@ function Write(props) {
       notification['success']({
         message: '新增成功',
       });
-      updateDraftList();
+      let params = {
+        ...res.data.item,
+        title: res.data.item.gmtCreate.slice(0,10)
+      }
+      setActice(0)
+      let list = [params,...draftList]
+      setDraftList(list)
     }
   }
-  const handSave = async(content) =>{
+  async function handleSave(content){
     console.log(localStorage.getItem('blogId'));
+    if(localStorage.getItem('blogId').length!==19){
+      notification['error']({
+        message: '请先选择文章'
+      })
+      return
+    } else {
+      console.log(localStorage.getItem('blogId'));
+    }
     let blogId = localStorage.getItem('blogId')
     if(content.length === 0) {
       notification['error']({
@@ -92,15 +136,60 @@ function Write(props) {
       updateDraftList();
     }
   }
+  const handSave = async(content) =>{
+    handleSave(content)
+    // console.log(localStorage.getItem('blogId'));
+    // console.log(Boolean(localStorage.getItem('blogId')));
+    // if(Boolean(localStorage.getItem('blogId'))){
+    //   notification['error']({
+    //     message: '请先选择文章'
+    //   })
+    //   return
+    // }
+    // let blogId = localStorage.getItem('blogId')
+    // if(content.length === 0) {
+    //   notification['error']({
+    //     message: '内容不能为空'
+    //   })
+    //   return
+    // }
+    // let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
+    // const params = {
+    //   "id": blogId,
+    //   "title": formatTitle(content),
+    //   "content": content,
+    //   'name': 'kl',
+    //   'authorId': memberInfo.id
+    // }
+    // let res = await http.post(`${demoUrl}/blogservice/blog-curd/saveDraftBlog`,params);
+    // if(res.code === 20000) {
+    //   notification['success']({
+    //     message: '保存成功',
+    //   });
+    //   updateDraftList();
+    // }
+  }
   const handPost = async(content) =>{
-    if(content.length === 0) {
+    console.log(localStorage.getItem('blogId'));
+    if(localStorage.getItem('blogId')===null){
+      notification['error']({
+        message: '请先选择文章'
+      })
+      return
+    }
+    if(content === null || content.length === 0) {
       notification['error']({
         message: '内容不能为空'
       })
       return
     }
     let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
-
+    if(formatTitle(content).length>30){
+      notification['error']({
+        message: '标题长度太长'
+      })
+      return
+    } 
     if(localStorage.getItem('blogId')){
       const params = {
         "id": localStorage.getItem('blogId'),
@@ -143,6 +232,7 @@ function Write(props) {
       notification['success']({
         message: '清除成功',
       });
+      localStorage.setItem('blogId',null)
       updateDraftList()
     }
   }
@@ -192,9 +282,18 @@ function Write(props) {
               }
               bordered
               dataSource={draftList}
-              renderItem={item => <List.Item style={{display:'flex',justifyContent:'space-between'}} onClick={()=>{
-                changeContent(item);
-              }}>{item.title} 
+              renderItem={(item,index) => <List.Item style={{display:'flex',justifyContent:'space-between',backgroundColor: index === actice?'#ddd':''}} onClick={()=>{
+                changeContent(index,item);
+              }}>{item.title}
+              <div className='icon-margin'>
+              <Popconfirm
+                title="确认直接发表"
+                onConfirm={()=>handPost(item.content)}
+                okText="Yes"
+                cancelText="No"
+              >
+              <CheckCircleOutlined  />
+              </Popconfirm>
               <Popconfirm
                 title="确认删除此草稿"
                 onConfirm={()=>confirmDelete(item.id)}
@@ -202,13 +301,15 @@ function Write(props) {
                 cancelText="No"
               >
                 <StopOutlined />
-              </Popconfirm></List.Item>}
+              </Popconfirm>
+              </div>
+              </List.Item>}
             />
           </div>
 				<div>
           <Editor
             ref={editorRef}
-            initialValue={'请输入'}
+            initialValue={''}
             apiKey='i24scrj5aegi7posl2kwbygrvkcgywqul11wtqrwoltystrh'
             selecector='editorStateRef'
             init={{
