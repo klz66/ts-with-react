@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-31 00:03:13
+ * @LastEditTime: 2021-03-31 08:10:34
  */
 import 'antd/dist/antd.css'
 import { BrowserRouter,Route } from "react-router-dom";
@@ -23,7 +23,8 @@ function App(props) {
   useEffect(()=>{
     console.log(2020);
     console.log(window.localStorage.getItem('token'));
-  },[])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[localStorage.getItem('token')])
   return (
     <div>
       <GlobalIconStyled />

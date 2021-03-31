@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-31 01:23:42
+ * @LastEditTime: 2021-03-31 08:56:00
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -26,29 +26,43 @@ function Write(props) {
 
   useEffect(() => {
     updateDraftList(); 
-  },[]);
-  useEffect(() => {
-    if(draftList.length===1){
-      setActice(0)
-      changeContent(0)
-    }
-  },[draftList]);
+    console.log(actice);
+
+  },[actice]);
+  // useEffect(() => {
+  //   if(draftList.length===1){
+  //     setTimeout(function(){
+  //       setActice(0)
+  //       changeContent(0)
+  //     },200)
+      
+  //   }
+  // },[draftList]);
   function changeContent(index,item) {
     setActice(index)
     console.log(draftList);
     if(draftList.length>0){
       let item = draftList[index]
-      localStorage.setItem('blogId',item.id)
+      
       let trialDom=tinyMce.activeEditor.contentDocument
       if(trialDom){
         let dom=trialDom.getElementById('tinymce')
-        dom.innerHTML=item.content
+        if(item){
+          setTimeout(function(){
+            console.log(item);
+            localStorage.setItem('blogId',item.id)
+            dom.innerHTML=item.content
+            
+          },400)
+        }
+
       } else{
         setTimeout(function(){
           let trialDom=tinyMce.activeEditor.contentDocument
           let dom=trialDom.getElementById('tinymce')
           dom.innerHTML=item.content
-        },1000)
+          localStorage.setItem('blogId',item.id)
+        },400)
       }
     }
   }
@@ -67,10 +81,11 @@ function Write(props) {
         let dom=trialDom.getElementById('tinymce')
         dom.innerHTML=null
         localStorage.setItem('blogId',null)
+        setActice(-1);
       },400)
     }
     
-    changeContent(actice)
+    // changeContent(actice)
   }
   const handleEditorChange = (content, editor) => {
     console.log('Content was updated:', content);
@@ -84,9 +99,6 @@ function Write(props) {
     dom.innerHTML=''
   };
   const handAdd = async() =>{
-    let trialDom=tinyMce.activeEditor.contentDocument
-    let dom=trialDom.getElementById('tinymce')
-    dom.innerHTML=null
     const params = {
       'title':'无标题',
       'name': memberInfo.nickname,
@@ -101,9 +113,16 @@ function Write(props) {
         ...res.data.item,
         title: res.data.item.gmtCreate.slice(0,10)
       }
-      setActice(0)
-      let list = [params,...draftList]
-      setDraftList(list)
+        let list = [params,...draftList]
+        setDraftList(list)
+        setActice(0)
+        setTimeout(function(){
+          let trialDom=tinyMce.activeEditor.contentDocument
+          let dom=trialDom.getElementById('tinymce')
+          dom.innerHTML=null
+          localStorage.setItem('blogId',res.data.item.id)
+        },400)
+
     }
   }
   async function handleSave(content){
@@ -142,7 +161,6 @@ function Write(props) {
     handleSave(content)
   }
   const handPost = async(content) =>{
-    console.log(localStorage.getItem('blogId'));
     if(localStorage.getItem('blogId')===null){
       notification['error']({
         message: '请先选择文章'
@@ -194,6 +212,13 @@ function Write(props) {
       notification['success']({
         message: '删除成功',
       });
+      setTimeout(function(){
+        let trialDom=tinyMce.activeEditor.contentDocument
+        let dom=trialDom.getElementById('tinymce')
+        dom.innerHTML=null
+        localStorage.setItem('blogId',null)
+        setActice(-1);
+      },400)
       updateDraftList()
     }
   }
@@ -203,6 +228,13 @@ function Write(props) {
       notification['success']({
         message: '清除成功',
       });
+      setTimeout(function(){
+        let trialDom=tinyMce.activeEditor.contentDocument
+        let dom=trialDom.getElementById('tinymce')
+        dom.innerHTML=null
+        localStorage.setItem('blogId',null)
+        setActice(-1);
+      },400)
       localStorage.setItem('blogId',null)
       setTimeout( updateDraftList(),200)
       // updateDraftList()
