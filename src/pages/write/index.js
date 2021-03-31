@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-31 08:56:00
+ * @LastEditTime: 2021-03-31 09:45:20
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -27,17 +27,10 @@ function Write(props) {
   useEffect(() => {
     updateDraftList(); 
     console.log(actice);
-
+    if(actice<0){
+      localStorage.removeItem('blogId')
+    }
   },[actice]);
-  // useEffect(() => {
-  //   if(draftList.length===1){
-  //     setTimeout(function(){
-  //       setActice(0)
-  //       changeContent(0)
-  //     },200)
-      
-  //   }
-  // },[draftList]);
   function changeContent(index,item) {
     setActice(index)
     console.log(draftList);
@@ -48,14 +41,10 @@ function Write(props) {
       if(trialDom){
         let dom=trialDom.getElementById('tinymce')
         if(item){
-          setTimeout(function(){
             console.log(item);
             localStorage.setItem('blogId',item.id)
             dom.innerHTML=item.content
-            
-          },400)
         }
-
       } else{
         setTimeout(function(){
           let trialDom=tinyMce.activeEditor.contentDocument
@@ -120,6 +109,7 @@ function Write(props) {
           let trialDom=tinyMce.activeEditor.contentDocument
           let dom=trialDom.getElementById('tinymce')
           dom.innerHTML=null
+          editorRef.current.currentContent = null
           localStorage.setItem('blogId',res.data.item.id)
         },400)
 
@@ -192,8 +182,6 @@ function Write(props) {
         updateDraftList();
       }
     }else {
-
-
       const params = {
         "title": formatTitle(content),
         "content": content,
@@ -216,6 +204,7 @@ function Write(props) {
         let trialDom=tinyMce.activeEditor.contentDocument
         let dom=trialDom.getElementById('tinymce')
         dom.innerHTML=null
+        editorRef.current.currentContent = null
         localStorage.setItem('blogId',null)
         setActice(-1);
       },400)
@@ -233,11 +222,10 @@ function Write(props) {
         let dom=trialDom.getElementById('tinymce')
         dom.innerHTML=null
         localStorage.setItem('blogId',null)
+        editorRef.current.currentContent = null
         setActice(-1);
       },400)
-      localStorage.setItem('blogId',null)
-      setTimeout( updateDraftList(),200)
-      // updateDraftList()
+      updateDraftList()
     }
   }
   function formatTitle(content) {

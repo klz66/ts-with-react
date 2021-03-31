@@ -1,25 +1,27 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-18 16:48:40
+ * @LastEditTime: 2021-03-31 15:06:07
  */
-import React, { useState ,useRef} from 'react';
+import React, { useState ,useRef,useEffect} from 'react';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import {uploadUrl} from '@/utils/utils'
+import { PlusOutlined } from '@ant-design/icons';
 
-const Demo = () => {
-  const [fileList, setFileList] = useState([
-  ]);
+const Demo = (props) => {
+  const [fileList, setFileList] = useState([]);
+  const [imageUrl, setImageUrl] = useState(props.imageUrl);
   const inputRef = useRef()
-  const handSum = () => {
-    console.log(inputRef.current.fileList[0].response.data);
-    console.log(fileList);
-  }
-
+  useEffect(() => {
+    props.getImageUrl(imageUrl);
+  }, [imageUrl])
+  // getImageUrl
   const onChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-    console.log(fileList);
+    if(newFileList[0].response?.data.url){
+      setImageUrl(newFileList[0].response?.data.url)
+      newFileList.pop()
+    }
   };
 
   const onPreview = async file => {
@@ -48,12 +50,9 @@ const Demo = () => {
         onChange={onChange}
         onPreview={onPreview}
       >
-        {fileList.length < 1 && '+ Upload'}
+        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : <PlusOutlined/>}
       </Upload>
-    
     </ImgCrop>
-      <span onClick={()=>handSum()}>提交
-      </span>
       </div>
   );
 };
