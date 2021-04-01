@@ -1,10 +1,10 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 18:53:28
+ * @LastEditTime: 2021-04-01 10:15:26
  */
 import styled from 'styled-components';
-import logoPic from '../../statics/logo.png';
+import logoPic from '../../statics/kl.png';
 
 export const HeaderWrapper = styled.div`
 	z-index: 1;

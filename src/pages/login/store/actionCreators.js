@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-30 23:40:00
+ * @LastEditTime: 2021-04-01 10:31:20
  */
 import { notification } from 'antd';
 import * as constants from './constants';
@@ -38,7 +38,6 @@ export const login = (account, password) => {
       console.log('储存token成功',localStorage.getItem('token'));
       let resp = await http.get(`${demoUrl}/blogservice/blog-member/getMemberInfo`);
       localStorage.setItem('memberInfo',JSON.stringify(resp.data.userInfo))
-      console.log(localStorage.getItem('memberInfo'));
       dispatch(changeLogin())
     } else {
       notification['error']({

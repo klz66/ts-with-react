@@ -1,11 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-30 20:09:36
+ * @LastEditTime: 2021-04-01 10:43:24
  */
 
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
+import {useState, useEffect} from 'react'
 import  {  actionCreators  }  from "./store";
 import { Link,withRouter } from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
@@ -30,10 +31,9 @@ import {
 import React from 'react';
 {/* <UserOutlined /> */}
 function Header(props) {
-  let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
+  let memberInfo= JSON.parse(window.localStorage.getItem('memberInfo'))
   const {page,totalPage,focused,mouseIn,list,changeFocusOn,changeFocusOff,handMouseIn,handMouseOut,changePage}=props;
   const handleOut = () =>{
-    console.log(2020);
     props.history.push( {pathname:'/login',state:{login:false}});
     localStorage.removeItem('token');
     localStorage.removeItem('memberInfo')
@@ -81,17 +81,18 @@ function Header(props) {
         </a>
       </Menu.Item>
       <Menu.Item>
+        <span onClick={()=>{props.changeShowTab(4)}}>
+          <SettingOutlined />
+          个人信息
+        </span>
+      </Menu.Item>
+      <Menu.Item>
         <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
         <HeartOutlined/>
           收藏文章
         </a>
       </Menu.Item>
-      <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-          <SettingOutlined />
-          个人设置
-        </a>
-      </Menu.Item>
+
       <Menu.Item onClick={()=>{ props.history.push('recycle')}}>
           <InteractionOutlined/>
           回收站
@@ -109,7 +110,7 @@ function Header(props) {
   }
   const handWrite = () => {
     if(localStorage.getItem('token')){
-      props.history.push('/write');
+      window.open('/write')
     } else {
       props.history.push('/login');
     }

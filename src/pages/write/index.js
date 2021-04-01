@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-31 09:45:20
+ * @LastEditTime: 2021-03-31 20:24:32
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -45,13 +45,6 @@ function Write(props) {
             localStorage.setItem('blogId',item.id)
             dom.innerHTML=item.content
         }
-      } else{
-        setTimeout(function(){
-          let trialDom=tinyMce.activeEditor.contentDocument
-          let dom=trialDom.getElementById('tinymce')
-          dom.innerHTML=item.content
-          localStorage.setItem('blogId',item.id)
-        },400)
       }
     }
   }
@@ -69,6 +62,7 @@ function Write(props) {
         let trialDom=tinyMce.activeEditor.contentDocument
         let dom=trialDom.getElementById('tinymce')
         dom.innerHTML=null
+        editorRef.current.currentContent = null
         localStorage.setItem('blogId',null)
         setActice(-1);
       },400)
@@ -151,11 +145,13 @@ function Write(props) {
     handleSave(content)
   }
   const handPost = async(content) =>{
-    if(localStorage.getItem('blogId')===null){
+    if(localStorage.getItem('blogId').length!==19){
       notification['error']({
         message: '请先选择文章'
       })
       return
+    } else {
+      console.log(localStorage.getItem('blogId'));
     }
     if(content === null || content.length === 0) {
       notification['error']({

@@ -1,10 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-31 16:05:49
+ * @LastEditTime: 2021-04-01 10:41:17
  */
-import React, { useRef,useState } from 'react';
-import { Form, Input, InputNumber, Button,Radio } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, InputNumber, Button,Radio,notification } from 'antd';
+import http from '@/utils/request'
+import {demoUrl} from '@/utils/utils';
 import UploadImg from '@/utils/upload' 
 import './index.less'
 const layout = {
@@ -31,12 +33,34 @@ const validateMessages = {
 function Demo() {
   const [avatarImageUrl, setAvatarImageUrl] = useState('');
   const [qrCodeImageUrl, setQrCodeImageUrl] = useState('');
+  const [value, setValue] = React.useState(1);
+
+  const onChange = e => {
+    console.log('radio checked', e.target.value);
+    setValue(e.target.value);
+  };
 
   let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
-  const onFinish = (values) => {
-    console.log(values);
-    console.log(avatarImageUrl);
-    console.log(qrCodeImageUrl);
+  const onFinish = async(values) => {
+    let params = {
+      id: memberInfo.id,
+      age:values.age,
+      introduction:values.introduction,
+      nickname:values.nickname,
+      personalWebsite:values.personalWebsite,
+      sex:values.sex,
+      avatar:avatarImageUrl,
+      weChatQrCode:qrCodeImageUrl,
+    }
+    let res = await http.post(`${demoUrl}/blogservice/blog-member/updateUserSetting`,params);
+    if(res.code === 20000) {
+      let resp = await http.get(`${demoUrl}/blogservice/blog-member/getMemberInfo`);
+      localStorage.setItem('memberInfo',JSON.stringify(resp.data.userInfo))
+      notification['success']({
+        message: '设置成功',
+      });
+      window.location.reload()
+    }
   };
   function getAvatarImageUrl(img){
     setAvatarImageUrl(img)
@@ -44,7 +68,7 @@ function Demo() {
   function getQrCodeImageUrl(img){
     setQrCodeImageUrl(img)
   }
-  
+
   return (
     <div className='content'>
     
@@ -52,11 +76,16 @@ function Demo() {
     onFinish={onFinish} 
     validateMessages={validateMessages}
     initialValues={{
-      sex: memberInfo.sex
+      
+      nickname: memberInfo.nickname,
+      age: memberInfo.age,
+      sex: memberInfo.sex,
+      introduction: memberInfo.introduction,
+      personalWebsite: memberInfo.personalWebsite,
      }}>
       
       <Form.Item
-        name={['user', 'avatar']}
+        name='avatar'
         label="头像"
       >
         <div style={{width:'300px',marginLeft:'20px'}}>
@@ -64,7 +93,7 @@ function Demo() {
         </div>
       </Form.Item>
       <Form.Item
-        name={['user', 'nickname']}
+        name='nickname'
         label="昵称"
         rules={[
           {
@@ -74,12 +103,11 @@ function Demo() {
           },
         ]}
       >
-        <div style={{width:'200px',marginLeft:'20px'}}>
-        <Input size="middle" defaultValue={memberInfo.nickname}/>
-        </div>
+        <Input size="middle" style={{width:'200px',marginLeft:'20px'}} />
+
       </Form.Item>
       <Form.Item
-        name={['user', 'age']}
+        name='age'
         label="年龄"
         rules={[
           {
@@ -89,20 +117,16 @@ function Demo() {
           },
         ]}
       >
-        <div style={{marginLeft:'20px'}}>
-        <InputNumber defaultValue={memberInfo.age}/>
-        </div>
+        <InputNumber style={{marginLeft:'20px'}} />
       </Form.Item>
-      <Form.Item name={['user', 'sex']} label="性别">
-        <div style={{marginLeft:'20px'}}>
-          <Radio.Group>
-            <Radio value="1">女</Radio>
-            <Radio value="2">男</Radio>
-            <Radio value="3">保密</Radio>
+      <Form.Item name='sex' label="性别">
+          <Radio.Group  style={{marginLeft:'20px'}}  initialValues={memberInfo.sex}>
+            <Radio value={1}>女</Radio>
+            <Radio value={2}>男</Radio>
+            <Radio value={3}>保密</Radio>
           </Radio.Group>
-        </div>
       </Form.Item>
-      <Form.Item name={['user', 'introduction']} label="个人介绍"
+      <Form.Item name='introduction' label="个人介绍"
         rules={[
           {
             type: 'string',
@@ -110,18 +134,14 @@ function Demo() {
             max: 200,
           },
         ]}>
-          <div style={{marginLeft:'20px'}}>
-        <Input.TextArea defaultValue={memberInfo.introduction} rows={5} size="large"/>
-        </div>
+        <Input.TextArea  style={{marginLeft:'20px'}} rows={5} size="large"/>
       </Form.Item>
       
-      <Form.Item name={['user', 'website']} label="个人网站">
-        <div style={{marginLeft:'20px'}}>
-          <Input defaultValue={memberInfo.personalWebsite}/>
-        </div>
+      <Form.Item name='personalWebsite' label="个人网站">
+          <Input style={{marginLeft:'20px'}}/>
       </Form.Item>  
       <Form.Item
-        name={['user', 'we_chat_qr_code']}
+        name='we_chat_qr_code'
         label="微信二维码"
       >
         <div style={{width:'300px',marginLeft:'20px'}}>

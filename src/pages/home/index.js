@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-29 17:17:48
+ * @LastEditTime: 2021-04-01 10:25:53
  */
 import 'antd/dist/antd.css'
 import {useState,useEffect } from 'react'
@@ -13,6 +13,7 @@ import List from './components/List'
 import Recommend from './components/Recommend'
 import Write from './components/Write'
 import Header from '@/common/header'
+import Setting from '@/pages/setting'
 import { 
 	HomeWrapper,
 	HomeLeft,
@@ -53,6 +54,7 @@ function Home(props) {
       {showTab === 1 && showLook()}
       {showTab === 2 && <FocusIndex/>}
       {showTab === 3 && <MessageIndex/>}
+      {showTab === 4 && <Setting/>}
       </div>
   );
 }
