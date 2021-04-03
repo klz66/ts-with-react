@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-01 10:43:24
+ * @LastEditTime: 2021-04-03 18:10:29
  */
 
 import 'antd/dist/antd.css'
@@ -75,10 +75,10 @@ function Header(props) {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+      <span onClick={()=>{props.changeShowTab(5)}}>
         <UserOutlined/>
           个人主页
-        </a>
+        </span>
       </Menu.Item>
       <Menu.Item>
         <span onClick={()=>{props.changeShowTab(4)}}>

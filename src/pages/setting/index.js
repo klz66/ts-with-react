@@ -1,13 +1,14 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-01 10:41:17
+ * @LastEditTime: 2021-04-03 17:59:38
  */
 import React, { useState } from 'react';
 import { Form, Input, InputNumber, Button,Radio,notification } from 'antd';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import UploadImg from '@/utils/upload' 
+import UploadImgButton from '@/utils/uploadWithButton' 
 import './index.less'
 const layout = {
   labelCol: {
@@ -33,12 +34,7 @@ const validateMessages = {
 function Demo() {
   const [avatarImageUrl, setAvatarImageUrl] = useState('');
   const [qrCodeImageUrl, setQrCodeImageUrl] = useState('');
-  const [value, setValue] = React.useState(1);
 
-  const onChange = e => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
-  };
 
   let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
   const onFinish = async(values) => {
@@ -63,6 +59,7 @@ function Demo() {
     }
   };
   function getAvatarImageUrl(img){
+    console.log(img);
     setAvatarImageUrl(img)
   }
   function getQrCodeImageUrl(img){
@@ -142,10 +139,10 @@ function Demo() {
       </Form.Item>  
       <Form.Item
         name='we_chat_qr_code'
-        label="微信二维码"
+        label="微信"
       >
         <div style={{width:'300px',marginLeft:'20px'}}>
-           <UploadImg imageUrl={memberInfo.weChatQrCode} getImageUrl={getQrCodeImageUrl}/>
+           <UploadImgButton imageUrl={memberInfo.weChatQrCode} getImageUrl={getQrCodeImageUrl}/>
 
         </div>
       </Form.Item>
