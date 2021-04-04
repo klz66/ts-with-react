@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-03 18:10:10
+ * @LastEditTime: 2021-04-04 09:40:18
  */
 import 'antd/dist/antd.css'
 import {useState,useEffect } from 'react'
@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 import  {  actionCreators  }  from "./store";
 import FocusIndex from './focusIndex'
 import MessageIndex from './messageIndex'
-import Personal from './personal'
 import List from './components/List'
 import Recommend from './components/Recommend'
 import Write from './components/Write'
@@ -56,7 +55,6 @@ function Home(props) {
       {showTab === 2 && <FocusIndex/>}
       {showTab === 3 && <MessageIndex/>}
       {showTab === 4 && <Setting/>}
-      {showTab === 5 && <Personal/>}
       </div>
   );
 }

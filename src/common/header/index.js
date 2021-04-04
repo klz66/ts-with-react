@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-03 18:10:29
+ * @LastEditTime: 2021-04-04 09:38:17
  */
 
 import 'antd/dist/antd.css'
@@ -75,7 +75,7 @@ function Header(props) {
   const menu = (
     <Menu>
       <Menu.Item>
-      <span onClick={()=>{props.changeShowTab(5)}}>
+      <span onClick={()=>{window.open('/personal/' + memberInfo.id)}}>
         <UserOutlined/>
           个人主页
         </span>

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-31 08:10:34
+ * @LastEditTime: 2021-04-04 09:35:39
  */
 import 'antd/dist/antd.css'
 import { BrowserRouter,Route } from "react-router-dom";
@@ -10,6 +10,7 @@ import Home from './pages/home'
 import Write from './pages/write'
 import Recycle from './pages/trash'
 import Setting from './pages/setting'
+import Personal from './pages/personal'
 import TrashDetail from './pages/detail/trashIndex'
 import Detail from './pages/detail/loadable.js';
 import { GlobalIconStyled } from './statics/iconfont/iconfont';
@@ -38,6 +39,8 @@ function App(props) {
           {localStorage.getItem('token') &&<Route path='/write' exact component={Write}></Route>}
           <Route path='/avatar' exact component={Avatar}></Route> 
           <Route path='/setting' exact component={Setting}></Route> 
+          <Route path='/personal/:id' exact component={Personal}></Route> 
+          
           {localStorage.getItem('token') &&<Route path='/recycle' exact component={Recycle}></Route>}
           {localStorage.getItem('token') &&<Route path='/detail/:id' exact component={Detail}></Route>}
           {localStorage.getItem('token') &&<Route path='/TrashDetail/:id' exact component={TrashDetail}></Route>}

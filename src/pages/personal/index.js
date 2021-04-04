@@ -1,6 +1,13 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
+ * @LastEditTime: 2021-04-04 09:34:15
+ */
+
+
+/*
+ * @Description: 
+ * @Author: Zhong Kailong
  * @LastEditTime: 2021-04-03 23:10:06
  */
 
@@ -9,8 +16,7 @@ import React from 'react';
 import { Tabs,Avatar } from 'antd';
 import { SnippetsOutlined , BellOutlined,CommentOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
-import { UserOutlined } from '@ant-design/icons';
-import './less/personal.less'
+import './personal.less'
 
 const { TabPane } = Tabs;
 function Personal(props) {
