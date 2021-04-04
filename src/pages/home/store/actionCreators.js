@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-28 16:39:14
+ * @LastEditTime: 2021-04-03 23:21:08
  */
 import axios from 'axios'
 import { fromJS } from 'immutable'
@@ -45,6 +45,8 @@ const url = 'https://www.fastmock.site/mock/16dd8b350d503885a889413322a127b9/tod
           'title': i.title,
           'desc': i.content,
           'id':i.id,
+          'name':i.name,
+          'zangNum':i.zangNum,
           // 'imgUrl':'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2084631030,3185655172&fm=26&gp=0.jpg'
         }));
       dispatch(getArticleContentList(articleList))

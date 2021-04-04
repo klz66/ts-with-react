@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-03 17:59:38
+ * @LastEditTime: 2021-04-03 20:38:04
  */
 import React, { useState } from 'react';
 import { Form, Input, InputNumber, Button,Radio,notification } from 'antd';
@@ -67,7 +67,7 @@ function Demo() {
   }
 
   return (
-    <div className='content'>
+    <div className='setting-content'>
     
     <Form {...layout} name="nest-messages" 
     onFinish={onFinish} 

@@ -1,14 +1,15 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-29 23:18:17
+ * @LastEditTime: 2021-04-03 23:38:30
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
 import { ListItem, ListInfo, LoadMore } from '../style';
 import { connect } from "react-redux";
+import { HeartFilled } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
-
+import './less/list.less'
 import  {  actionCreators  }  from "../store";
 // var _ = require('lodash');
 function List(props) {
@@ -50,6 +51,7 @@ function List(props) {
       {
       articleList.map((item,index) => (
         // <Link key={index} to={'detail/'+item.get('id')}>
+        <div>
           <ListItem key={item.get('id')}>
             <ListInfo>
             {formatImg(item.get('desc'))!==null && <img
@@ -61,8 +63,18 @@ function List(props) {
               {/* <p className='desc'>{item.get('desc')}</p> */}
               <div className='desc' onClick={()=>goToDetail(item.get('id'))} dangerouslySetInnerHTML={{__html: formatContent(item.get('desc'))}}/>
             </ListInfo>
+            
           </ListItem>
-          // </Link>
+          <div className='list'>
+            
+            {item.get('name')}
+            
+            <div>
+          <HeartFilled/>
+            {item.get('zangNum')}
+          </div>
+          </div>
+          </div>
         ))
       }
       <LoadMore onClick={getMore}>
