@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-31 20:24:32
+ * @LastEditTime: 2021-04-05 16:47:57
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -57,7 +57,7 @@ function Write(props) {
         content: i.content
       })))
     }
-    if(res.data.list.length === 0){
+    if(res.data.list?.length === 0){
       setTimeout(function(){
         let trialDom=tinyMce.activeEditor.contentDocument
         let dom=trialDom.getElementById('tinymce')

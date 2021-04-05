@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-01 10:31:20
+ * @LastEditTime: 2021-04-05 17:44:43
  */
 import { notification } from 'antd';
 import * as constants from './constants';
@@ -27,6 +27,7 @@ export const login = (account, password) => {
       });
       return;
     }
+   
     let params = {
       account,
       password
@@ -57,6 +58,24 @@ export const register = (account, password) => {
       });
       return;
     }
+     // 密码至少包含 数字和英文，长度4-20
+     let pwdReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{4,20}$/;
+     // 用户名正则，4到16位（字母，数字，下划线，减号
+     let accReg = /^[a-zA-Z0-9_-]{2,11}$/;
+     if(!accReg.test(account)){
+       notification['error']({
+         message: '账号应为2到11位的字母，数字，下划线，减号',
+         duration: 1,
+       });
+       return;
+     }
+     if(!pwdReg.test(password)){
+       notification['error']({
+         message: '密码至少包含数字和英文，长度4-20',
+         duration: 1,
+       });
+       return;
+     }
     let params = {
       account,
       password,
