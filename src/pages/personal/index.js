@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 00:20:35
+ * @LastEditTime: 2021-04-06 01:17:40
  */
 
 
@@ -13,6 +13,7 @@
 
 import React,{ useState,useEffect }  from 'react';
 import http from '@/utils/request'
+import List from './components/List'
 import {demoUrl} from '@/utils/utils';
 import { Tabs,Avatar } from 'antd';
 import { withRouter } from 'react-router-dom';
@@ -23,11 +24,13 @@ import './personal.less'
 const { TabPane } = Tabs;
 function Personal(props) {
   let [memberInfo,setMemberInfo] = useState({})
+  let [authorId,setAuthorId] = useState('')
   useEffect(()=>{
     getMemberInfo();
   },[])
   async function getMemberInfo() {
     let id = props.location.pathname.slice(10);
+    setAuthorId(id);
     let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberById/${id}`);
     if(res.code === 20000) {
       setMemberInfo(res.data.memberDetail)
@@ -83,7 +86,7 @@ function Personal(props) {
                   }
                   key="1"
                 >
-                  文章
+                  <List authorId = {authorId}/>
                 </TabPane>
                 <TabPane
                   tab={

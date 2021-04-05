@@ -1,38 +1,32 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 01:04:52
+ * @LastEditTime: 2021-04-06 01:22:23
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
-import { ListItem, ListInfo, LoadMore } from '../style';
-// import { connect } from "react-redux";
+import { ListItem, ListInfo } from '@/pages/home/style';
 import { HeartFilled } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import './less/list.less'
-// import  {  actionCreators  }  from "../store";
-// var _ = require('lodash');
 function List(props) {
   let [current,setCurrent]=useState(1)
   let [articleList,setArticleList]=useState([])
   useEffect(() => {
-    getArticleList(current,5)
+    console.log(props);
+    getArticleList(props.authorId)
   },[]);
   const goToDetail = async(id)=>{
     window.open('/detail/' + id)
   }
 
-  const getMore = ()=>{
-    setCurrent(current+1)
-    getMoreList(current+1)
-  }
-  async function getArticleList(current,limit){
-    let res = await http.get(`${demoUrl}/blogservice/blog-curd/pageBlogList/${current}/${limit}`);
+  async function getArticleList(id){
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/${id}`);
     
     if(res.code === 20000) {
-      let articleList = res.data.rows.map((i)=>(
+      let articleList = res.data.list.map((i)=>(
         {
           'title': i.title,
           'desc': i.content,
@@ -41,20 +35,6 @@ function List(props) {
           'zangNum':i.zangNum,
         }));
         setArticleList(articleList)
-    }
-  }
-  async function getMoreList(current){
-    let res = await http.get(`${demoUrl}/blogservice/blog-curd/pageBlogList/${current}/5`);
-    
-    if(res.code === 20000) {
-      console.log(res.data.item);
-      let list = res.data.rows.map((i)=>(
-        {
-          'title': i.title,
-          'desc': i.content,
-          'id':i.id,
-           }));
-      setArticleList([...articleList,...list])
     }
   }
   function formatImg(content) {
@@ -107,9 +87,6 @@ function List(props) {
           </div>
         ))
       }
-      <LoadMore onClick={getMore}>
-        加载更多
-      </LoadMore>
     </div>
   );
 }
