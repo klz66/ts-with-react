@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-04 09:34:15
+ * @LastEditTime: 2021-04-06 00:20:35
  */
 
 
@@ -11,17 +11,28 @@
  * @LastEditTime: 2021-04-03 23:10:06
  */
 
-import React from 'react';
-// import { Avatar } from 'antd';
+import React,{ useState,useEffect }  from 'react';
+import http from '@/utils/request'
+import {demoUrl} from '@/utils/utils';
 import { Tabs,Avatar } from 'antd';
+import { withRouter } from 'react-router-dom';
 import { SnippetsOutlined , BellOutlined,CommentOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import './personal.less'
 
 const { TabPane } = Tabs;
 function Personal(props) {
-  let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
-  console.log(memberInfo);
+  let [memberInfo,setMemberInfo] = useState({})
+  useEffect(()=>{
+    getMemberInfo();
+  },[])
+  async function getMemberInfo() {
+    let id = props.location.pathname.slice(10);
+    let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberById/${id}`);
+    if(res.code === 20000) {
+      setMemberInfo(res.data.memberDetail)
+    }
+  }
 			return (
         <div className='personalContent'>
           <div className='left'>
@@ -52,7 +63,7 @@ function Personal(props) {
                   </div>
                   <div className='item'>
                     <div>
-                      {memberInfo.focusNum}
+                      {memberInfo.blogNum}
                     </div>
                     <div>
                       文章
@@ -121,4 +132,4 @@ function Personal(props) {
 const mapState = (state) => ({
 })
 
-export default connect(mapState, null)(Personal);
+export default connect(mapState, null)(withRouter(Personal));
