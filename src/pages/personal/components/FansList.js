@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 14:17:33
+ * @LastEditTime: 2021-04-06 17:55:54
  */
 /*
  * @Description: 
@@ -16,16 +16,17 @@ import {demoUrl} from '@/utils/utils';
 import { List, Avatar } from 'antd';
 import { CheckOutlined,PlusOutlined } from '@ant-design/icons';
 
-function FocusList(props) {
+function FansList(props) {
   let [memberInfo,setMemberInfo] = useState(props.memberInfo)
   console.log(props.memberInfo);
+  console.log(props.actice);
   let [data,setData] = useState([])
   useEffect(() => {
     async function getRecommendList(){ 
-      let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberFocusById/${props.memberInfo.id}`);
-      let rows = res.data.list.map(ele =>({
+      let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberFansById/${props.memberInfo.id}`);
+      let rows = res.data.list.map((ele,index) =>({
         ...ele,
-        focus:true
+        focus:res.data.isHuGuan[index]
       }))
       setData(rows)
     }
@@ -88,7 +89,7 @@ function FocusList(props) {
               </div>
               <div style={{position:'absolute',right:'0px'}}>
                 { !item.focus && <span style={{color:'green'}} onClick={()=>{handleFocus(item.id)}}><PlusOutlined />关注</span>}
-                { item.focus && <span style={{color:'#999999'}} onClick={()=>{handleCancelFocus(item.id)}}><CheckOutlined />已关注{item.focus}</span>}
+                { item.focus && <span style={{color:'#999999'}} onClick={()=>{handleCancelFocus(item.id)}}><CheckOutlined />已互关{item.focus}</span>}
               </div>
             </div>
             
@@ -99,4 +100,4 @@ function FocusList(props) {
   );
 }
 
-export default withRouter(FocusList);
+export default withRouter(FansList);

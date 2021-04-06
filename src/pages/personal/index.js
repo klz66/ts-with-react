@@ -1,13 +1,14 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 14:10:19
+ * @LastEditTime: 2021-04-06 17:56:05
  */
 
 import React,{ useState,useEffect }  from 'react';
 import http from '@/utils/request'
 import List from './components/List'
 import FocusList from './components/FocusList'
+import FansList from './components/FansList'
 import {demoUrl} from '@/utils/utils';
 import { Tabs,Avatar } from 'antd';
 import { withRouter } from 'react-router-dom';
@@ -112,7 +113,7 @@ function Personal(props) {
                 </TabPane>
               </Tabs>
           }  
-              { showTab===2 && <Tabs defaultActiveKey='1'>
+              { showTab===2 && <Tabs onChange={(key)=>{setActice2(key);}} defaultActiveKey='1'>
                 <TabPane
                   tab={
                     <span>
@@ -122,7 +123,7 @@ function Personal(props) {
                   }
                   key="1"
                 >
-                  <FocusList memberInfo={memberInfo}/>
+                  <FocusList memberInfo={memberInfo} actice={actice2}/>
                 </TabPane>
                 <TabPane
                   tab={
@@ -133,7 +134,7 @@ function Personal(props) {
                   }
                   key="2"
                 >
-                  粉丝
+                  <FansList memberInfo={memberInfo} actice={actice2}/>
                 </TabPane>
               </Tabs>
           }  
