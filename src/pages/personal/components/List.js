@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 01:22:23
+ * @LastEditTime: 2021-04-06 13:57:54
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -12,11 +12,10 @@ import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import './less/list.less'
 function List(props) {
-  let [current,setCurrent]=useState(1)
   let [articleList,setArticleList]=useState([])
   useEffect(() => {
     console.log(props);
-    getArticleList(props.authorId)
+    getArticleList(props.location.pathname.slice(10))
   },[]);
   const goToDetail = async(id)=>{
     window.open('/detail/' + id)

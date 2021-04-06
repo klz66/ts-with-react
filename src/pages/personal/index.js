@@ -1,19 +1,13 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 01:17:40
- */
-
-
-/*
- * @Description: 
- * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-03 23:10:06
+ * @LastEditTime: 2021-04-06 14:10:19
  */
 
 import React,{ useState,useEffect }  from 'react';
 import http from '@/utils/request'
 import List from './components/List'
+import FocusList from './components/FocusList'
 import {demoUrl} from '@/utils/utils';
 import { Tabs,Avatar } from 'antd';
 import { withRouter } from 'react-router-dom';
@@ -24,10 +18,16 @@ import './personal.less'
 const { TabPane } = Tabs;
 function Personal(props) {
   let [memberInfo,setMemberInfo] = useState({})
+  let [showTab,setShowTab] = useState(1)  
+  let [actice2,setActice2] = useState(1)  
   let [authorId,setAuthorId] = useState('')
   useEffect(()=>{
     getMemberInfo();
   },[])
+  useEffect(()=>{
+    setShowTab(2)
+    console.log(actice2);
+  },[actice2])
   async function getMemberInfo() {
     let id = props.location.pathname.slice(10);
     setAuthorId(id);
@@ -48,7 +48,7 @@ function Personal(props) {
                   {memberInfo.nickname}
                 </div>
                 <div className='bottom'>
-                  <div className='item'>
+                  <div className='item' onClick={()=>{setActice2(1)}}>
                     <div>
                       {memberInfo.focusNum}
                     </div>
@@ -56,7 +56,7 @@ function Personal(props) {
                       关注
                     </div>
                   </div>
-                  <div className='item'>
+                  <div className='item' onClick={()=>{setActice2(2)}}>
                     <div>
                       {memberInfo.fansNum}
                     </div>
@@ -64,7 +64,7 @@ function Personal(props) {
                       粉丝
                     </div>
                   </div>
-                  <div className='item'>
+                  <div className='item' onClick={()=>{setShowTab(1)}}>
                     <div>
                       {memberInfo.blogNum}
                     </div>
@@ -76,7 +76,7 @@ function Personal(props) {
               </div>
             </div>
             <div className='tab'>
-              <Tabs defaultActiveKey="1">
+              { showTab===1 && <Tabs defaultActiveKey="1">
                 <TabPane
                   tab={
                     <span>
@@ -111,7 +111,33 @@ function Personal(props) {
                   最新评论
                 </TabPane>
               </Tabs>
-           </div>
+          }  
+              { showTab===2 && <Tabs defaultActiveKey='1'>
+                <TabPane
+                  tab={
+                    <span>
+                      <SnippetsOutlined  />
+                      关注
+                    </span>
+                  }
+                  key="1"
+                >
+                  <FocusList memberInfo={memberInfo}/>
+                </TabPane>
+                <TabPane
+                  tab={
+                    <span>
+                      <BellOutlined />
+                      粉丝
+                    </span>
+                  }
+                  key="2"
+                >
+                  粉丝
+                </TabPane>
+              </Tabs>
+          }  
+            </div>
 				  <div>
 
 

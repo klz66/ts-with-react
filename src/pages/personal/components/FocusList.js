@@ -1,7 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-05 23:21:17
+ * @LastEditTime: 2021-04-06 14:17:33
+ */
+/*
+ * @Description: 
+ * @Author: Zhong Kailong
+ * @LastEditTime: 2021-04-06 14:02:05
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -11,43 +16,23 @@ import {demoUrl} from '@/utils/utils';
 import { List, Avatar } from 'antd';
 import { CheckOutlined,PlusOutlined } from '@ant-design/icons';
 
-function Write(props) {
-  let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
-  let [current,setCurrent] = useState(1)
+function FocusList(props) {
+  let [memberInfo,setMemberInfo] = useState(props.memberInfo)
+  console.log(props.memberInfo);
   let [data,setData] = useState([])
   useEffect(() => {
-    async function getRecommendList(){
-      if(localStorage.getItem('token')){
-        let res = await http.get(`${demoUrl}/blogservice/blog-member/pageMemberListWithToken/${memberInfo.id}/${current}/1`);
-        let rows = res.data.rows.map(ele =>({
-          ...ele,
-          focus:false
-        }))
-        if(res.data.total+1 === current) {
-          setCurrent(1)
-        }
-        setData(rows)
-      } else {
-        let res = await http.get(`${demoUrl}/blogservice/blog-member/pageMemberList/${current}/1`);
-        let rows = res.data.rows.map(ele =>({
-          ...ele,
-          focus:false
-        }))
-        if(res.data.total+1 === current) {
-          setCurrent(1)
-        }
-        setData(rows)
-      }
-
+    async function getRecommendList(){ 
+      let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberFocusById/${props.memberInfo.id}`);
+      let rows = res.data.list.map(ele =>({
+        ...ele,
+        focus:true
+      }))
+      setData(rows)
     }
     getRecommendList();
-  }, [current])
+  }, [memberInfo, props.memberInfo.id])
   async function handleFocus(by_id){
-    if(!localStorage.getItem('token')){
-      props.history.push( {pathname:'/login'});
-      return
-    }
-    let id = memberInfo.id;
+    let id = props.memberInfo.id;
     if(id) {
       let params = {
         userId: id,
@@ -74,7 +59,7 @@ function Write(props) {
       return ele
     })
     setData(temp)
-    let id = memberInfo.id;
+    let id = props.memberInfo.id;
     if(id) {
       let params = {
         userId: id,
@@ -82,15 +67,12 @@ function Write(props) {
       }
       let res = await http.delete(`${demoUrl}/blogservice/blog-focus/deleteFocus`,params) ;
       console.log(res);
-    } else {
-      props.history.push('/login');
     }
 
   }
   return (
     <div>
-      <div style={{display:'flex',justifyContent:'space-between'}}><span>推荐作者</span><span onClick={()=>{setCurrent(current+1)}}>换一批</span></div>
-      <List
+       <List
         itemLayout="horizontal"
         dataSource={data}
         renderItem={item => (
@@ -107,8 +89,6 @@ function Write(props) {
               <div style={{position:'absolute',right:'0px'}}>
                 { !item.focus && <span style={{color:'green'}} onClick={()=>{handleFocus(item.id)}}><PlusOutlined />关注</span>}
                 { item.focus && <span style={{color:'#999999'}} onClick={()=>{handleCancelFocus(item.id)}}><CheckOutlined />已关注{item.focus}</span>}
-                
-                
               </div>
             </div>
             
@@ -119,4 +99,4 @@ function Write(props) {
   );
 }
 
-export default withRouter(Write);
+export default withRouter(FocusList);

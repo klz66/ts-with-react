@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-04 09:40:18
+ * @LastEditTime: 2021-04-06 14:01:18
  */
 import 'antd/dist/antd.css'
 import {useState,useEffect } from 'react'
@@ -11,7 +11,7 @@ import FocusIndex from './focusIndex'
 import MessageIndex from './messageIndex'
 import List from './components/List'
 import Recommend from './components/Recommend'
-import Write from './components/Write'
+import UserList from './components/UserList'
 import Header from '@/common/header'
 import Setting from '@/pages/setting'
 import { 
@@ -40,7 +40,7 @@ function Home(props) {
       </HomeLeft>
       <HomeRight>
         <Recommend />
-        <Write />
+        <UserList />
       </HomeRight>
 
     </HomeWrapper>
