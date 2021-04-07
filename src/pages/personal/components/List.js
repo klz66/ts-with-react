@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-07 10:59:24
+ * @LastEditTime: 2021-04-07 13:48:16
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -16,7 +16,7 @@ function List(props) {
   useEffect(() => {
     console.log(props);
     getArticleList(props.match.params.id)
-  },[]);
+  },[props]);
   const goToDetail = async(id)=>{
     window.open('/detail/' + id)
   }

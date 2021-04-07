@@ -1,33 +1,29 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-07 10:53:44
+ * @LastEditTime: 2021-04-07 14:15:34
  */
-
+import http from '@/utils/request'
+import {demoUrl} from '@/utils/utils';
 import 'antd/dist/antd.css'
-import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
-import  {  actionCreators  }  from "./store";
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 function Detail(props) {
-  console.log(props);
-  const {getDetail}= props;
+  let [blogDetail,setBlogDetail] = useState({});
   useEffect(() => {
-    console.log(props.match.params.id);
-    getDetail(props.match.params.id);
-  });
+    async function init(){
+      let id = props.match.params.id;
+      let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/${id}`);
+      if(res.code === 20000) {
+        console.log(res);
+        setBlogDetail(res.data.blogDetail)
+      }
+    }
+    init();
+    console.log(blogDetail);
+  },[]);
   return (
-				<div dangerouslySetInnerHTML={{__html:props.content}}/>
+				<div dangerouslySetInnerHTML={{__html:blogDetail.content}}/>
   );
 }
-const mapStateToProps = (state) => ({
-  title:state.getIn(['detail','title']),
-  content:state.getIn(['detail','content']),
-})
-const mapDispatchToProps = (dispatch) => ({
-  getDetail(id){
-    dispatch(actionCreators.getTrashDetail(id))
-  },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Detail));
+export default withRouter(Detail);
