@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 01:04:52
+ * @LastEditTime: 2021-04-07 10:48:31
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -89,9 +89,9 @@ function List(props) {
                 src={formatImg(item.desc)}
                 alt=''
               />}
-              <h3 className='title'>{item.title}</h3>
+              <h3 className='title' onClick={()=>goToDetail(item.id)}>{item.title}</h3>
               {/* <p className='desc'>{item.get('desc')}</p> */}
-              <div className='desc' onClick={()=>goToDetail(item.id)} dangerouslySetInnerHTML={{__html: formatContent(item.desc)}}/>
+              <div className='desc' dangerouslySetInnerHTML={{__html: formatContent(item.desc)}}/>
             </ListInfo>
             
           </ListItem>

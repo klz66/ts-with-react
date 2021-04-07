@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 13:57:54
+ * @LastEditTime: 2021-04-07 10:59:24
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -15,7 +15,7 @@ function List(props) {
   let [articleList,setArticleList]=useState([])
   useEffect(() => {
     console.log(props);
-    getArticleList(props.location.pathname.slice(10))
+    getArticleList(props.match.params.id)
   },[]);
   const goToDetail = async(id)=>{
     window.open('/detail/' + id)
@@ -60,8 +60,8 @@ function List(props) {
       {
       articleList.map((item,index) => (
         // <Link key={index} to={'detail/'+item.get('id')}>
-        <div>
-          <ListItem key={item.id}>
+        <div key={item.id}>
+          <ListItem >
             <ListInfo>
             {formatImg(item.desc)!==null && <img
                 className='pic'

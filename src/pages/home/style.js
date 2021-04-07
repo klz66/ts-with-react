@@ -69,6 +69,7 @@ export const ListInfo =	styled.div`
   height: 60px;
   overflow:hidden;
 	.title {
+    cursor: pointer;
 		line-height: 27px;
 		font-size: 18px;
 		font-weight: bold;

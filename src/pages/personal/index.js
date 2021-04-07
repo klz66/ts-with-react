@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 17:56:05
+ * @LastEditTime: 2021-04-07 10:59:10
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -30,7 +30,7 @@ function Personal(props) {
     console.log(actice2);
   },[actice2])
   async function getMemberInfo() {
-    let id = props.location.pathname.slice(10);
+    let id = props.match.params.id;
     setAuthorId(id);
     let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberById/${id}`);
     if(res.code === 20000) {
@@ -140,8 +140,6 @@ function Personal(props) {
           }  
             </div>
 				  <div>
-
-
          </div>
         </div>
           <div className='right'>

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-27 19:05:54
+ * @LastEditTime: 2021-04-07 10:54:16
  */
 /*
  * @Description: 
@@ -12,7 +12,6 @@ import 'antd/dist/antd.css'
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import  {  actionCreators  }  from "./store";
-import { DetailWrapper, Header } from './style';
 import { useEffect } from 'react';
 function Detail(props) {
   const {getDetail}= props;
@@ -21,10 +20,7 @@ function Detail(props) {
     getDetail(props.match.params.id);
   });
   return (
-    <DetailWrapper>
-				<Header>{props.title}</Header>
 				<div dangerouslySetInnerHTML={{__html:props.content}}/>
-			</DetailWrapper>
   );
 }
 const mapStateToProps = (state) => ({
