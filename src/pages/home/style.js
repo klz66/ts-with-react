@@ -66,7 +66,7 @@ export const ListItem = styled.div`
 export const ListInfo =	styled.div`
 	width: 500px;
   flex: 1;
-  height: 60px;
+  height: 70px;
   overflow:hidden;
 	.title {
     cursor: pointer;

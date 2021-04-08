@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-08 14:00:41
+ * @LastEditTime: 2021-04-08 17:03:56
  */
 /*
  * @Description: 
@@ -69,24 +69,31 @@ function Detail(props) {
   return (
     <div className='detailContent'>
       <div className='left'>
-        <h1>{blogDetail.title}</h1>
-        <div className='member'>
-          <div style={{display:'flex',position:'relative'}}>
-              <Avatar size={56} src={memberDetail.avatar} onClick={()=>{window.open('/personal/' + memberDetail.id)}}/>
-              <div style={{display:'flex',flexDirection:'column',justifyContent:'space-around',marginLeft:'10px'}}>
-                <div> {memberDetail.nickname}</div>
-                <div style={{fontSize:'12px',color:'#969696'}}>{blogDetail.gmtCreate}&nbsp;&nbsp;
+        <div className='article'>
+          <h1>{blogDetail.title}</h1>
+          <div className='memberTop'>
+            <div style={{display:'flex',position:'relative'}}>
+                <Avatar size={56} src={memberDetail.avatar} onClick={()=>{window.open('/personal/' + memberDetail.id)}}/>
+                <div style={{display:'flex',flexDirection:'column',justifyContent:'space-around',marginLeft:'10px'}}>
+                  <div> {memberDetail.nickname}</div>
+                  <div style={{fontSize:'12px',color:'#969696'}}>{blogDetail.gmtCreate}&nbsp;&nbsp;
+                  </div>
                 </div>
-              </div>
-              {
-                isAuthor && <div className='edit' onClick={handleEdit}>
-                              编辑文章
-                            </div>
-              }
+                {
+                  isAuthor && 
+                  <div className='edit' onClick={handleEdit}>
+                    编辑文章
+                  </div>
+                }
 
+            </div>
           </div>
+          <div className='blogContent' dangerouslySetInnerHTML={{__html:blogDetail.content}}/>
         </div>
-        <div className='blogContent' dangerouslySetInnerHTML={{__html:blogDetail.content}}/>
+       
+        <div className='comment'>
+          评论
+        </div>
       </div>
       <div className='right'>
         用户信息

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-07 10:59:10
+ * @LastEditTime: 2021-04-08 15:02:07
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -37,123 +37,121 @@ function Personal(props) {
       setMemberInfo(res.data.memberDetail)
     }
   }
-			return (
-        <div className='personalContent'>
-          <div className='left'>
-            <div className='top'>
-              <div className='avatar'>
-                <Avatar size={64} src={memberInfo.avatar} />
+    return (
+      <div className='personalContent'>
+        <div className='left'>
+          <div className='top'>
+            <div className='avatar'>
+              <Avatar size={64} src={memberInfo.avatar} />
+            </div>
+            <div className='topRight'>
+              <div className='topRightTop'>
+                {memberInfo.nickname}
               </div>
-              <div className='topRight'>
-                <div className='topRightTop'>
-                  {memberInfo.nickname}
-                </div>
-                <div className='bottom'>
-                  <div className='item' onClick={()=>{setActice2(1)}}>
-                    <div>
-                      {memberInfo.focusNum}
-                    </div>
-                    <div>
-                      关注
-                    </div>
+              <div className='bottom'>
+                <div className='item' onClick={()=>{setActice2(1)}}>
+                  <div>
+                    {memberInfo.focusNum}
                   </div>
-                  <div className='item' onClick={()=>{setActice2(2)}}>
-                    <div>
-                      {memberInfo.fansNum}
-                    </div>
-                    <div>
-                      粉丝
-                    </div>
-                  </div>
-                  <div className='item' onClick={()=>{setShowTab(1)}}>
-                    <div>
-                      {memberInfo.blogNum}
-                    </div>
-                    <div>
-                      文章
-                    </div>
+                  <div>
+                    关注
                   </div>
                 </div>
+                <div className='item' onClick={()=>{setActice2(2)}}>
+                  <div>
+                    {memberInfo.fansNum}
+                  </div>
+                  <div>
+                    粉丝
+                  </div>
+                </div>
+                <div className='item' onClick={()=>{setShowTab(1)}}>
+                  <div>
+                    {memberInfo.blogNum}
+                  </div>
+                  <div>
+                    文章
+                  </div>
+                </div>
               </div>
             </div>
-            <div className='tab'>
-              { showTab===1 && <Tabs defaultActiveKey="1">
-                <TabPane
-                  tab={
-                    <span>
-                      <SnippetsOutlined  />
-                      文章
-                    </span>
-                  }
-                  key="1"
-                >
-                  <List authorId = {authorId}/>
-                </TabPane>
-                <TabPane
-                  tab={
-                    <span>
-                      <BellOutlined />
-                      动态
-                    </span>
-                  }
-                  key="2"
-                >
-                  动态
-                </TabPane>
-                <TabPane
-                  tab={
-                    <span>
-                      <CommentOutlined />
-                      最新评论
-                    </span>
-                  }
-                  key="3"
-                >
-                  最新评论
-                </TabPane>
-              </Tabs>
-          }  
-              { showTab===2 && <Tabs onChange={(key)=>{setActice2(key);}} defaultActiveKey='1'>
-                <TabPane
-                  tab={
-                    <span>
-                      <SnippetsOutlined  />
-                      关注
-                    </span>
-                  }
-                  key="1"
-                >
-                  <FocusList memberInfo={memberInfo} actice={actice2}/>
-                </TabPane>
-                <TabPane
-                  tab={
-                    <span>
-                      <BellOutlined />
-                      粉丝
-                    </span>
-                  }
-                  key="2"
-                >
-                  <FansList memberInfo={memberInfo} actice={actice2}/>
-                </TabPane>
-              </Tabs>
-          }  
-            </div>
-				  <div>
-         </div>
-        </div>
-          <div className='right'>
-            
-            <div className='rightTop'>
-            个人介绍
-            </div>
-            <div className='rightText'>
-            {memberInfo.introduction}
-            </div>
-            
           </div>
+          <div className='tab'>
+            { showTab===1 && <Tabs defaultActiveKey="1">
+              <TabPane
+                tab={
+                  <span>
+                    <SnippetsOutlined  />
+                    文章
+                  </span>
+                }
+                key="1"
+              >
+                <List authorId = {authorId}/>
+              </TabPane>
+              <TabPane
+                tab={
+                  <span>
+                    <BellOutlined />
+                    动态
+                  </span>
+                }
+                key="2"
+              >
+                动态
+              </TabPane>
+              <TabPane
+                tab={
+                  <span>
+                    <CommentOutlined />
+                    最新评论
+                  </span>
+                }
+                key="3"
+              >
+                最新评论
+              </TabPane>
+            </Tabs>
+        }  
+            { showTab===2 && <Tabs onChange={(key)=>{setActice2(key);}} defaultActiveKey='1'>
+              <TabPane
+                tab={
+                  <span>
+                    关注({memberInfo.focusNum})
+                  </span>
+                }
+                key="1"
+              >
+                <FocusList memberInfo={memberInfo} actice={actice2}/>
+              </TabPane>
+              <TabPane
+                tab={
+                  <span>
+                    粉丝({memberInfo.fansNum})
+                  </span>
+                }
+                key="2"
+              >
+                <FansList memberInfo={memberInfo} actice={actice2} />
+              </TabPane>
+            </Tabs>
+        }  
+          </div>
+        <div>
         </div>
-      )
+      </div>
+        <div className='right'>
+          
+          <div className='rightTop'>
+          个人介绍
+          </div>
+          <div className='rightText'>
+          {memberInfo.introduction}
+          </div>
+          
+        </div>
+      </div>
+    )
   
 }
 

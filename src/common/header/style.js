@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-01 10:15:26
+ * @LastEditTime: 2021-04-08 16:20:48
  */
 import styled from 'styled-components';
 import logoPic from '../../statics/kl.png';
@@ -173,6 +173,7 @@ export const Button = styled.div`
 	}
 	&.writting {
 		color: #fff;
+    cursor: pointer;
 		background: #ec6149;
 	}
 `
