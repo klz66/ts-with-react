@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 14:17:33
+ * @LastEditTime: 2021-04-08 14:05:57
  */
 /*
  * @Description: 
@@ -86,7 +86,7 @@ function FocusList(props) {
                   发表了{item.blogNum}篇
                 </div>
               </div>
-              <div style={{position:'absolute',right:'0px'}}>
+              <div style={{position:'absolute',right:'0px',cursor:'pointer'}}>
                 { !item.focus && <span style={{color:'green'}} onClick={()=>{handleFocus(item.id)}}><PlusOutlined />关注</span>}
                 { item.focus && <span style={{color:'#999999'}} onClick={()=>{handleCancelFocus(item.id)}}><CheckOutlined />已关注{item.focus}</span>}
               </div>

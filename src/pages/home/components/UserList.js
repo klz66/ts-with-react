@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-08 10:50:24
+ * @LastEditTime: 2021-04-08 14:05:47
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -103,7 +103,7 @@ function UserList(props) {
                   发表了{item.blogNum}篇
                 </div>
               </div>
-              <div style={{position:'absolute',right:'0px'}}>
+              <div style={{position:'absolute',right:'0px',cursor:'pointer'}}>
                 { !item.focus && <span style={{color:'green'}} onClick={()=>{handleFocus(item.id)}}><PlusOutlined />关注</span>}
                 { item.focus && <span style={{color:'#999999'}} onClick={()=>{handleCancelFocus(item.id)}}><CheckOutlined />已关注{item.focus}</span>}  
               </div>

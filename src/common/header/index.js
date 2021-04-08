@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-04 09:38:17
+ * @LastEditTime: 2021-04-08 14:20:38
  */
 
 import 'antd/dist/antd.css'
@@ -160,7 +160,7 @@ function Header(props) {
         </Nav>
   
         <Addition>
-            <Button className='writting' onClick={handWrite}>
+            <Button className='writting' onClick={handWrite}> 
               <i className="iconfont">&#xe742;</i>
               写文章
             </Button>

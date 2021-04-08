@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-08 12:51:27
+ * @LastEditTime: 2021-04-08 14:00:41
  */
 /*
  * @Description: 
@@ -24,12 +24,17 @@ function Detail(props) {
   let [memberDetail,setMemberDetail] = useState({});
   let [onFocusComment,setOnFocusComment] = useState(false);
   let [comment,setComment] = useState('');
+  let [isAuthor,setIsAuthor] = useState(false);
   useEffect(() => {
     async function init(){
       let id = props.match.params.id;
       let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/${id}`);
       if(res.code === 20000) {
-        console.log(res);
+        let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
+        console.log(localStorage.getItem('memberInfo').id);
+        if(res.data.blogDetail.authorId === memberInfo.id) { 
+          setIsAuthor(true)
+        }
         setBlogDetail(res.data.blogDetail)
       }
     }
@@ -73,9 +78,12 @@ function Detail(props) {
                 <div style={{fontSize:'12px',color:'#969696'}}>{blogDetail.gmtCreate}&nbsp;&nbsp;
                 </div>
               </div>
-              <div className='edit' onClick={handleEdit}>
-                编辑文章
-              </div>
+              {
+                isAuthor && <div className='edit' onClick={handleEdit}>
+                              编辑文章
+                            </div>
+              }
+
           </div>
         </div>
         <div className='blogContent' dangerouslySetInnerHTML={{__html:blogDetail.content}}/>
