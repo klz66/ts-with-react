@@ -1,19 +1,18 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-07 10:48:31
+ * @LastEditTime: 2021-04-07 17:03:12
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
 import { ListItem, ListInfo, LoadMore } from '../style';
-// import { connect } from "react-redux";
 import { HeartFilled } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import './less/list.less'
-// import  {  actionCreators  }  from "../store";
-// var _ = require('lodash');
+
+
 function List(props) {
   let [current,setCurrent]=useState(1)
   let [articleList,setArticleList]=useState([])

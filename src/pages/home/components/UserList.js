@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 14:02:05
+ * @LastEditTime: 2021-04-08 10:50:24
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -98,7 +98,6 @@ function UserList(props) {
             <div style={{display:'flex'}}>
               <Avatar size={56} src={item.avatar} onClick={()=>{window.open('/personal/' + item.id)}}/>
               <div style={{display:'flex',flexDirection:'column',justifyContent:'space-between',marginLeft:'10px'}}>
-                
                 <div> {item.nickname}</div>
                 <div style={{fontSize:'12px',color:'#969696'}}>于{item.gmtCreate.slice(0,10)}加入&nbsp;&nbsp;
                   发表了{item.blogNum}篇
@@ -106,12 +105,9 @@ function UserList(props) {
               </div>
               <div style={{position:'absolute',right:'0px'}}>
                 { !item.focus && <span style={{color:'green'}} onClick={()=>{handleFocus(item.id)}}><PlusOutlined />关注</span>}
-                { item.focus && <span style={{color:'#999999'}} onClick={()=>{handleCancelFocus(item.id)}}><CheckOutlined />已关注{item.focus}</span>}
-                
-                
+                { item.focus && <span style={{color:'#999999'}} onClick={()=>{handleCancelFocus(item.id)}}><CheckOutlined />已关注{item.focus}</span>}  
               </div>
             </div>
-            
           </List.Item>
         )}
       />

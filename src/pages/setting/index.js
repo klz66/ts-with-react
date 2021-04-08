@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-03 20:38:04
+ * @LastEditTime: 2021-04-08 10:24:19
  */
 import React, { useState } from 'react';
 import { Form, Input, InputNumber, Button,Radio,notification } from 'antd';
@@ -47,6 +47,9 @@ function Demo() {
       sex:values.sex,
       avatar:avatarImageUrl,
       weChatQrCode:qrCodeImageUrl,
+      focusNum:memberInfo.focusNum,
+      blogNum:memberInfo.blogNum,
+      fansNum:memberInfo.fansNum,
     }
     let res = await http.post(`${demoUrl}/blogservice/blog-member/updateUserSetting`,params);
     if(res.code === 20000) {
