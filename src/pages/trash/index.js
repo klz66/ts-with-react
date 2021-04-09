@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-30 17:55:54
+ * @LastEditTime: 2021-04-09 15:39:52
  */
 /*
  * @Description: 
@@ -38,7 +38,7 @@ function List(props) {
     }
   }
   const handleSelectedRecovery = async()=>{
-    let res = await http.delete(`${demoUrl}/blogservice/blog-curd/recovery/selected/${selectedRowIds.join()}`);
+    let res = await http.delete(`${demoUrl}//blogservice/blog-curd/recovery/seleced/${selectedRowIds.join()}`);
     if(res.data.code === 20000) {
       notification['success']({
         message: '批量恢复成功',

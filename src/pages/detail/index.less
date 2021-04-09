@@ -26,6 +26,9 @@
         color: #969696;
         flex-shrink: 0;
         cursor: pointer;
+        span {
+          margin-right: 20px;
+        }
       }
       .blogContent {
         line-height: 30px;
@@ -35,9 +38,27 @@
       }
     }
     .comment {
+      padding-left: 35px;
       margin-top: 30px;
       background-color: #fff;
       height: 400px;
+
+      .textArea {
+        padding-right: 20px;
+        .bottom {
+          display: flex;
+          position: relative;
+          .apply {
+            position: absolute;
+            right: 90px;
+          }
+          .cancel {
+            position: absolute;
+            right: 0px;
+          }
+        }
+      }
+
     }
 
   }
@@ -46,7 +67,21 @@
     padding-right: 25px;
     margin-right: 100px;
     flex: 1;
-    background-color: #fff;
+    .people {
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+      background-color: #fff;
+      height: 70px;
+    }
+    .recommend {
+      margin-top: 30px;
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+      background-color: #fff;
+      height: 170px;
+    }
   }
   .commentBottom1 {
     width: 100%;
@@ -96,4 +131,12 @@
       margin-bottom: -40px;
     }
   }
+}
+
+
+.noActice {
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

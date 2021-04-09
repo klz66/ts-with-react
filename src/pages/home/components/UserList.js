@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-08 14:05:47
+ * @LastEditTime: 2021-04-09 09:49:07
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -80,7 +80,7 @@ function UserList(props) {
         userId: id,
         userBeFocusedId:by_id,
       }
-      let res = await http.delete(`${demoUrl}/blogservice/blog-focus/deleteFocus`,params) ;
+      let res = await http.delete(`${demoUrl}/blogservice/blog-focus/deleteFocus`,params);
       console.log(res);
     } else {
       props.history.push('/login');
