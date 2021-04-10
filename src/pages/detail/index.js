@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-10 18:41:45
+ * @LastEditTime: 2021-04-11 00:30:41
  */
 /*
  * @Description: 
@@ -46,8 +46,10 @@ function Detail(props) {
       let id = props.match.params.id;
       let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/${id}`);
       if(res.code === 20000 && res.data.blogDetail !== null) {
-        if(res.data.blogDetail?.authorId === memberInfo.id) { 
+        if(res.data.blogDetail?.authorId === memberInfo?.id) { 
           setIsAuthor(true)
+        } else {
+          setIsAuthor(false)
         }
         setBlogDetail(res.data.blogDetail)
         setIsCloseComment(res.data.blogDetail.isCloseComment===1?true:false)
@@ -120,7 +122,7 @@ function Detail(props) {
         return;
       }
       let params = {
-        commentAuthorId: memberInfo.id,
+        commentAuthorId: memberInfo?.id,
         content: value,
         blogId: blogDetail.id,
         reply: 0,
@@ -144,7 +146,7 @@ function Detail(props) {
         return;
       }
       let params = {
-        commentAuthorId: memberInfo.id,
+        commentAuthorId: memberInfo?.id,
         content: value,
         blogId: blogDetail.id,
         reply: 1,
@@ -170,7 +172,7 @@ function Detail(props) {
         return;
       }
       let params = {
-        commentAuthorId: memberInfo.id,
+        commentAuthorId: memberInfo?.id,
         content: comment,
         blogId: blogDetail.id,
         reply: 0,

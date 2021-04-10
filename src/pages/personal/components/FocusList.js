@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-10 16:22:16
+ * @LastEditTime: 2021-04-10 23:51:48
  */
 /*
  * @Description: 
@@ -25,7 +25,7 @@ function FocusList(props) {
   }, [memberInfo, props])
   async function getRecommendList(){ 
     let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberFocusById/${props.memberInfo.id}`);
-    let rows = res.data.list.map((ele,index) =>({
+    let rows = res.data.list?.map((ele,index) =>({
       ...ele,
       focus:  res.data.isFoucus[index] 
     }))
