@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-10 13:46:45
+ * @LastEditTime: 2021-04-10 16:22:16
  */
 /*
  * @Description: 
@@ -21,16 +21,16 @@ function FocusList(props) {
   console.log(props.memberInfo);
   let [data,setData] = useState([])
   useEffect(() => {
-    async function getRecommendList(){ 
-      let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberFocusById/${props.memberInfo.id}`);
-      let rows = res.data.list.map((ele,index) =>({
-        ...ele,
-        focus:  res.data.isFoucus[index] 
-      }))
-      setData(rows)
-    }
     getRecommendList();
   }, [memberInfo, props])
+  async function getRecommendList(){ 
+    let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberFocusById/${props.memberInfo.id}`);
+    let rows = res.data.list.map((ele,index) =>({
+      ...ele,
+      focus:  res.data.isFoucus[index] 
+    }))
+    setData(rows)
+  }
   async function handleFocus(by_id){
     let id = props.memberInfo.id;
     if(id) {
@@ -51,8 +51,6 @@ function FocusList(props) {
 
   }
   async function handleCancelFocus(by_id){
-    // console.log(by_id);
-    // console.log(props.memberInfo);
     let temp = data.map(function(ele){
       if(ele.id === by_id){
         ele.focus = false;

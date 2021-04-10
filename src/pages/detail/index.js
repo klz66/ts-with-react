@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-10 12:11:32
+ * @LastEditTime: 2021-04-10 16:41:37
  */
 /*
  * @Description: 
@@ -80,7 +80,15 @@ function Detail(props) {
     let res = await http.get(`${demoUrl}/blogservice/blog-comment/getCommentList/${id}`);
     if(res.code === 20000) {
       let arr = res.data.list.map((ele,index) => ({
-      actions: [<span onClick={()=>{handleReply(ele.id)}} key="comment-list-reply-to-0">Reply to {ele.reply === 1? ele.replyCommentAuthorNickname:''}</span>,<span>{res.data.isAuthor[index]&&'删除'}</span>],
+      actions: [<span onClick={()=>{handleReply(ele.id)}} key="comment-list-reply-to-0">Reply to {ele.reply === 1? ele.replyCommentAuthorNickname:''}</span>,
+      <Popconfirm
+        title="确定删除改评论,这条评论的所有回复也会被删除？"
+        onConfirm={()=>handleDeleteComment(ele.id)}
+        okText="Yes"
+        cancelText="No"
+      >
+        <span>{res.data.isAuthor[index]&&'删除'}</span>
+      </Popconfirm>],
       author: ele.commentAuthorNickname,
       avatar: ele.commentAuthorAvatar,
       content: (
@@ -146,6 +154,7 @@ function Detail(props) {
           message: '回复成功',
           duration: 1,
         });
+        getCommentList();
         setComment('')
       }
     } else {
@@ -185,7 +194,7 @@ function Detail(props) {
   function onFinish() {
     props.history.push('/')
   }
-  async function handleDelete() {
+  async function handleDeleteArticle() {
     // DELETE /blogservice/blog-curd/delete/{id}
     let id = blogDetail.id;
     let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/${id}`);
@@ -197,6 +206,18 @@ function Detail(props) {
       });
       setHaveArticle(false)
     }
+  }
+  async function handleDeleteComment(id) {
+    // DELETE /blogservice/blog-comment/deleteComment/{id}
+    let res = await http.delete(`${demoUrl}/blogservice/blog-comment/deleteComment/${id}`);
+    console.log(res);
+    if(res.data.code === 20000) {
+      notification['success']({
+        message: '删除成功',
+        duration: 1,
+      });
+    }
+    getCommentList();
   }
   function yesArticle() {
     return <div className='detailContent'>
@@ -217,7 +238,7 @@ function Detail(props) {
                   <span onClick={handleEdit}>编辑文章</span>
                   <Popconfirm
                     title="确定删除文章？"
-                    onConfirm={()=>handleDelete()}
+                    onConfirm={()=>handleDeleteArticle()}
                     okText="Yes"
                     cancelText="No"
                   >
