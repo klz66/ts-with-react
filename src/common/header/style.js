@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-08 16:20:48
+ * @LastEditTime: 2021-04-10 12:25:54
  */
 import styled from 'styled-components';
 import logoPic from '../../statics/kl.png';
@@ -37,6 +37,7 @@ export const NavItem = styled.div`
 	padding: 0 15px;
 	font-size: 17px;
 	color: #333;
+  cursor: pointer;
 	&.left {
 		float: left;
 	}
@@ -170,6 +171,7 @@ export const Button = styled.div`
 	font-siz: 14px;
 	&.reg {
 		color: #ec6149;
+    cursor: pointer;
 	}
 	&.writting {
 		color: #fff;

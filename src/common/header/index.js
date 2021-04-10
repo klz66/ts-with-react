@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-08 16:20:14
+ * @LastEditTime: 2021-04-10 12:22:35
  */
 
 import 'antd/dist/antd.css'
@@ -34,9 +34,7 @@ function Header(props) {
   let memberInfo= JSON.parse(window.localStorage.getItem('memberInfo'))
   const {page,totalPage,focused,mouseIn,list,changeFocusOn,changeFocusOff,handMouseIn,handMouseOut,changePage}=props;
   const handleOut = () =>{
-    props.history.push( {pathname:'/login',state:{login:false}});
-    localStorage.removeItem('token');
-    localStorage.removeItem('memberInfo')
+    props.history.push('login');
   }
   const getListArea = () => {
     if(focused || mouseIn) {
@@ -97,8 +95,8 @@ function Header(props) {
           <InteractionOutlined/>
           回收站
       </Menu.Item>
-      <Menu.Item>
-        <span target="_blank" onClick={()=>{handleOut()}}>
+      <Menu.Item onClick={()=>{handleOut()}}>
+        <span>
           <PoweroffOutlined/>
           退出
         </span>

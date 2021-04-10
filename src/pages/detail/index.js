@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-09 23:48:37
+ * @LastEditTime: 2021-04-10 12:11:32
  */
 /*
  * @Description: 
@@ -9,7 +9,7 @@
  * @LastEditTime: 2021-02-18 10:32:30
  */
 import { withRouter } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import http from '@/utils/request'
 import { Input,Button,notification,Avatar,Popconfirm ,Comment, Form, List,Statistic,Tooltip } from 'antd';
 import moment from 'moment';
@@ -25,6 +25,7 @@ const { TextArea } = Input;
 function Detail(props) {
   const deadline = Date.now() + 1000 * 3;
   let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
+  let [commentId,setCommentId] = useState('');
   let [haveArticle,setHaveArticle] = useState(true);
   let [blogDetail,setBlogDetail] = useState({});
   let [memberDetail,setMemberDetail] = useState({});
@@ -38,25 +39,6 @@ function Detail(props) {
   let [reply,setReply] = useState(0);
 
   let [data,setData] = useState([]);
-  // const data = [
-  //   {
-  //     actions: [<span onClick={handleReply} key="comment-list-reply-to-0">Reply to</span>],
-  //     author: 'Han Solo',
-  //     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-  //     content: (
-  //       <p>
-  //         We supply a series of design principles, practical patterns and high quality design
-  //         resources (Sketch and Axure), to help people create their product prototypes beautifully and
-  //         efficiently.
-  //       </p>
-  //     ),
-  //     datetime: (
-  //       <Tooltip title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-  //         <span>{moment().subtract(1, 'days').fromNow()}</span>
-  //       </Tooltip>
-  //     ),
-  //   },
-  // ];
   useEffect(() => {
     async function init(){
       let id = props.match.params.id;
@@ -84,8 +66,9 @@ function Detail(props) {
     getMemberInfo();
     getCommentList();
   },[blogDetail]);
-  function handleReply() {
+  function handleReply(id) {
     // 回复评论 传参多一些
+    setCommentId(id)
     setReply(1)
     setOnFocusComment2(true)
   }
@@ -93,12 +76,11 @@ function Detail(props) {
     setComment(e.target.value);
   }
   async function getCommentList() {
-    // GET /blogservice/blog-comment/getCommentList/{id
     let id = blogDetail.id;
     let res = await http.get(`${demoUrl}/blogservice/blog-comment/getCommentList/${id}`);
     if(res.code === 20000) {
-      let arr = res.data.list.map(ele => ({
-      actions: [<span onClick={handleReply} key="comment-list-reply-to-0">Reply to</span>],
+      let arr = res.data.list.map((ele,index) => ({
+      actions: [<span onClick={()=>{handleReply(ele.id)}} key="comment-list-reply-to-0">Reply to {ele.reply === 1? ele.replyCommentAuthorNickname:''}</span>,<span>{res.data.isAuthor[index]&&'删除'}</span>],
       author: ele.commentAuthorNickname,
       avatar: ele.commentAuthorAvatar,
       content: (
@@ -119,6 +101,62 @@ function Detail(props) {
     if(flag === 0) {
       setReply(0);
       console.log('单纯发评论');
+      if(value === '') {
+        notification['error']({
+          message: '评论内容不能为空',
+          duration: 1,
+        });
+        return;
+      }
+      let params = {
+        commentAuthorId: memberInfo.id,
+        content: value,
+        blogId: blogDetail.id,
+        reply: 0,
+      }
+      let res = await http.post(`${demoUrl}/blogservice/blog-comment/addComment`,params);
+      if(res.code === 20000){
+        notification['success']({
+          message: '发表成功',
+          duration: 1,
+        });
+        getCommentList();
+        setValue('');
+      }
+    } else if(reply === 1){
+      console.log('回复评论');
+      if(comment === '') {
+        notification['error']({
+          message: '评论内容不能为空',
+          duration: 1,
+        });
+        return;
+      }
+      let params = {
+        commentAuthorId: memberInfo.id,
+        content: value,
+        blogId: blogDetail.id,
+        reply: 1,
+        replyCommentId: commentId,
+      }
+      let res = await http.post(`${demoUrl}/blogservice/blog-comment/addComment`,params);
+      console.log(res);
+      if(res.code === 20000) {
+        notification['success']({
+          message: '回复成功',
+          duration: 1,
+        });
+        setComment('')
+      }
+    } else {
+      console.log('在下面直接评论');
+      if(comment === '') {
+        notification['error']({
+          message: '评论内容不能为空',
+          duration: 1,
+        });
+        return;
+      }
       let params = {
         commentAuthorId: memberInfo.id,
         content: comment,
@@ -126,59 +164,23 @@ function Detail(props) {
         reply: 0,
       }
       let res = await http.post(`${demoUrl}/blogservice/blog-comment/addComment`,params);
-      console.log(res);
-    } else if(reply === 1){
-      console.log('回复评论');
+      if(res.code === 20000){
+        notification['success']({
+          message: '发表成功',
+          duration: 1,
+        });
+        getCommentList();
+        setComment('');
+      }
     }
     console.log(comment);
     console.log(reply);
-    if(comment === '') {
-      notification['error']({
-        message: '评论内容不能为空',
-        duration: 1,
-      });
-    }
-    // @ApiModelProperty(value = "评论作者id")
-    // private String commentAuthorId;
-
-    // @ApiModelProperty(value = "评论作者头像")
-    // private String commentAuthorAvatar;
-
-    // @ApiModelProperty(value = "评论内容")
-    // private String content;
-
-    // @ApiModelProperty(value = "博客id")
-    // private String blogId;
-
-    // @ApiModelProperty(value = "博客作者id")
-    // private String blogAuthorId;
-
-    // @ApiModelProperty(value = "0就是单纯评论，1回复某人")
-    // private Integer reply;
-
-    // @ApiModelProperty(value = "被回复的评论id")
-    // private String replyCommentId;
-
-    // @ApiModelProperty(value = "被回复的评论的作者id")
-    // private String replyCommentAuthorId;
-    // let params = {
-    //   commentAuthorId: memberInfo.id,
-    //   commentAuthorAvatar: memberInfo.avatar,
-    //   content: comment,
-    //   blogId: blogDetail.id,
-    //   blogAuthorId: blogDetail.authorId,
-    //   reply: reply,
-    // }
-    // let res = await http.post(`${demoUrl}/blogservice/blog-comment/addComment`,params);
   }
   function handleEdit() {
     props.history.push( {pathname:'/edit',state:{blogDetail:blogDetail,memberDetail:memberDetail}});
   }
   function handleChange(e) {
     setValue(e.target.value);
-  }
-  function handleSubmit() {
-    console.log(value);
   }
   function onFinish() {
     props.history.push('/')
@@ -240,12 +242,9 @@ function Detail(props) {
           content={
             <div className='textArea'>
               <Form.Item>
-                <TextArea onFocus={()=>{setOnFocusComment1(true)}} style={{backgroundColor:'#F9F9F9'}} showCount='true' rows={4} onChange={handleChange} />
+                <TextArea  value={value} onFocus={()=>{setOnFocusComment1(true)}} style={{backgroundColor:'#F9F9F9'}} showCount='true' rows={4} onChange={handleChange} />
               </Form.Item>
               <div className='bottom'>
-              {/* <Button htmlType="submit" onClick={handleSubmit} type="primary">
-                Add Comment
-              </Button> */}
               {
                 onFocusComment1 && <div>
                   <div className='apply' onClick={()=>{handleApply(0);}}>
@@ -304,7 +303,7 @@ function Detail(props) {
       !onFocusComment2 && 
       <div className='commentBottom1'>
         <div className='input'>
-          <TextArea onFocus={()=>{setOnFocusComment2(true)}} 
+          <TextArea  onFocus={()=>{setOnFocusComment2(true)}} 
               placeholder="写下你的评论"
             />
         </div>
@@ -322,13 +321,14 @@ function Detail(props) {
       <div className='commentBottom2'>
         <div className='input'>
           <TextArea
+              value={comment}
               onChange={(e)=>inputChange(e)}
               autoSize={{ minRows: 3, maxRows: 5 }}
               placeholder="写下你的评论"
             />
         </div>
-        <div className='apply' onClick={handleApply}>
-          <Button type="primary" shape="round"  size={16} >
+        <div className='apply'>
+          <Button type="primary" onClick={handleApply} shape="round"  size={16} >
             发表
           </Button>
         </div>

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 00:02:29
+ * @LastEditTime: 2021-04-10 12:22:58
  */
 
 import 'antd/dist/antd.css'
@@ -33,6 +33,8 @@ function Login(props) {
     pwdRef.current.state.value = ''
   }
   useEffect(()=>{
+    localStorage.removeItem('token');
+    localStorage.removeItem('memberInfo')
     if(props.location.state === undefined) {
       return;
     }
