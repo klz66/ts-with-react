@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-10 16:41:37
+ * @LastEditTime: 2021-04-10 18:41:45
  */
 /*
  * @Description: 
@@ -14,7 +14,7 @@ import http from '@/utils/request'
 import { Input,Button,notification,Avatar,Popconfirm ,Comment, Form, List,Statistic,Tooltip } from 'antd';
 import moment from 'moment';
 import {demoUrl} from '@/utils/utils';
-import { MessageOutlined } from '@ant-design/icons';
+import { MessageOutlined,LikeOutlined,LikeFilled } from '@ant-design/icons';
 import 'antd/dist/antd.css'
 import './index.less'
 
@@ -33,6 +33,8 @@ function Detail(props) {
   let [onFocusComment2,setOnFocusComment2] = useState(false);
   let [comment,setComment] = useState('');
   let [isAuthor,setIsAuthor] = useState(false);
+  // 是否关闭评论
+  let [isCloseComment,setIsCloseComment] = useState(false);
   // 文章下面的评论框
   let [value,setValue] = useState('');
   //  该评论是不是回复某人
@@ -48,6 +50,7 @@ function Detail(props) {
           setIsAuthor(true)
         }
         setBlogDetail(res.data.blogDetail)
+        setIsCloseComment(res.data.blogDetail.isCloseComment===1?true:false)
         setHaveArticle(true)
       }else {
         setHaveArticle(false)
@@ -80,7 +83,7 @@ function Detail(props) {
     let res = await http.get(`${demoUrl}/blogservice/blog-comment/getCommentList/${id}`);
     if(res.code === 20000) {
       let arr = res.data.list.map((ele,index) => ({
-      actions: [<span onClick={()=>{handleReply(ele.id)}} key="comment-list-reply-to-0">Reply to {ele.reply === 1? ele.replyCommentAuthorNickname:''}</span>,
+      actions: [<span onClick={()=>{handleReply(ele.id)}} key="comment-list-reply-to-0">回复 {ele.reply === 1? ele.replyCommentAuthorNickname:''}</span>,
       <Popconfirm
         title="确定删除改评论,这条评论的所有回复也会被删除？"
         onConfirm={()=>handleDeleteComment(ele.id)}
@@ -219,6 +222,76 @@ function Detail(props) {
     }
     getCommentList();
   }
+  async function handleCloseComment() {
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/closeBlogComment/${blogDetail.id}`);
+    console.log(res);
+    setIsCloseComment(true)
+  }
+  async function handleOpenComment() {
+    // GET /blogservice/blog-curd/openBlogComment/{id
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/openBlogComment/${blogDetail.id}`);
+    console.log(res);
+    setIsCloseComment(false)
+  }
+  function noCloseComment() {
+    return  <div className='comment'>
+    <Comment
+      avatar={
+        <Avatar
+          src={memberDetail.avatar}
+          alt="Han Solo"
+        />
+      }
+      content={
+        <div className='textArea'>
+          <Form.Item>
+            <TextArea  value={value} onFocus={()=>{setOnFocusComment1(true)}} style={{backgroundColor:'#F9F9F9'}} showCount='true' rows={4} onChange={handleChange} />
+          </Form.Item>
+          <div className='bottom'>
+          {
+            onFocusComment1 && <div>
+              <div className='apply' onClick={()=>{handleApply(0);}}>
+            <Button type="primary" shape="round"  size={16} >
+              发表
+            </Button>
+          </div>
+          <div className='cancel' onClick={()=>{setOnFocusComment1(false)}}>
+            <Button type="primary" danger shape="round"  size={16} >
+                取消
+              </Button>
+          </div>
+            </div>
+          }
+          
+        </div>
+      </div>
+      }
+    />
+    <List
+      className="comment-list"
+      header={<div>全部评论{data.length} {isAuthor&&<span onClick={handleCloseComment} style={{color:'#969696',marginLeft:'30px',cursor:'pointer'}}>关闭评论</span>}</div>}
+      itemLayout="horizontal"
+      dataSource={data}
+      renderItem={item => (
+        <li>
+          <Comment
+            actions={item.actions}
+            author={item.author}
+            avatar={item.avatar}
+            content={item.content}
+            datetime={item.datetime}
+          />
+        </li>
+      )}
+    />
+  </div>
+  }
+  function yesCloseComment() {
+    return <div className='no-comment'>
+      <div>评论已关闭</div>
+      <div><Button danger onClick={()=>handleOpenComment()}>打开评论</Button></div>
+      </div>
+  }
   function yesArticle() {
     return <div className='detailContent'>
     <div className='left'>
@@ -250,59 +323,16 @@ function Detail(props) {
           </div>
         </div>
         <div className='blogContent' dangerouslySetInnerHTML={{__html:blogDetail.content}}/>
+        <div>
+          <LikeFilled />
+        </div>
       </div>
-     
-      <div className='comment'>
-        <Comment
-          avatar={
-            <Avatar
-              src={memberDetail.avatar}
-              alt="Han Solo"
-            />
-          }
-          content={
-            <div className='textArea'>
-              <Form.Item>
-                <TextArea  value={value} onFocus={()=>{setOnFocusComment1(true)}} style={{backgroundColor:'#F9F9F9'}} showCount='true' rows={4} onChange={handleChange} />
-              </Form.Item>
-              <div className='bottom'>
-              {
-                onFocusComment1 && <div>
-                  <div className='apply' onClick={()=>{handleApply(0);}}>
-                <Button type="primary" shape="round"  size={16} >
-                  发表
-                </Button>
-              </div>
-              <div className='cancel' onClick={()=>{setOnFocusComment1(false)}}>
-                <Button type="primary" danger shape="round"  size={16} >
-                    取消
-                  </Button>
-              </div>
-                </div>
-              }
-              
-            </div>
-          </div>
-          }
-        />
-        <List
-          className="comment-list"
-          header={`${data.length} replies`}
-          itemLayout="horizontal"
-          dataSource={data}
-          renderItem={item => (
-            <li>
-              <Comment
-                actions={item.actions}
-                author={item.author}
-                avatar={item.avatar}
-                content={item.content}
-                datetime={item.datetime}
-              />
-            </li>
-          )}
-        />
-      </div>
+      {
+        !isCloseComment && noCloseComment()
+      }
+      {
+        isCloseComment && yesCloseComment()
+      }
     </div>
     <div className='right'>
       <div className='people'>
@@ -321,7 +351,7 @@ function Detail(props) {
     </div>
     
     {
-      !onFocusComment2 && 
+      !onFocusComment2 && !isCloseComment &&
       <div className='commentBottom1'>
         <div className='input'>
           <TextArea  onFocus={()=>{setOnFocusComment2(true)}} 
@@ -338,7 +368,7 @@ function Detail(props) {
       </div>
     }
     {
-      onFocusComment2 && 
+      onFocusComment2 && !isCloseComment &&
       <div className='commentBottom2'>
         <div className='input'>
           <TextArea
