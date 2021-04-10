@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-06 17:55:54
+ * @LastEditTime: 2021-04-10 13:32:01
  */
 /*
  * @Description: 
@@ -36,7 +36,6 @@ function FansList(props) {
     let id = props.memberInfo.id;
     if(id) {
       let params = {
-        userId: id,
         userBeFocusedId:by_id,
       }
       let res = await http.post(`${demoUrl}/blogservice/blog-focus/addFocus`,params) ;
@@ -63,7 +62,6 @@ function FansList(props) {
     let id = props.memberInfo.id;
     if(id) {
       let params = {
-        userId: id,
         userBeFocusedId:by_id,
       }
       let res = await http.delete(`${demoUrl}/blogservice/blog-focus/deleteFocus`,params) ;
@@ -89,7 +87,7 @@ function FansList(props) {
               </div>
               <div style={{position:'absolute',right:'0px'}}>
                 { !item.focus && <span style={{color:'green'}} onClick={()=>{handleFocus(item.id)}}><PlusOutlined />关注</span>}
-                { item.focus && <span style={{color:'#999999'}} onClick={()=>{handleCancelFocus(item.id)}}><CheckOutlined />已互关{item.focus}</span>}
+                { item.focus && <span style={{color:'#999999'}} onClick={()=>{handleCancelFocus(item.id)}}><CheckOutlined />已关注{item.focus}</span>}
               </div>
             </div>
             

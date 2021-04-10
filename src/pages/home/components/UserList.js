@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-09 09:49:07
+ * @LastEditTime: 2021-04-10 13:30:25
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -50,7 +50,6 @@ function UserList(props) {
     let id = memberInfo.id;
     if(id) {
       let params = {
-        userId: id,
         userBeFocusedId:by_id,
       }
       let res = await http.post(`${demoUrl}/blogservice/blog-focus/addFocus`,params) ;
@@ -77,7 +76,6 @@ function UserList(props) {
     let id = memberInfo.id;
     if(id) {
       let params = {
-        userId: id,
         userBeFocusedId:by_id,
       }
       let res = await http.delete(`${demoUrl}/blogservice/blog-focus/deleteFocus`,params);

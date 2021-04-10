@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-08 14:05:57
+ * @LastEditTime: 2021-04-10 13:46:45
  */
 /*
  * @Description: 
@@ -23,9 +23,9 @@ function FocusList(props) {
   useEffect(() => {
     async function getRecommendList(){ 
       let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberFocusById/${props.memberInfo.id}`);
-      let rows = res.data.list.map(ele =>({
+      let rows = res.data.list.map((ele,index) =>({
         ...ele,
-        focus:true
+        focus:  res.data.isFoucus[index] 
       }))
       setData(rows)
     }
@@ -35,7 +35,6 @@ function FocusList(props) {
     let id = props.memberInfo.id;
     if(id) {
       let params = {
-        userId: id,
         userBeFocusedId:by_id,
       }
       let res = await http.post(`${demoUrl}/blogservice/blog-focus/addFocus`,params) ;
@@ -52,6 +51,8 @@ function FocusList(props) {
 
   }
   async function handleCancelFocus(by_id){
+    // console.log(by_id);
+    // console.log(props.memberInfo);
     let temp = data.map(function(ele){
       if(ele.id === by_id){
         ele.focus = false;
@@ -62,7 +63,6 @@ function FocusList(props) {
     let id = props.memberInfo.id;
     if(id) {
       let params = {
-        userId: id,
         userBeFocusedId:by_id,
       }
       let res = await http.delete(`${demoUrl}/blogservice/blog-focus/deleteFocus`,params) ;
