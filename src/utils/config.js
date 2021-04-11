@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 00:35:15
+ * @LastEditTime: 2021-04-11 11:39:56
  */
 import axios from 'axios'
 
@@ -21,7 +21,6 @@ function noLogin(url) {
   url.indexOf('blogservice/blog-comment/getCommentList')>=0 ||
   url.indexOf('blogservice/blog-member/login')>=0 ||
   url.indexOf('blogservice/blog-member/register')>=0
-  
   ) {
     return true
   }
@@ -33,7 +32,7 @@ authedAxios.interceptors.request.use(
     if(localStorage.getItem('token')){
       config.headers['token'] = localStorage.getItem('token');
     } else {
-      console.log(config.url);
+      // console.log(config.url);
       // blogservice/blog-member/getMemberById/
       if(noLogin(config.url)){
         return config

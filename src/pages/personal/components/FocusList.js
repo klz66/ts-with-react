@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-10 23:51:48
+ * @LastEditTime: 2021-04-11 10:48:14
  */
 /*
  * @Description: 
@@ -17,7 +17,7 @@ import { List, Avatar } from 'antd';
 import { CheckOutlined,PlusOutlined } from '@ant-design/icons';
 
 function FocusList(props) {
-  let [memberInfo,setMemberInfo] = useState(props.memberInfo)
+  let [memberInfo] = useState(props.memberInfo)
   console.log(props.memberInfo);
   let [data,setData] = useState([])
   useEffect(() => {

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 00:25:08
+ * @LastEditTime: 2021-04-11 10:48:26
  */
 /*
  * @Description: 
@@ -17,7 +17,7 @@ import { List, Avatar } from 'antd';
 import { CheckOutlined,PlusOutlined } from '@ant-design/icons';
 
 function FansList(props) {
-  let [memberInfo,setMemberInfo] = useState(props.memberInfo)
+  let [memberInfo] = useState(props.memberInfo)
   console.log(props.memberInfo);
   console.log(props.actice);
   let [data,setData] = useState([])

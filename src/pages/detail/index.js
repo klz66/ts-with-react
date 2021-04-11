@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 00:30:41
+ * @LastEditTime: 2021-04-11 11:35:34
  */
 /*
  * @Description: 
@@ -110,33 +110,32 @@ function Detail(props) {
       setData(arr)
     }
   }
-  async function handleApply(flag) {
-    if(flag === 0) {
-      setReply(0);
-      console.log('单纯发评论');
-      if(value === '') {
-        notification['error']({
-          message: '评论内容不能为空',
-          duration: 1,
-        });
-        return;
-      }
-      let params = {
-        commentAuthorId: memberInfo?.id,
-        content: value,
-        blogId: blogDetail.id,
-        reply: 0,
-      }
-      let res = await http.post(`${demoUrl}/blogservice/blog-comment/addComment`,params);
-      if(res.code === 20000){
-        notification['success']({
-          message: '发表成功',
-          duration: 1,
-        });
-        getCommentList();
-        setValue('');
-      }
-    } else if(reply === 1){
+  async function handleDirectlyApply() {
+    if(value === '') {
+      notification['error']({
+        message: '评论内容不能为空',
+        duration: 1,
+      });
+      return;
+    }
+    let params = {
+      commentAuthorId: memberInfo?.id,
+      content: value,
+      blogId: blogDetail.id,
+      reply: 0,
+    }
+    let res = await http.post(`${demoUrl}/blogservice/blog-comment/addComment`,params);
+    if(res.code === 20000){
+      notification['success']({
+        message: '发表成功',
+        duration: 1,
+      });
+      getCommentList();
+      setValue('');
+    }
+  }
+  async function handleApply() {
+    if(reply === 1){
       console.log('回复评论');
       if(comment === '') {
         notification['error']({
@@ -252,8 +251,8 @@ function Detail(props) {
           <div className='bottom'>
           {
             onFocusComment1 && <div>
-              <div className='apply' onClick={()=>{handleApply(0);}}>
-            <Button type="primary" shape="round"  size={16} >
+              <div className='apply'>
+            <Button type="primary" onClick={()=>handleDirectlyApply()} shape="round"  size={16} >
               发表
             </Button>
           </div>
@@ -294,6 +293,21 @@ function Detail(props) {
       <div><Button danger onClick={()=>handleOpenComment()}>打开评论</Button></div>
       </div>
   }
+  async function handleAddLike() {
+    // console.log(2020);
+    // /blogservice/blog-member/addLikeBlog
+    // /blogservice/blog-like/addLikeBlog
+    let params = {
+      blogId: blogDetail.id
+    }
+    let res = await http.post(`${demoUrl}/blogservice/blog-like/addLikeBlog`,params);
+    console.log(res);
+  }
+  
+  async function handleRemoveLike() {
+    console.log(2020);
+  }
+
   function yesArticle() {
     return <div className='detailContent'>
     <div className='left'>
@@ -325,8 +339,11 @@ function Detail(props) {
           </div>
         </div>
         <div className='blogContent' dangerouslySetInnerHTML={{__html:blogDetail.content}}/>
-        <div>
-          <LikeFilled />
+        <div className='blogLike'>
+          <LikeOutlined onClick={handleAddLike}/>
+          {/* <LikeFilled onClick={handleRemoveLike}/> */}
+          
+         <span className='ml-span'> 共0人点赞 </span>
         </div>
       </div>
       {
