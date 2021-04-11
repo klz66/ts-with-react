@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-08 13:07:32
+ * @LastEditTime: 2021-04-11 22:38:24
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -28,8 +28,10 @@ function Edit(props) {
 
     setTimeout(function(){
       let trialDom=tinyMce.activeEditor.contentDocument
-      let dom=trialDom.getElementById('tinymce')
-      dom.innerHTML=blogDetail.content
+      if(trialDom) {
+        let dom=trialDom.getElementById('tinymce')
+        dom.innerHTML=blogDetail.content
+      }
     },400)
   }, [])
   

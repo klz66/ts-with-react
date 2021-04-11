@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 11:39:56
+ * @LastEditTime: 2021-04-11 16:06:06
  */
 import axios from 'axios'
 
@@ -40,9 +40,7 @@ authedAxios.interceptors.request.use(
         alert('请登录后操作');
         return;
       }
-      
     }
-    console.log(config);
     return config
   },
   err => {

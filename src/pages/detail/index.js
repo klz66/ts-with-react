@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 13:02:57
+ * @LastEditTime: 2021-04-11 22:49:59
  */
 /*
  * @Description: 
@@ -26,6 +26,7 @@ const { TextArea } = Input;
 function Detail(props) {
   const deadline = Date.now() + 1000 * 3;
   let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
+  let [articleList,setArticleList]=useState([])
   let [commentId,setCommentId] = useState('');
   let [haveArticle,setHaveArticle] = useState(true);
   let [blogDetail,setBlogDetail] = useState({});
@@ -47,6 +48,7 @@ function Detail(props) {
   useEffect(() => {
     async function init(){
       let id = props.match.params.id;
+      getArticleList(id);
       let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/${id}`);
       if(res.code === 20000 && res.data.blogDetail !== null) {
         if(res.data.isLike) {
@@ -87,6 +89,18 @@ function Detail(props) {
   }
   function inputChange(e) {
     setComment(e.target.value);
+  }
+  async function getArticleList(){
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/findAll`);
+    console.log(res,2020);
+    if(res.code === 20000) {
+      let articleList = res.data.item.map((i)=>(
+        {
+          'title': i.title,
+          'id':i.id,
+        }));
+        setArticleList(articleList)
+    }
   }
   async function getCommentList() {
     let id = blogDetail.id;
@@ -241,6 +255,9 @@ function Detail(props) {
     console.log(res);
     setIsCloseComment(false)
   }
+  const goToDetail = async(id)=>{
+    window.open('/detail/' + id)
+  }
   function noCloseComment() {
     return  <div className='comment'>
     <Comment
@@ -378,7 +395,14 @@ function Detail(props) {
           </div>
       </div>
       <div className='recommend'>
-        推荐阅读    
+        推荐阅读 
+        {
+          articleList.map((item,index) => (
+            <div key={item.id}>
+              <h3 className='title' onClick={()=>goToDetail(item.id)}>{item.title}</h3>
+            </div>
+          ))
+        }
       </div> 
     </div>
     
@@ -390,13 +414,22 @@ function Detail(props) {
               placeholder="写下你的评论"
             />
         </div>
-        <span>
+        <span style={{cursor:'pointer'}} onClick={()=>{setOnFocusComment2(true)}}>
           
           <MessageOutlined />评论
         </span>
-        <span>
-        赞
+        {
+          isLikeBlog &&         <span style={{cursor:'pointer'}} onClick={handleRemoveLike}>
+          已赞
         </span>
+        }
+        {
+          !isLikeBlog &&         <span style={{cursor:'pointer'}} onClick={handleAddLike}>
+          赞
+        </span>
+        }
+
+
       </div>
     }
     {

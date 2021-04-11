@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 13:21:33
+ * @LastEditTime: 2021-04-11 16:05:47
  */
 import React, { useState,useEffect } from 'react';
 import { Modal,Avatar } from 'antd';
@@ -19,7 +19,6 @@ function LikeModal(props) {
     let id = props.blogId;
     let res = await http.get(`${demoUrl}/blogservice/blog-like/getLikeBlogMember/${id}`);
     if(res.code === 20000) {
-      console.log(res);
       setLikeBlogList(res.data.list)
     }
   }
