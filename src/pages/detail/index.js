@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 11:35:34
+ * @LastEditTime: 2021-04-11 13:02:57
  */
 /*
  * @Description: 
@@ -10,11 +10,12 @@
  */
 import { withRouter } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
-import http from '@/utils/request'
 import { Input,Button,notification,Avatar,Popconfirm ,Comment, Form, List,Statistic,Tooltip } from 'antd';
 import moment from 'moment';
+import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import { MessageOutlined,LikeOutlined,LikeFilled } from '@ant-design/icons';
+import LikeModal from './likeModal'
 import 'antd/dist/antd.css'
 import './index.less'
 
@@ -33,6 +34,8 @@ function Detail(props) {
   let [onFocusComment2,setOnFocusComment2] = useState(false);
   let [comment,setComment] = useState('');
   let [isAuthor,setIsAuthor] = useState(false);
+  // 是否点赞了该文章
+  let [isLikeBlog,setIsLikeBlog] = useState(false);
   // 是否关闭评论
   let [isCloseComment,setIsCloseComment] = useState(false);
   // 文章下面的评论框
@@ -46,6 +49,11 @@ function Detail(props) {
       let id = props.match.params.id;
       let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/${id}`);
       if(res.code === 20000 && res.data.blogDetail !== null) {
+        if(res.data.isLike) {
+          setIsLikeBlog(true)
+        } else {
+          setIsLikeBlog(false)
+        }
         if(res.data.blogDetail?.authorId === memberInfo?.id) { 
           setIsAuthor(true)
         } else {
@@ -186,8 +194,8 @@ function Detail(props) {
         setComment('');
       }
     }
-    console.log(comment);
-    console.log(reply);
+    // console.log(comment);
+    // console.log(reply);
   }
   function handleEdit() {
     props.history.push( {pathname:'/edit',state:{blogDetail:blogDetail,memberDetail:memberDetail}});
@@ -202,7 +210,6 @@ function Detail(props) {
     // DELETE /blogservice/blog-curd/delete/{id}
     let id = blogDetail.id;
     let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/${id}`);
-    console.log(res);
     if(res.data.code === 20000) {
       notification['success']({
         message: '删除成功',
@@ -294,18 +301,23 @@ function Detail(props) {
       </div>
   }
   async function handleAddLike() {
-    // console.log(2020);
-    // /blogservice/blog-member/addLikeBlog
-    // /blogservice/blog-like/addLikeBlog
     let params = {
       blogId: blogDetail.id
     }
     let res = await http.post(`${demoUrl}/blogservice/blog-like/addLikeBlog`,params);
-    console.log(res);
+    if(res.code === 20000) {
+      setIsLikeBlog(true);
+    }
   }
   
   async function handleRemoveLike() {
-    console.log(2020);
+    let params = {
+      blogId: blogDetail.id,
+    }
+    let res = await http.delete(`${demoUrl}/blogservice/blog-like/deleteLikeBlog`,params);
+    if(res.data.code === 20000) {
+      setIsLikeBlog(false)
+    }
   }
 
   function yesArticle() {
@@ -340,10 +352,11 @@ function Detail(props) {
         </div>
         <div className='blogContent' dangerouslySetInnerHTML={{__html:blogDetail.content}}/>
         <div className='blogLike'>
-          <LikeOutlined onClick={handleAddLike}/>
-          {/* <LikeFilled onClick={handleRemoveLike}/> */}
+          {isLikeBlog && <LikeFilled onClick={handleRemoveLike}/>}
+          {!isLikeBlog && <LikeOutlined onClick={handleAddLike}/>}
           
-         <span className='ml-span'> 共0人点赞 </span>
+         <span className='ml-span'> <LikeModal blogId={blogDetail.id} isLikeBlog={isLikeBlog}/> </span>
+         
         </div>
       </div>
       {
