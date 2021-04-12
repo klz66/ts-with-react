@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 14:13:11
+ * @LastEditTime: 2021-04-12 20:39:45
  */
 /*
  * @Description: 
@@ -215,11 +215,9 @@ function Detail(props) {
         setComment('');
       }
     }
-    // console.log(comment);
-    // console.log(reply);
   }
   function handleEdit() {
-    props.history.push( {pathname:'/edit',state:{blogDetail:blogDetail,memberDetail:memberDetail}});
+    props.history.push( {pathname:'/edit',state:{blogDetail:blogDetail}});
   }
   function handleChange(e) {
     setValue(e.target.value);

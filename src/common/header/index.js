@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 15:10:25
+ * @LastEditTime: 2021-04-12 15:16:08
  */
 
 import 'antd/dist/antd.css'
@@ -10,7 +10,7 @@ import  {  actionCreators  }  from "./store";
 import { Link,withRouter } from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
 import { Menu, Dropdown, Avatar } from 'antd';
-import { CaretDownFilled ,SettingOutlined,UserOutlined,HeartOutlined,InteractionOutlined ,PoweroffOutlined} from '@ant-design/icons';
+import { FolderOpenOutlined,CaretDownFilled ,SettingOutlined,UserOutlined,HeartOutlined,InteractionOutlined ,PoweroffOutlined} from '@ant-design/icons';
 import {
 	HeaderWrapper,
 	Logo,
@@ -90,7 +90,7 @@ function Header(props) {
       </Menu.Item>
       <Menu.Item>
         <span onClick={()=>{props.changeShowTab(6)}}>
-        <HeartOutlined/>
+        <FolderOpenOutlined/>
           管理博客
         </span>
       </Menu.Item>

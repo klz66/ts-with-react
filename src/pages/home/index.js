@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 15:09:40
+ * @LastEditTime: 2021-04-12 21:01:44
  */
 import 'antd/dist/antd.css'
 import {useState,useEffect } from 'react'
@@ -30,6 +30,11 @@ function Home(props) {
     // if(!localStorage.getItem('token')){
       
     // }
+    // if(props.location.state.showTab === 6){
+    //   setShowTab(props.location.state.showTab)
+    // }
+    
+    // console.log(props.location.state.showTab ===6);
     changeHomeData();
   });
   function changeShowTab(showTab) {

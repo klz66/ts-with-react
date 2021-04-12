@@ -1,27 +1,20 @@
-/*
- * @Description: 
- * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 15:04:49
- */
 
-/*
- * @Description: 
- * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-09 15:39:52
- */
-/*
- * @Description: 
- * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 17:13:19
- */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
-import { connect } from "react-redux";
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import { withRouter } from 'react-router-dom';
-import { notification,Table, Divider, Button ,Space,Popconfirm,message  } from 'antd';
+import { Input,DatePicker,notification,Table, Divider, Button ,Space,Popconfirm,message  } from 'antd';
+import './less/manageBlog.less'
+import 'moment/locale/zh-cn';
+import locale from 'antd/es/date-picker/locale/zh_CN';
+import moment from 'moment';
+
+const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY-MM-DD';
 function List(props) {
+  let [keyValue,setKeyValue] = useState('')
+  let [rangeTime,setRangeTime] = useState('')
   let [current,setCurrent] = useState(1)
   let [data,setData] = useState([])
   let [selectedRowIds,SetSelectedRowIds] = useState([])
@@ -42,8 +35,16 @@ function List(props) {
       getArticleList()
     }
   }
+  // async function handleEdit(id) {
+  //   let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/${id}`);
+  //     if(res.code === 20000 && res.data.blogDetail !== null) {
+  //       let blogDetail = res.data.blogDetail;
+  //       props.history.push( {pathname:'/edit',state:{blogDetail:blogDetail}});
+  //     }
+  //  
+  // }
   const goToDetail = async(id)=>{
-    props.history.push('/TrashDetail/' + id)
+    window.open('/detail/' + id)
   }
   const handleDelete = async(id)=>{
     let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/${id}`);
@@ -113,10 +114,12 @@ function List(props) {
           <Table.Column title="创建时间" dataIndex="gmtCreate"  />
           <Table.Column title="修改时间" dataIndex="gmtModified"  />
           <Table.Column
-            title="Action"
+            title="操作"
             key="action"
             render={(text, record) => (
               <Space size="middle">
+                
+                {/* <Button onClick={()=>handleEdit(record.id)}>编辑</Button> */}
                 <Button onClick={()=>goToDetail(record.id)} type='primary'>详情</Button>
                 <Button onClick={()=>handleDelete(record.id)} type='primary' danger>删除</Button>
               </Space>
@@ -126,12 +129,46 @@ function List(props) {
       </div>
     );
   };
-
+  function handleChange(e) {
+    setKeyValue(e.target.value);
+  }
+  function handleChangeTime(e) {
+    console.log(e[0].format('YYYY-MM-DD HH:mm:ss'));
+    console.log(e[1].format('YYYY-MM-DD HH:mm:ss'));
+    setRangeTime([moment(e[0].format('YYYY-MM-DD HH:mm:ss'), dateFormat), moment(e[1].format('YYYY-MM-DD HH:mm:ss'), dateFormat)])
+  }
+  async function handleSearch() {
+    console.log(keyValue);
+    console.log(rangeTime);
+    let params = {
+      keyValue:keyValue,
+      startTime:rangeTime[0]?.format('YYYY-MM-DD HH:mm:ss'),
+      endTime:rangeTime[1]?.format('YYYY-MM-DD HH:mm:ss'),
+    }
+    let res = await http.post(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/search`,params);
+    if(res.code === 20000) {
+      console.log(res);
+    }
+    console.log(params);
+  }
+  function handleClear() {
+    setKeyValue('');
+    setRangeTime([]);
+  }
 
   return (
     <div>
-      <div  className='header'>
-      <div>
+      <div className='header'>
+          <Input placeholder="请输入关键字" value={keyValue} onChange={handleChange} style={{ width: 200 }} />
+            <RangePicker
+              value={rangeTime}
+              onChange={handleChangeTime}
+              locale={locale}
+              format={dateFormat}
+              style={{ width: 300,marginLeft:'50px'}}
+            />
+        <Button onClick={handleSearch} type='primary' style={{ marginLeft:'50px'}} href="#">查询</Button>
+        <Button onClick={handleClear} style={{ marginLeft:'20px'}} className='green' href="#">重置</Button>
         <Popconfirm
           title="确定删除吗"
           onConfirm={confirm}
@@ -139,17 +176,12 @@ function List(props) {
           okText="Yes"
           cancelText="No"
         >
-          <Button href="#">删除</Button>
+          <Button type='primary' danger style={{ marginLeft:'20px'}} href="#">删除</Button>
         </Popconfirm>
-        </div>
       </div>
       {Demo()}
     </div>
   );
 }
-const mapStateToProps = (state) => ({
-})
-const mapDispatchToProps = (dispatch) => ({
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(List));
+export default withRouter(List);

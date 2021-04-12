@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 10:31:32
+ * @LastEditTime: 2021-04-12 21:04:23
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -18,9 +18,7 @@ var _ = require('lodash');
 
 function Edit(props) {
   console.log(props);
-  let memberInfo = props.location.state.memberDetail
   let blogDetail = props.location.state.blogDetail
-  console.log(memberInfo,blogDetail);
 
   let editorRef = useRef()
   useEffect(() => {
@@ -67,7 +65,7 @@ function Edit(props) {
         "id": blogDetail.id,
         "title": formatTitle(content),
         "content": content,
-        'authorId': memberInfo.id
+        'authorId': blogDetail.authorId,
       }
       let res = await http.post(`${demoUrl}/blogservice/blog-curd/updateDraftBlog`,params);
       if(res.code === 20000) {

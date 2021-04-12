@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 10:36:39
+ * @LastEditTime: 2021-04-12 16:10:10
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -83,7 +83,6 @@ function List(props) {
     <div>
       {
       articleList.map((item,index) => (
-        // <Link key={index} to={'detail/'+item.get('id')}>
         <div>
           <ListItem key={item.id}>
             <ListInfo>
