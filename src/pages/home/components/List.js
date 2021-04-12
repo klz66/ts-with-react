@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 23:53:46
+ * @LastEditTime: 2021-04-12 10:36:39
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -48,11 +48,14 @@ function List(props) {
     
     if(res.code === 20000) {
       console.log(res.data.item);
-      let list = res.data.rows.map((i)=>(
+      let list = res.data.rows.map((i,index)=>(
         {
           'title': i.title,
           'desc': i.content,
           'id':i.id,
+          'name':i.name,
+          'zangNum':i.zangNum,
+          'commentNums':res.data.commentNums[index]
            }));
       setArticleList([...articleList,...list])
     }

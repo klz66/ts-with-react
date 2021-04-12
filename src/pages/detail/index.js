@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 10:14:01
+ * @LastEditTime: 2021-04-12 11:29:26
  */
 /*
  * @Description: 
@@ -14,7 +14,7 @@ import { Input,Button,notification,Avatar,Popconfirm ,Comment, Form, List,Statis
 import moment from 'moment';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
-import { MessageOutlined,LikeOutlined,LikeFilled } from '@ant-design/icons';
+import { MessageOutlined,LikeOutlined,LikeFilled,StarOutlined,StarFilled } from '@ant-design/icons';
 import LikeModal from './likeModal'
 import 'antd/dist/antd.css'
 import './index.less'
@@ -37,6 +37,8 @@ function Detail(props) {
   let [isAuthor,setIsAuthor] = useState(false);
   // 是否点赞了该文章
   let [isLikeBlog,setIsLikeBlog] = useState(false);
+  // 是否收藏了该文章
+  let [isCollectBlog,setIsCollectBlog] = useState(false);
   // 是否关闭评论
   let [isCloseComment,setIsCloseComment] = useState(false);
   // 文章下面的评论框
@@ -55,6 +57,11 @@ function Detail(props) {
           setIsLikeBlog(true)
         } else {
           setIsLikeBlog(false)
+        }
+        if(res.data.isCollected) {
+          setIsCollectBlog(true)
+        } else {
+          setIsCollectBlog(false)
         }
         if(res.data.blogDetail?.authorId === memberInfo?.id) { 
           setIsAuthor(true)
@@ -337,6 +344,25 @@ function Detail(props) {
     }
   }
 
+  async function handleAddCollect() {
+    let params = {
+      blogId: blogDetail.id
+    }
+    let res = await http.post(`${demoUrl}/blogservice/blog-collection/addCollect`,params);
+    if(res.code === 20000) {
+      setIsCollectBlog(true);
+    }
+  }
+  async function handleRemoveCollect() {
+    let params = {
+      blogId: blogDetail.id,
+    }
+    let res = await http.delete(`${demoUrl}/blogservice/blog-collection/deleteLikeBlog`,params);
+    if(res.data.code === 20000) {
+      setIsCollectBlog(false)
+    }
+  }
+
   function yesArticle() {
     return <div className='detailContent'>
     <div className='left'>
@@ -430,7 +456,16 @@ function Detail(props) {
           赞
         </span>
         }
-
+        {
+          isCollectBlog &&         <span style={{cursor:'pointer'}} onClick={handleRemoveCollect}>
+          <StarFilled />
+        </span>
+        }
+        {
+          !isCollectBlog &&         <span style={{cursor:'pointer'}} onClick={handleAddCollect}>
+          <StarOutlined />
+        </span>
+        }
 
       </div>
     }
