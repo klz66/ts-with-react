@@ -1,12 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-07 17:03:12
+ * @LastEditTime: 2021-04-11 23:53:46
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
 import { ListItem, ListInfo, LoadMore } from '../style';
-import { HeartFilled } from '@ant-design/icons';
+import { HeartFilled,MessageFilled } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
@@ -31,13 +31,14 @@ function List(props) {
     let res = await http.get(`${demoUrl}/blogservice/blog-curd/pageBlogList/${current}/${limit}`);
     
     if(res.code === 20000) {
-      let articleList = res.data.rows.map((i)=>(
+      let articleList = res.data.rows.map((i,index)=>(
         {
           'title': i.title,
           'desc': i.content,
           'id':i.id,
           'name':i.name,
           'zangNum':i.zangNum,
+          'commentNums':res.data.commentNums[index]
         }));
         setArticleList(articleList)
     }
@@ -99,9 +100,13 @@ function List(props) {
             {item.name}
             
             <div>
-          <HeartFilled/>
-            {item.zangNum}
-          </div>
+              <HeartFilled/>
+              {item.zangNum}
+            </div>
+            <div>
+              <MessageFilled/>
+              {item.commentNums}
+            </div>
           </div>
           </div>
         ))

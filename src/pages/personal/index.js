@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-10 16:26:17
+ * @LastEditTime: 2021-04-11 23:29:03
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -21,6 +21,7 @@ function Personal(props) {
   let [memberInfo,setMemberInfo] = useState({})
   let [showTab,setShowTab] = useState(1)  
   let [actice2,setActice2] = useState(1)  
+  let [thisAuthorLikes,setThisAuthorLikes] = useState(0)  
   let [authorId,setAuthorId] = useState('')
   useEffect(()=>{
     getMemberInfo();
@@ -35,6 +36,7 @@ function Personal(props) {
     let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberById/${id}`);
     if(res.code === 20000) {
       setMemberInfo(res.data.memberDetail)
+      setThisAuthorLikes(res.data.thisAuthorLikes)
     }
   }
     return (
@@ -71,6 +73,14 @@ function Personal(props) {
                   </div>
                   <div>
                     文章
+                  </div>
+                </div>
+                <div className='item' onClick={()=>{setShowTab(1)}}>
+                  <div>
+                    {thisAuthorLikes}
+                  </div>
+                  <div>
+                    收货喜欢
                   </div>
                 </div>
               </div>

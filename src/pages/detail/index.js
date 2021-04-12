@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 22:49:59
+ * @LastEditTime: 2021-04-12 09:41:40
  */
 /*
  * @Description: 
@@ -91,10 +91,10 @@ function Detail(props) {
     setComment(e.target.value);
   }
   async function getArticleList(){
-    let res = await http.get(`${demoUrl}/blogservice/blog-curd/findAll`);
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/pageBlogList/recommend/1/5`);
     console.log(res,2020);
     if(res.code === 20000) {
-      let articleList = res.data.item.map((i)=>(
+      let articleList = res.data.rows.map((i)=>(
         {
           'title': i.title,
           'id':i.id,
