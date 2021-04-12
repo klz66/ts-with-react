@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 23:29:03
+ * @LastEditTime: 2021-04-12 22:42:33
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -50,7 +50,7 @@ function Personal(props) {
               <div className='topRightTop'>
                 {memberInfo.nickname}
               </div>
-              <div className='bottom'>
+              <div className='topRightBottom'>
                 <div className='item' onClick={()=>{setActice2(1)}}>
                   <div>
                     {memberInfo.focusNum}

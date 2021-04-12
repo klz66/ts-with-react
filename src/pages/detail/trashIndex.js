@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-07 14:15:34
+ * @LastEditTime: 2021-04-12 23:27:23
  */
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
@@ -13,7 +13,7 @@ function Detail(props) {
   useEffect(() => {
     async function init(){
       let id = props.match.params.id;
-      let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/${id}`);
+      let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/trash/${id}`);
       if(res.code === 20000) {
         console.log(res);
         setBlogDetail(res.data.blogDetail)

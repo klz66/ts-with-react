@@ -19,7 +19,7 @@ function List(props) {
   let [data,setData] = useState([])
   let [selectedRowIds,SetSelectedRowIds] = useState([])
   useEffect(() => {
-    getArticleList()
+    handleSearch()
   }, []);
   const openNotificationWithIcon = type => {
     notification[type]({
@@ -32,17 +32,9 @@ function List(props) {
     let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/selected/${selectedRowIds.join()}`);
     if(res.data.code === 20000) {
       openNotificationWithIcon('success')
-      getArticleList()
+      handleSearch()
     }
   }
-  // async function handleEdit(id) {
-  //   let res = await http.get(`${demoUrl}/blogservice/blog-curd/getBlogDetail/${id}`);
-  //     if(res.code === 20000 && res.data.blogDetail !== null) {
-  //       let blogDetail = res.data.blogDetail;
-  //       props.history.push( {pathname:'/edit',state:{blogDetail:blogDetail}});
-  //     }
-  //  
-  // }
   const goToDetail = async(id)=>{
     window.open('/detail/' + id)
   }
@@ -50,29 +42,53 @@ function List(props) {
     let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/${id}`);
     if(res.data.code === 20000) {
       openNotificationWithIcon('success')
-      getArticleList()
+      handleSearch()
     }
   }
-  const getArticleList = async()=>{
-    let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
-    let res = await http.get(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/${memberInfo.id}`);
-    // let res = await http.get(`${demoUrl}/blogservice/blog-curd/findTrashList`);
-    if(res.code === 20000) {
-      let articleList = res.data.list.map((i)=>(
-        {
-          'key': i.id,
-          'title': i.title.slice(0,10),
-          'desc': i.content.replace(/<[^>]+>|&[^>]+;/g,"").trim().slice(0,20),
-          'detail': i.content,
-          'id':i.id,
-          'gmtCreate':i.gmtCreate,
-          'gmtModified':i.gmtModified,
-          'collectedNum':i.collectedNum,
-          'zangNum':i.zangNum,
-         }));
-      setData(articleList)
+  async function handleSearch() {
+    if(keyValue === '' && rangeTime === '') {
+      console.log(2020);
+      let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
+      let res = await http.get(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/${memberInfo.id}`);
+      if(res.code === 20000) {
+        let articleList = res.data.list.map((i)=>(
+          {
+            'key': i.id,
+            'title': i.title.slice(0,10),
+            'desc': i.content.replace(/<[^>]+>|&[^>]+;/g,"").trim().slice(0,20),
+            'detail': i.content,
+            'id':i.id,
+            'gmtCreate':i.gmtCreate,
+            'gmtModified':i.gmtModified,
+            'collectedNum':i.collectedNum,
+            'zangNum':i.zangNum,
+           }));
+        setData(articleList)
+      }
+    } else {
+      let params = {
+        keyValue:keyValue,
+        startTime:rangeTime[0]?.format('YYYY-MM-DD HH:mm:ss'),
+        endTime:rangeTime[1]?.format('YYYY-MM-DD HH:mm:ss'),
+      }
+      let res = await http.post(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/search`,params);
+      if(res.code === 20000) {
+        let articleList = res.data.list.map((i)=>(
+          {
+            'key': i.id,
+            'title': i.title.slice(0,10),
+            'desc': i.content.replace(/<[^>]+>|&[^>]+;/g,"").trim().slice(0,20),
+            'detail': i.content,
+            'id':i.id,
+            'gmtCreate':i.gmtCreate,
+            'gmtModified':i.gmtModified,
+            'collectedNum':i.collectedNum,
+            'zangNum':i.zangNum,
+           }));
+        setData(articleList)
+      }
     }
-    // console.log();
+
   }
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -118,8 +134,6 @@ function List(props) {
             key="action"
             render={(text, record) => (
               <Space size="middle">
-                
-                {/* <Button onClick={()=>handleEdit(record.id)}>编辑</Button> */}
                 <Button onClick={()=>goToDetail(record.id)} type='primary'>详情</Button>
                 <Button onClick={()=>handleDelete(record.id)} type='primary' danger>删除</Button>
               </Space>
@@ -136,20 +150,6 @@ function List(props) {
     console.log(e[0].format('YYYY-MM-DD HH:mm:ss'));
     console.log(e[1].format('YYYY-MM-DD HH:mm:ss'));
     setRangeTime([moment(e[0].format('YYYY-MM-DD HH:mm:ss'), dateFormat), moment(e[1].format('YYYY-MM-DD HH:mm:ss'), dateFormat)])
-  }
-  async function handleSearch() {
-    console.log(keyValue);
-    console.log(rangeTime);
-    let params = {
-      keyValue:keyValue,
-      startTime:rangeTime[0]?.format('YYYY-MM-DD HH:mm:ss'),
-      endTime:rangeTime[1]?.format('YYYY-MM-DD HH:mm:ss'),
-    }
-    let res = await http.post(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/search`,params);
-    if(res.code === 20000) {
-      console.log(res);
-    }
-    console.log(params);
   }
   function handleClear() {
     setKeyValue('');
