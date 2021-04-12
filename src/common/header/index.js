@@ -1,12 +1,11 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-10 12:22:35
+ * @LastEditTime: 2021-04-12 13:25:56
  */
 
 import 'antd/dist/antd.css'
 import { connect } from "react-redux";
-import {useState, useEffect} from 'react'
 import  {  actionCreators  }  from "./store";
 import { Link,withRouter } from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
@@ -29,7 +28,6 @@ import {
 } from './style';
  
 import React from 'react';
-{/* <UserOutlined /> */}
 function Header(props) {
   let memberInfo= JSON.parse(window.localStorage.getItem('memberInfo'))
   const {page,totalPage,focused,mouseIn,list,changeFocusOn,changeFocusOff,handMouseIn,handMouseOut,changePage}=props;
@@ -85,10 +83,10 @@ function Header(props) {
         </span>
       </Menu.Item>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        <span onClick={()=>{props.changeShowTab(5)}}>
         <HeartOutlined/>
           收藏文章
-        </a>
+        </span>
       </Menu.Item>
 
       <Menu.Item onClick={()=>{ props.history.push('recycle')}}>
@@ -135,9 +133,6 @@ function Header(props) {
           {localStorage.getItem('token') && <NavItem className='left' style={{color: props.showTab===2 &&'red'}} onClick={()=>{props.changeShowTab(2)}}>关注</NavItem>}
           <NavItem className='left' style={{color: props.showTab===1 &&'red'}} onClick={()=>{props.changeShowTab(1)}}>发现</NavItem>
           {localStorage.getItem('token') && <NavItem className='left' style={{color: props.showTab===3 &&'red'}} onClick={()=>{props.changeShowTab(3)}}>消息</NavItem>}
-         {/* <NavItem className='left' style={{color: props.showTab===2 &&'red'}} onClick={()=>{props.changeShowTab(2)}}>关注</NavItem>
-         <NavItem className='left' style={{color: props.showTab===1 &&'red'}} onClick={()=>{props.changeShowTab(1)}}>发现</NavItem>
-         <NavItem className='left' style={{color: props.showTab===3 &&'red'}} onClick={()=>{props.changeShowTab(3)}}>消息</NavItem> */}
          <SearchWrapper>
           <CSSTransition
             in={focused}

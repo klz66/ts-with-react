@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 00:26:19
+ * @LastEditTime: 2021-04-12 13:25:04
  */
 import 'antd/dist/antd.css'
 import { BrowserRouter,Route } from "react-router-dom";
@@ -10,7 +10,6 @@ import Home from './pages/home'
 import Write from './pages/write'
 import Edit from './pages/write/edit'
 import Recycle from './pages/trash'
-import Setting from './pages/setting'
 import Personal from './pages/personal'
 import TrashDetail from './pages/detail/trashIndex'
 import Detail from './pages/detail/loadable.js';
@@ -39,8 +38,7 @@ function App(props) {
           <Route path='/' exact component={Home}></Route> 
           {localStorage.getItem('token') &&<Route path='/write' exact component={Write}></Route>}
           {localStorage.getItem('token') &&<Route path='/edit' exact component={Edit}></Route>}
-          <Route path='/avatar' exact component={Avatar}></Route> 
-          <Route path='/setting' exact component={Setting}></Route> 
+          <Route path='/avatar' exact component={Avatar}></Route>
           <Route path='/personal/:id' exact component={Personal}></Route> 
           
           {localStorage.getItem('token') &&<Route path='/recycle' exact component={Recycle}></Route>}
