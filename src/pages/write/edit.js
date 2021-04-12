@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 22:38:24
+ * @LastEditTime: 2021-04-12 10:31:32
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -49,6 +49,12 @@ function Edit(props) {
         message: '内容不能为空'
       })
       return
+    }
+    if(formatTitle(content) === '') {
+      notification['error']({
+        message: '必须要有标题'
+      })
+      return;
     }
     if(formatTitle(content).length>30){
       notification['error']({

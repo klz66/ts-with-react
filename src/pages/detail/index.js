@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 09:41:40
+ * @LastEditTime: 2021-04-12 10:14:01
  */
 /*
  * @Description: 
@@ -341,7 +341,6 @@ function Detail(props) {
     return <div className='detailContent'>
     <div className='left'>
       <div className='article'>
-        <h1>{blogDetail.title}</h1>
         <div className='memberTop'>
           <div style={{display:'flex',position:'relative'}}>
               <Avatar size={56} src={memberDetail.avatar} onClick={()=>{window.open('/personal/' + memberDetail.id)}}/>
@@ -395,11 +394,14 @@ function Detail(props) {
           </div>
       </div>
       <div className='recommend'>
-        推荐阅读 
+        <div className='topText'>
+          <span>推荐阅读</span>
+        </div>
+         
         {
           articleList.map((item,index) => (
-            <div key={item.id}>
-              <h3 className='title' onClick={()=>goToDetail(item.id)}>{item.title}</h3>
+            <div key={item.id} className='item'>
+              <h3 className='title' onClick={()=>goToDetail(item.id)}>{item.title.slice(0,12)}</h3>
             </div>
           ))
         }

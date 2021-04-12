@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 22:38:06
+ * @LastEditTime: 2021-04-12 10:30:23
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -126,6 +126,12 @@ function Write(props) {
       })
       return
     }
+    if(formatTitle(content) === '') {
+      notification['error']({
+        message: '必须要有标题'
+      })
+      return;
+    }
     const params = {
       "id": blogId,
       "title": formatTitle(content),
@@ -158,6 +164,12 @@ function Write(props) {
         message: '内容不能为空'
       })
       return
+    }
+    if(formatTitle(content) === '') {
+      notification['error']({
+        message: '必须要有标题'
+      })
+      return;
     }
     if(formatTitle(content).length>30){
       notification['error']({
@@ -245,7 +257,7 @@ function Write(props) {
       return content.match(/((?<=<h6>).+?)(?=<\/h6>)/)[0].replace(re1,'');
     }
     else{
-      return '无标题'
+      return ''
     } 
   }
   
@@ -256,7 +268,7 @@ function Write(props) {
             <List
               size="small"
               style = {{overflowY:'scroll'}}
-              header={<div onClick={()=>handAdd()}>新建文章</div>}
+              header={<div onClick={()=>handAdd()} style={{cursor:'pointer'}}>新建文章</div>}
               footer={
                 <Popconfirm
                 title="确定清除草稿箱？"
