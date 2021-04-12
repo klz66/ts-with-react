@@ -1,20 +1,11 @@
-/*
- * @Description: 
- * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-09 15:39:52
- */
-/*
- * @Description: 
- * @Author: Zhong Kailong
- * @LastEditTime: 2021-03-19 17:13:19
- */
+
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import { withRouter } from 'react-router-dom';
-import './index.less'
+import './less/recycle.less'
 import { notification,Table, Divider, Button ,Space,Popconfirm,message  } from 'antd';
 function List(props) {
   let [current,setCurrent] = useState(1)
@@ -126,7 +117,7 @@ function List(props) {
           <Table.Column title="创建时间" dataIndex="gmtCreate"  />
           <Table.Column title="修改时间" dataIndex="gmtModified"  />
           <Table.Column
-            title="Action"
+            title="操作"
             key="action"
             render={(text, record) => (
               <Space size="middle">

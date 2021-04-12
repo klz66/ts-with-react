@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 13:25:56
+ * @LastEditTime: 2021-04-12 15:10:25
  */
 
 import 'antd/dist/antd.css'
@@ -88,8 +88,14 @@ function Header(props) {
           收藏文章
         </span>
       </Menu.Item>
+      <Menu.Item>
+        <span onClick={()=>{props.changeShowTab(6)}}>
+        <HeartOutlined/>
+          管理博客
+        </span>
+      </Menu.Item>
 
-      <Menu.Item onClick={()=>{ props.history.push('recycle')}}>
+      <Menu.Item onClick={()=>{props.changeShowTab(7)}}>
           <InteractionOutlined/>
           回收站
       </Menu.Item>

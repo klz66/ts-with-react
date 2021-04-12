@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 13:28:00
+ * @LastEditTime: 2021-04-12 15:09:40
  */
 import 'antd/dist/antd.css'
 import {useState,useEffect } from 'react'
@@ -15,6 +15,8 @@ import UserList from './components/UserList'
 import Header from '@/common/header'
 import Setting from '@/pages/setting'
 import Collection from './components/Collection'
+import ManageBlog from './components/ManageBlog'
+import Recycle from './components/Recycle'
 import { 
 	HomeWrapper,
 	HomeLeft,
@@ -57,6 +59,8 @@ function Home(props) {
       {showTab === 3 && <MessageIndex/>}
       {showTab === 4 && <Setting/>}
       {showTab === 5 && <Collection/>}
+      {showTab === 6 && <ManageBlog/>}
+      {showTab === 7 && <Recycle/>}
       </div>
   );
 }
