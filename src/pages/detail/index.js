@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 20:39:45
+ * @LastEditTime: 2021-04-13 15:52:00
  */
 /*
  * @Description: 
@@ -10,12 +10,14 @@
  */
 import { withRouter } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
-import { Input,Button,notification,Avatar,Popconfirm ,Comment, Form, List,Statistic,Tooltip } from 'antd';
+import { Menu, Dropdown,Input,Button,notification,Avatar,Popconfirm ,Comment, Form, List,Statistic,Tooltip } from 'antd';
 import moment from 'moment';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
-import { MessageOutlined,LikeOutlined,LikeFilled,StarOutlined,StarFilled } from '@ant-design/icons';
-import LikeModal from './likeModal'
+import { MessageOutlined,LikeOutlined,LikeFilled,StarOutlined,StarFilled,DislikeOutlined ,EllipsisOutlined} from '@ant-design/icons';
+import LikeModal from './component/LikeModal'
+import ExposeModal from './component/ExposeModal'
+import ExposeCommentModal from './component/ExposeCommentModal'
 import 'antd/dist/antd.css'
 import './index.less'
 
@@ -47,6 +49,41 @@ function Detail(props) {
   let [reply,setReply] = useState(0);
 
   let [data,setData] = useState([]);
+  const menu = (
+    <Menu>
+      {
+        isCollectBlog &&  
+        <Menu.Item>
+          <span style={{cursor:'pointer'}} onClick={handleRemoveCollect}>
+            <StarFilled />已收藏
+          </span>
+        </Menu.Item>       
+      }
+      {
+        !isCollectBlog &&      
+          <Menu.Item>
+            <span style={{cursor:'pointer'}} onClick={handleAddCollect}>
+              <StarOutlined />收藏文章
+            </span>
+          </Menu.Item>       
+      }
+      <Menu.Item>
+        <span style={{cursor:'pointer'}}>
+          {/* <DislikeOutlined /> */}
+          <ExposeModal />
+        </span>
+      </Menu.Item>
+    </Menu>
+  );
+  const menuComment = (
+    <Menu>
+      <Menu.Item>
+        <span style={{cursor:'pointer'}}>
+          <ExposeCommentModal />
+        </span>
+      </Menu.Item>
+    </Menu>
+  );
   useEffect(() => {
     async function init(){
       let id = props.match.params.id;
@@ -122,7 +159,9 @@ function Detail(props) {
         cancelText="No"
       >
         <span>{res.data.isAuthor[index]&&'删除'}</span>
-      </Popconfirm>],
+      </Popconfirm>,        <Dropdown overlay={menuComment} placement="topCenter" arrow>
+          <EllipsisOutlined />
+        </Dropdown>],
       author: ele.commentAuthorNickname,
       avatar: ele.commentAuthorAvatar,
       content: (
@@ -454,16 +493,10 @@ function Detail(props) {
           赞
         </span>
         }
-        {
-          isCollectBlog &&         <span style={{cursor:'pointer'}} onClick={handleRemoveCollect}>
-          <StarFilled />
-        </span>
-        }
-        {
-          !isCollectBlog &&         <span style={{cursor:'pointer'}} onClick={handleAddCollect}>
-          <StarOutlined />
-        </span>
-        }
+
+        <Dropdown overlay={menu} placement="topCenter" arrow>
+          <EllipsisOutlined />
+        </Dropdown>
 
       </div>
     }

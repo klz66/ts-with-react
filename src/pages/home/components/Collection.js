@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 14:30:27
+ * @LastEditTime: 2021-04-13 14:32:57
  */
 /*
  * @Description: 
@@ -10,10 +10,10 @@
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
-import { ListItem, ListInfo } from '../style';
 import { HeartFilled,MessageFilled } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import http from '@/utils/request'
+import collectPic from '@/statics/collect.png'
 import {demoUrl} from '@/utils/utils';
 import './less/collection.less'
 
@@ -33,7 +33,7 @@ function Collection(props) {
     if(res.code === 20000) {
       let articleList = res.data.rows?.map((i,index)=>(
         {
-          'title': i.title,
+          'title': i?.title,
           'desc': i.content,
           'id':i.id,
           'name':i.name,
@@ -64,7 +64,7 @@ function Collection(props) {
   }
   return (
     <div className='content'>
-      <img src='https://cdn2.jianshu.io/assets/web/collect-note-955d8c71641a360924390da9da4b0151.png' alt="avatar" style={{ width: '100%' }} />
+      <img src={collectPic} alt="avatar" style={{ width: '100%' }} />
       {
       articleList.map((item,index) => (
         <div>

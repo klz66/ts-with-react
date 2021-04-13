@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-13 10:56:03
+ * @LastEditTime: 2021-04-13 13:56:06
  */
 /*
  * @Description: 
@@ -14,7 +14,7 @@ import { Input,Button,Avatar,Comment, List,Statistic,Tooltip } from 'antd';
 import moment from 'moment';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
-import LikeModal from './likeModal'
+import LikeModal from './component/LikeModal'
 import 'antd/dist/antd.css'
 import './index.less'
 

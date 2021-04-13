@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-11 16:05:47
+ * @LastEditTime: 2021-04-13 14:19:24
  */
 import React, { useState,useEffect } from 'react';
 import { Modal,Avatar } from 'antd';
@@ -14,6 +14,7 @@ function LikeModal(props) {
   const [likeBlogList, setLikeBlogList] = useState([]);
   useEffect(() => {
     getMemberList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[props]);
   async function getMemberList() {
     let id = props.blogId;
@@ -22,7 +23,6 @@ function LikeModal(props) {
       setLikeBlogList(res.data.list)
     }
   }
-  // /blogservice/blog-like/getLikeBlogMember/{id
 
 
   const showModal = () => {
