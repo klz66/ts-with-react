@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-10 13:30:25
+ * @LastEditTime: 2021-04-13 16:53:24
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -87,7 +87,7 @@ function UserList(props) {
   }
   return (
     <div>
-      <div style={{display:'flex',justifyContent:'space-between'}}><span>推荐作者</span><span onClick={()=>{setCurrent(current+1)}}>换一批</span></div>
+      <div style={{display:'flex',justifyContent:'space-between'}}><span>推荐作者</span><span style={{cursor:'pointer'}} onClick={()=>{setCurrent(current+1)}}>换一批</span></div>
       <List
         itemLayout="horizontal"
         dataSource={data}

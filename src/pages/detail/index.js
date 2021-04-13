@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-13 15:52:00
+ * @LastEditTime: 2021-04-13 18:00:44
  */
 /*
  * @Description: 
@@ -14,7 +14,7 @@ import { Menu, Dropdown,Input,Button,notification,Avatar,Popconfirm ,Comment, Fo
 import moment from 'moment';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
-import { MessageOutlined,LikeOutlined,LikeFilled,StarOutlined,StarFilled,DislikeOutlined ,EllipsisOutlined} from '@ant-design/icons';
+import { MessageOutlined,LikeOutlined,LikeFilled,StarOutlined,StarFilled,PlusOutlined,CheckOutlined,DislikeOutlined ,EllipsisOutlined} from '@ant-design/icons';
 import LikeModal from './component/LikeModal'
 import ExposeModal from './component/ExposeModal'
 import ExposeCommentModal from './component/ExposeCommentModal'
@@ -47,6 +47,8 @@ function Detail(props) {
   let [value,setValue] = useState('');
   //  该评论是不是回复某人
   let [reply,setReply] = useState(0);
+  //  该用户是不是关注了
+  let [isFocus,setIsFocus] = useState(false);
 
   let [data,setData] = useState([]);
   const menu = (
@@ -70,7 +72,7 @@ function Detail(props) {
       <Menu.Item>
         <span style={{cursor:'pointer'}}>
           {/* <DislikeOutlined /> */}
-          <ExposeModal />
+          <ExposeModal blogDetail={blogDetail}/>
         </span>
       </Menu.Item>
     </Menu>
@@ -113,17 +115,24 @@ function Detail(props) {
       }
     }
     init();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
   useEffect(() => {
     async function getMemberInfo() {
       let id = blogDetail.authorId;
       let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberById/${id}`);
       if(res.code === 20000) {
+        if(res.data.isFocus) {
+          setIsFocus(true)
+        } else {
+          setIsFocus(false)
+        }
         setMemberDetail(res.data.memberDetail)
       }
     }
     getMemberInfo();
     getCommentList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[blogDetail]);
   function handleReply(id) {
     // 回复评论 传参多一些
@@ -400,6 +409,27 @@ function Detail(props) {
     }
   }
 
+  async function handleFocus(){
+      let params = {
+        userBeFocusedId:memberDetail.id,
+      }
+      let res = await http.post(`${demoUrl}/blogservice/blog-focus/addFocus`,params) ;
+      if(res.code === 20000) {
+        setIsFocus(true)
+      }
+
+  }
+  async function handleCancelFocus(){
+      let params = {
+        userBeFocusedId:memberDetail.id,
+      }
+      let res = await http.delete(`${demoUrl}/blogservice/blog-focus/deleteFocus`,params);
+      console.log(res);
+      if(res.data.code === 20000) {
+        setIsFocus(false)
+      }
+
+  }
   function yesArticle() {
     return <div className='detailContent'>
     <div className='left'>
@@ -408,7 +438,12 @@ function Detail(props) {
           <div style={{display:'flex',position:'relative'}}>
               <Avatar size={56} src={memberDetail.avatar} onClick={()=>{window.open('/personal/' + memberDetail.id)}}/>
               <div style={{display:'flex',flexDirection:'column',justifyContent:'space-around',marginLeft:'10px'}}>
-                <div> {memberDetail.nickname}</div>
+                <div style={{float: 'left'}}> 
+                  {memberDetail.nickname} 
+                  { !isFocus && !isAuthor && <span style={{color:'green',cursor:'pointer',marginLeft:'20px'}} onClick={()=>{handleFocus()}}><PlusOutlined />关注</span>}
+                  { isFocus && !isAuthor && <span style={{color:'#999999',cursor:'pointer',marginLeft:'20px'}} onClick={()=>{handleCancelFocus()}}><CheckOutlined />已关注</span>}
+           
+                </div>
                 <div style={{fontSize:'12px',color:'#969696'}}>{blogDetail.gmtCreate}&nbsp;&nbsp;
                 </div>
               </div>
