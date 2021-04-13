@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 15:16:08
+ * @LastEditTime: 2021-04-13 11:07:08
  */
 
 import 'antd/dist/antd.css'
@@ -18,11 +18,6 @@ import {
 	NavItem,
 	SearchWrapper,
 	NavSearch,
-	SearchInfo,
-	SearchInfoTitle,
-	SearchInfoSwitch,
-	SearchInfoList,
-	SearchInfoItem,
 	Addition,
 	Button
 } from './style';
@@ -30,43 +25,9 @@ import {
 import React from 'react';
 function Header(props) {
   let memberInfo= JSON.parse(window.localStorage.getItem('memberInfo'))
-  const {page,totalPage,focused,mouseIn,list,changeFocusOn,changeFocusOff,handMouseIn,handMouseOut,changePage}=props;
+  const {focused,changeFocusOn,changeFocusOff}=props;
   const handleOut = () =>{
     props.history.push('login');
-  }
-  const getListArea = () => {
-    if(focused || mouseIn) {
-      let newList = [];
-      // let pageList = []
-      let jsList = list.toJS();
-      // 这里的3,是每页三个
-      let RightIndex = Math.min(((page+1)*3),jsList.length);
-      for(let i=(page*3);i<RightIndex;i++){
-        newList.push(jsList[i])
-      }
-
-      return (
-        <SearchInfo onMouseEnter={handMouseIn} onMouseLeave={handMouseOut}>
-        <SearchInfoTitle>
-          热门搜索
-          <SearchInfoSwitch onClick={()=>changePage(page,totalPage,list)}
-          >
-            换一批
-          </SearchInfoSwitch>
-        </SearchInfoTitle>
-        <SearchInfoList>
-          {newList.map(item => {
-            return (
-              <SearchInfoItem>{item}</SearchInfoItem>
-            )
-          })}
-        </SearchInfoList>
-      </SearchInfo>
-      )
-    }
-    else {
-      return null
-    }
   }
   const menu = (
     <Menu>
@@ -146,15 +107,13 @@ function Header(props) {
             classNames='slide'
           >
             <NavSearch className={focused?'focused':''}
-              onFocus={()=>changeFocusOn(list)}
+              onFocus={()=>changeFocusOn()}
               onBlur={changeFocusOff}
             />
           </CSSTransition>
-          {/* <i className="iconfont zoom">&#xe6e4;</i> */}
           <i className={focused ? 'focused iconfont zoom': 'iconfont zoom'}>
                 &#xe6e4;
               </i>
-          {getListArea()}
         </SearchWrapper>
         </Nav>
   
@@ -188,39 +147,15 @@ function Header(props) {
 }
 
 const mapStateToProps = (state) => ({
-  // focused:state.get('header').get('focused'),
-  // redux-immutable 的用法
   focused:state.getIn(['header','focused']),
-  page:state.getIn(['header','page']),
-  list:state.getIn(['header','list']),
-  mouseIn:state.getIn(['header','mouseIn']),
-  totalPage:state.getIn(['header','totalPage']),
-  login:state.getIn(['login','login']),
 })
 const mapDispatchToProps = (dispatch) => ({
-  changeFocusOn(list){
-    list.size === 0 && dispatch(actionCreators.getListApi())
-    // dispatch(actionCreators.getListApi())
+  changeFocusOn(){
     dispatch(actionCreators.getInputFocusOn(true))
   },
   changeFocusOff(){
     dispatch(actionCreators.getInputFocusOff(false))
   },
-  handMouseIn(){
-    dispatch(actionCreators.getMouseIn())
-  },
-  handMouseOut(){
-    dispatch(actionCreators.getMouseOut())
-  },
-  changePage(page,totalPage,list){
-    if(page<totalPage-1){
-      dispatch(actionCreators.getPage(page+1))
-    } else {
-      dispatch(actionCreators.getPage(0))
-    }
-  },
-  loginIn(){
-  }
 })
 
 

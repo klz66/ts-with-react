@@ -39,7 +39,7 @@ function List(props) {
     }
   }
   const goToDetail = async(id)=>{
-    props.history.push('/TrashDetail/' + id)
+    window.open('/TrashDetail/' + id)
   }
   const handleDelete = async(id)=>{
     let res = await http.delete(`${demoUrl}/blogservice/blog-curd/delete/forever/${id}`);
