@@ -1,12 +1,10 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 21:01:44
+ * @LastEditTime: 2021-04-13 11:18:02
  */
 import 'antd/dist/antd.css'
 import {useState,useEffect } from 'react'
-import { connect } from "react-redux";
-import  {  actionCreators  }  from "./store";
 import FocusIndex from './focusIndex'
 import MessageIndex from './messageIndex'
 import List from './components/List'
@@ -25,18 +23,6 @@ import {
 function Home(props) {
   // 1 发现  2 关注  3消息
   let [showTab,setShowTab] = useState(1)
-  const { changeHomeData } = props
-  useEffect(() => {
-    // if(!localStorage.getItem('token')){
-      
-    // }
-    // if(props.location.state.showTab === 6){
-    //   setShowTab(props.location.state.showTab)
-    // }
-    
-    // console.log(props.location.state.showTab ===6);
-    changeHomeData();
-  });
   function changeShowTab(showTab) {
     setShowTab(showTab)
   }
@@ -70,19 +56,7 @@ function Home(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  // focused:state.get('header').get('focused'),
-  // redux-immutable 的用法
-})
-const mapDispatchToProps = (dispatch) => ({
-  changeHomeData(){
-    dispatch(actionCreators.getHomeInfo())
-  },
-  getArticleList(){
-    dispatch(actionCreators.getArticleList(1,5))
-  },
-})
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
