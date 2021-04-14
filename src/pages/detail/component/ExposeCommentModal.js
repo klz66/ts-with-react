@@ -1,19 +1,28 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-13 15:54:49
+ * @LastEditTime: 2021-04-14 17:17:30
  */
 import React, { useState } from 'react';
-import { Modal, Radio, Form,Input } from 'antd';
+import { Modal, Radio, Form,Input,notification } from 'antd';
 import 'moment/locale/zh-cn';
+import http from '@/utils/request'
+import {demoUrl} from '@/utils/utils';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 const { TextArea } = Input;
-const ExposeModal = () => {
+const ExposeModal = (props) => {
   const [chooseRadio, setChooseRadio] = useState('a');
   const [detailContent, setDetailContent] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
+    setDetailContent('')
+    setChooseRadio('a')
+    setIsModalVisible(true);
+  };
+
+  const handleOk = async() => {
+    // 举报评论
     let chooseRadioMeaning;
     if(chooseRadio === 'a') {
       chooseRadioMeaning = '广告或垃圾信息'
@@ -23,17 +32,18 @@ const ExposeModal = () => {
       chooseRadioMeaning = '政治相关'
     }
     let params = {
-      detailContent,
-      chooseRadioMeaning,
+      reason: chooseRadioMeaning+detailContent,
+      isReportBlog: 1,
+      commentId: props.commentId
     }
-    console.log(params);
-    setDetailContent('')
-    setChooseRadio('a')
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
+    let res = await http.post(`${demoUrl}/blogservice/blog-report/addReport`,params);
+    if(res.code === 20000) {
+      notification['success']({
+        message: '举报成功',
+        duration: 1,
+      });
+      setIsModalVisible(false);
+    }
   };
 
   const handleCancel = () => {

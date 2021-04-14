@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-13 18:00:44
+ * @LastEditTime: 2021-04-14 17:11:47
  */
 /*
  * @Description: 
@@ -16,7 +16,7 @@ import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import { MessageOutlined,LikeOutlined,LikeFilled,StarOutlined,StarFilled,PlusOutlined,CheckOutlined,DislikeOutlined ,EllipsisOutlined} from '@ant-design/icons';
 import LikeModal from './component/LikeModal'
-import ExposeModal from './component/ExposeModal'
+import ExposeActicleModal from './component/ExposeActicleModal'
 import ExposeCommentModal from './component/ExposeCommentModal'
 import 'antd/dist/antd.css'
 import './index.less'
@@ -72,20 +72,22 @@ function Detail(props) {
       <Menu.Item>
         <span style={{cursor:'pointer'}}>
           {/* <DislikeOutlined /> */}
-          <ExposeModal blogDetail={blogDetail}/>
+          <ExposeActicleModal blogDetail={blogDetail}/>
         </span>
       </Menu.Item>
     </Menu>
   );
-  const menuComment = (
-    <Menu>
+  function menuComment(id) {
+    return (
+      <Menu>
       <Menu.Item>
         <span style={{cursor:'pointer'}}>
-          <ExposeCommentModal />
+          <ExposeCommentModal commentId = {id}/>
         </span>
       </Menu.Item>
     </Menu>
-  );
+    )
+  };
   useEffect(() => {
     async function init(){
       let id = props.match.params.id;
@@ -168,7 +170,7 @@ function Detail(props) {
         cancelText="No"
       >
         <span>{res.data.isAuthor[index]&&'删除'}</span>
-      </Popconfirm>,        <Dropdown overlay={menuComment} placement="topCenter" arrow>
+      </Popconfirm>,        <Dropdown overlay={()=>menuComment(ele.id)} placement="topCenter" arrow>
           <EllipsisOutlined />
         </Dropdown>],
       author: ele.commentAuthorNickname,

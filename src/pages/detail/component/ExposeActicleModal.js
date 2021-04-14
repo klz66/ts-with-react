@@ -1,10 +1,10 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-13 18:01:43
+ * @LastEditTime: 2021-04-14 16:59:54
  */
 import React, { useState } from 'react';
-import { Modal, Radio, Form,Input } from 'antd';
+import { Modal, Radio, Form,Input,notification } from 'antd';
 import 'moment/locale/zh-cn';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
@@ -16,7 +16,6 @@ const ExposeModal = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
-
     setDetailContent('')
     setChooseRadio('a')
     setIsModalVisible(true);
@@ -34,12 +33,19 @@ const ExposeModal = (props) => {
       chooseRadioMeaning = '抄袭'
     }
     let params = {
-      detailContent,
-      chooseRadioMeaning,
+      reason: chooseRadioMeaning+detailContent,
+      blogId: props.blogDetail.id,
+      authorId: props.blogDetail.authorId,
+      isReportBlog: 0
     }
-    console.log(params);
-    let res = await http.post(`${demoUrl}/blogservice/blog-comment/addComment`,params);
-    setIsModalVisible(false);
+    let res = await http.post(`${demoUrl}/blogservice/blog-report/addReport`,params);
+    if(res.code === 20000) {
+      notification['success']({
+        message: '举报成功',
+        duration: 1,
+      });
+      setIsModalVisible(false);
+    }
   };
 
   const handleCancel = () => {
@@ -69,6 +75,4 @@ const ExposeModal = (props) => {
     </>
   );
 };
-
-
 export default ExposeModal;
