@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 17:32:02
+ * @LastEditTime: 2021-04-15 21:45:53
  */
 import 'antd/dist/antd.css'
 import moment from 'moment';
@@ -13,17 +13,23 @@ import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import './less/list.less'
 function List(props) {
+  let [current,setCurrent]=useState(1)
   let [articleList,setArticleList]=useState([])
   useEffect(() => {
     console.log(props);
     getArticleList(props.match.params.id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[props]);
   const goToDetail = async(id)=>{
     window.open('/detail/' + id)
   }
+  const getMore = ()=>{
+    setCurrent(current+1)
+    getMoreList(current+1)
+  }
 
   async function getArticleList(id){
-    let res = await http.get(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/${id}`);
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/${id}/${current}/3`);
     
     if(res.code === 20000) {
       let articleList = res.data.list.map((i,index)=>(
@@ -37,6 +43,23 @@ function List(props) {
           'commentNums':res.data.commentNums[index]
         }));
         setArticleList(articleList)
+    }
+  }
+  async function getMoreList(current){
+    let res = await http.get(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/${props.match.params.id}/${current}/3`);
+    
+    if(res.code === 20000) {
+      console.log(res.data.item);
+      let list = res.data.list.map((i,index)=>(
+        {
+          'title': i.title,
+          'desc': i.content,
+          'id':i.id,
+          'name':i.name,
+          'zangNum':i.zangNum,
+          'commentNums':res.data.commentNums[index]
+           }));
+      setArticleList([...articleList,...list])
     }
   }
   function formatImg(content) {
@@ -95,6 +118,9 @@ function List(props) {
           </div>
         ))
       }
+      <div onClick={getMore} className='bottom'>
+        <span>加载更多</span>
+      </div>
     </div>
   );
 }

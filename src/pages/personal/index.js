@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 17:51:38
+ * @LastEditTime: 2021-04-15 18:09:44
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -99,17 +99,6 @@ function Personal(props) {
                 key="1"
               >
                 <List authorId = {authorId}/>
-              </TabPane>
-              <TabPane
-                tab={
-                  <span>
-                    <CommentOutlined />
-                    最新消息
-                  </span>
-                }
-                key="2"
-              >
-                最新消息
               </TabPane>
             </Tabs>
         }  
