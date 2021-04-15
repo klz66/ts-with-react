@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const HomeWrapper = styled.div`
 	overflow: hidden;
-	width: 960px;
-	margin: 0 auto;
+	width: 100%;
+	padding: 0 200px;
 `;
 
 export const HomeLeft = styled.div`
@@ -18,7 +18,7 @@ export const HomeLeft = styled.div`
 `;
 
 export const HomeRight = styled.div`
-	width: 280px;
+	width: 480px;
 	float: right;
 `;
 
@@ -84,11 +84,11 @@ export const ListInfo =	styled.div`
 
 export const RecommendWrapper = styled.div`
 	margin: 30px 0;
-	width: 280px;
+	width: 480px;
 `;
 
 export const RecommendItem = styled.div`
-	width: 280px;
+	width: 480px;
 	height: 50px;
 	background: ${(props) => props.color};
 	background-size: contain;

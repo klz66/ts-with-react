@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 10:30:23
+ * @LastEditTime: 2021-04-15 15:49:13
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -262,7 +262,7 @@ function Write(props) {
   }
   
 			return (
-        <div style={{display:'flex',height:'100vh'}}>
+        <div style={{display:'flex',height:'100vh',paddingLeft:'100px'}}>
           <div style={{width:'180px',marginRight:'50px'}}>
             
             <List
@@ -313,8 +313,8 @@ function Write(props) {
             apiKey='i24scrj5aegi7posl2kwbygrvkcgywqul11wtqrwoltystrh'
             selecector='editorStateRef'
             init={{
-            height: 500,
-            width:900,
+            height: 700,
+            width:1100,
             language_url: zh_CN,
             language:'zh_CN',
             images_upload_handler: async function (blobInfo, succFun, failFun) {

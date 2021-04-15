@@ -24,7 +24,7 @@ function List(props) {
   const openNotificationWithIcon = type => {
     notification[type]({
       message: '删除成功',
-      description:'永久删除成功',
+      description:'删除成功',
       duration: 1,
     });
   };

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-14 17:11:47
+ * @LastEditTime: 2021-04-15 11:44:29
  */
 /*
  * @Description: 
@@ -290,7 +290,6 @@ function Detail(props) {
   async function handleDeleteComment(id) {
     // DELETE /blogservice/blog-comment/deleteComment/{id}
     let res = await http.delete(`${demoUrl}/blogservice/blog-comment/deleteComment/${id}`);
-    console.log(res);
     if(res.data.code === 20000) {
       notification['success']({
         message: '删除成功',

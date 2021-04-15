@@ -1,10 +1,10 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-13 11:18:02
+ * @LastEditTime: 2021-04-15 15:43:26
  */
 import 'antd/dist/antd.css'
-import {useState,useEffect } from 'react'
+import {useState } from 'react'
 import FocusIndex from './focusIndex'
 import MessageIndex from './messageIndex'
 import List from './components/List'
