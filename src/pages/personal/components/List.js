@@ -1,12 +1,13 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-08 16:31:40
+ * @LastEditTime: 2021-04-15 17:32:02
  */
 import 'antd/dist/antd.css'
+import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { ListItem, ListInfo } from '@/pages/home/style';
-import { HeartFilled } from '@ant-design/icons';
+import { HeartFilled ,MessageFilled} from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
@@ -25,13 +26,15 @@ function List(props) {
     let res = await http.get(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/${id}`);
     
     if(res.code === 20000) {
-      let articleList = res.data.list.map((i)=>(
+      let articleList = res.data.list.map((i,index)=>(
         {
           'title': i.title,
           'desc': i.content,
           'id':i.id,
           'name':i.name,
           'zangNum':i.zangNum,
+          'gmtCreate':i.gmtCreate,
+          'commentNums':res.data.commentNums[index]
         }));
         setArticleList(articleList)
     }
@@ -69,7 +72,6 @@ function List(props) {
                 alt=''
               />}
               <h3 className='title' onClick={()=>goToDetail(item.id)}>{item.title}</h3>
-              {/* <p className='desc'>{item.get('desc')}</p> */}
               <div className='desc' dangerouslySetInnerHTML={{__html: formatContent(item.desc)}}/>
             </ListInfo>
             
@@ -79,9 +81,16 @@ function List(props) {
             {item.name}
             
             <div>
-          <HeartFilled/>
-            {item.zangNum}
-          </div>
+              <HeartFilled/>
+              {item.zangNum}
+            </div>
+            <div>
+              <MessageFilled/>
+              {item.commentNums}
+            </div>
+            <div>
+            {moment(item.gmtCreate).fromNow()}
+            </div>
           </div>
           </div>
         ))

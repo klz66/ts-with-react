@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-13 13:56:06
+ * @LastEditTime: 2021-04-15 17:23:23
  */
 /*
  * @Description: 
@@ -10,7 +10,7 @@
  */
 import { withRouter } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Input,Button,Avatar,Comment, List,Statistic,Tooltip } from 'antd';
+import { Button,Avatar,Comment, List,Statistic,Tooltip } from 'antd';
 import moment from 'moment';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';

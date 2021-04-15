@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 16:54:39
+ * @LastEditTime: 2021-04-15 17:51:38
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -12,7 +12,7 @@ import FansList from './components/FansList'
 import {demoUrl} from '@/utils/utils';
 import { Tabs,Avatar } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { SnippetsOutlined , BellOutlined,CommentOutlined } from '@ant-design/icons';
+import { SnippetsOutlined ,CommentOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import './personal.less'
 
@@ -25,6 +25,7 @@ function Personal(props) {
   let [authorId,setAuthorId] = useState('')
   useEffect(()=>{
     getMemberInfo();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   useEffect(()=>{
     setShowTab(2)
@@ -103,12 +104,12 @@ function Personal(props) {
                 tab={
                   <span>
                     <CommentOutlined />
-                    最新评论
+                    最新消息
                   </span>
                 }
                 key="2"
               >
-                最新评论
+                最新消息
               </TabPane>
             </Tabs>
         }  
