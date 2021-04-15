@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 21:45:53
+ * @LastEditTime: 2021-04-15 22:37:22
  */
 import 'antd/dist/antd.css'
 import moment from 'moment';
@@ -14,6 +14,7 @@ import {demoUrl} from '@/utils/utils';
 import './less/list.less'
 function List(props) {
   let [current,setCurrent]=useState(1)
+  let [moreText,setMoreText]=useState(true)
   let [articleList,setArticleList]=useState([])
   useEffect(() => {
     console.log(props);
@@ -32,6 +33,9 @@ function List(props) {
     let res = await http.get(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/${id}/${current}/3`);
     
     if(res.code === 20000) {
+      if(res.data.list.length === 0) {
+        setMoreText(false)
+      }
       let articleList = res.data.list.map((i,index)=>(
         {
           'title': i.title,
@@ -49,7 +53,9 @@ function List(props) {
     let res = await http.get(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/${props.match.params.id}/${current}/3`);
     
     if(res.code === 20000) {
-      console.log(res.data.item);
+      if(res.data.list.length === 0) {
+        setMoreText(false)
+      }
       let list = res.data.list.map((i,index)=>(
         {
           'title': i.title,
@@ -118,9 +124,16 @@ function List(props) {
           </div>
         ))
       }
-      <div onClick={getMore} className='bottom'>
+      {
+        moreText &&       <div onClick={getMore} className='bottom'>
         <span>加载更多</span>
       </div>
+      }
+      {
+        !moreText &&       <div className='bottom'>
+        <span>已加载完毕</span>
+      </div>
+      }
     </div>
   );
 }

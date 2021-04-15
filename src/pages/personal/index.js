@@ -1,18 +1,19 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 18:09:44
+ * @LastEditTime: 2021-04-15 22:10:06
  */
 
 import React,{ useState,useEffect }  from 'react';
 import http from '@/utils/request'
 import List from './components/List'
+import CommentList from './components/CommentList'
 import FocusList from './components/FocusList'
 import FansList from './components/FansList'
 import {demoUrl} from '@/utils/utils';
 import { Tabs,Avatar } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { SnippetsOutlined ,CommentOutlined } from '@ant-design/icons';
+import { SnippetsOutlined ,CommentOutlined,PlusOutlined,CheckOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import './personal.less'
 
@@ -23,6 +24,8 @@ function Personal(props) {
   let [actice2,setActice2] = useState(1)  
   let [thisAuthorLikes,setThisAuthorLikes] = useState(0)  
   let [authorId,setAuthorId] = useState('')
+    //  该用户是不是关注了
+    let [isFocus,setIsFocus] = useState(false);
   useEffect(()=>{
     getMemberInfo();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,10 +39,35 @@ function Personal(props) {
     setAuthorId(id);
     let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberById/${id}`);
     if(res.code === 20000) {
+      if(res.data.isFocus) {
+        setIsFocus(true)
+      } else {
+        setIsFocus(false)
+      }
       setMemberInfo(res.data.memberDetail)
       setThisAuthorLikes(res.data.thisAuthorLikes)
     }
   }
+  async function handleFocus(){
+    let params = {
+      userBeFocusedId: props.match.params.id
+    }
+    let res = await http.post(`${demoUrl}/blogservice/blog-focus/addFocus`,params) ;
+    if(res.code === 20000) {
+      setIsFocus(true)
+    }
+
+}
+async function handleCancelFocus(){
+    let params = {
+      userBeFocusedId:props.match.params.id,
+    }
+    let res = await http.delete(`${demoUrl}/blogservice/blog-focus/deleteFocus`,params);
+    console.log(res);
+    if(res.data.code === 20000) {
+      setIsFocus(false)
+    }
+}
     return (
       <div className='personalContent'>
         <div className='left'>
@@ -50,6 +78,9 @@ function Personal(props) {
             <div className='topRight'>
               <div className='topRightTop'>
                 {memberInfo.nickname}
+                { !isFocus  && <span style={{color:'green',cursor:'pointer',marginLeft:'20px'}} onClick={()=>{handleFocus()}}><PlusOutlined />关注</span>}
+                { isFocus  && <span style={{color:'#999999',cursor:'pointer',marginLeft:'20px'}} onClick={()=>{handleCancelFocus()}}><CheckOutlined />已关注</span>}
+           
               </div>
               <div className='topRightBottom'>
                 <div className='item' onClick={()=>{setActice2(1)}}>
@@ -99,6 +130,17 @@ function Personal(props) {
                 key="1"
               >
                 <List authorId = {authorId}/>
+              </TabPane>
+              <TabPane
+                tab={
+                  <span>
+                    <CommentOutlined  />
+                    最新评论
+                  </span>
+                }
+                key="2"
+              >
+                <CommentList authorId={authorId}/>
               </TabPane>
             </Tabs>
         }  
