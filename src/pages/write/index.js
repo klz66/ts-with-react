@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 15:49:13
+ * @LastEditTime: 2021-04-15 16:06:46
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -151,7 +151,7 @@ function Write(props) {
     handleSave(content)
   }
   const handPost = async(content) =>{
-    if(localStorage.getItem('blogId').length!==19){
+    if(localStorage.getItem('blogId')?.length!==19){
       notification['error']({
         message: '请先选择文章'
       })
@@ -188,6 +188,10 @@ function Write(props) {
       if(res.code === 20000) {
         openNotificationWithIcon('success')
         updateDraftList();
+      } else {
+        notification['error']({
+          message: `${res.data.message}`,
+        });
       }
     }else {
       const params = {
@@ -199,6 +203,10 @@ function Write(props) {
       let res = await http.post(`${demoUrl}/blogservice/blog-curd/addBlog`,params);
       if(res.code === 20000) {
         openNotificationWithIcon('success')
+      } else {
+        notification['error']({
+          message: `${res.data.message}`,
+        });
       }
     }
   }

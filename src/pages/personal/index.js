@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 22:42:33
+ * @LastEditTime: 2021-04-15 16:54:39
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -102,22 +102,11 @@ function Personal(props) {
               <TabPane
                 tab={
                   <span>
-                    <BellOutlined />
-                    动态
-                  </span>
-                }
-                key="2"
-              >
-                动态
-              </TabPane>
-              <TabPane
-                tab={
-                  <span>
                     <CommentOutlined />
                     最新评论
                   </span>
                 }
-                key="3"
+                key="2"
               >
                 最新评论
               </TabPane>

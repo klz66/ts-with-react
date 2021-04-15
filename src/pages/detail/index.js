@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 11:44:29
+ * @LastEditTime: 2021-04-15 16:54:18
  */
 /*
  * @Description: 
@@ -211,6 +211,10 @@ function Detail(props) {
       });
       getCommentList();
       setValue('');
+    } else {
+      notification['error']({
+        message: `${res.data.message}`,
+      });
     }
   }
   async function handleApply() {
@@ -239,6 +243,10 @@ function Detail(props) {
         });
         getCommentList();
         setComment('')
+      } else {
+        notification['error']({
+          message: `${res.data.message}`,
+        });
       }
     } else {
       console.log('在下面直接评论');
@@ -263,6 +271,10 @@ function Detail(props) {
         });
         getCommentList();
         setComment('');
+      } else {
+        notification['error']({
+          message: `${res.data.message}`,
+        });
       }
     }
   }
