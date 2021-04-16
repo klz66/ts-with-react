@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 10:52:35
+ * @LastEditTime: 2021-04-16 13:58:17
  */
 import 'antd/dist/antd.css'
 import moment from 'moment';
@@ -125,12 +125,12 @@ function List(props) {
         ))
       }
       {
-        moreText &&       <div onClick={getMore} className='bottom' style={{color:'#fff'}}>
+        moreText &&       <div onClick={getMore} className='getmore-bottom' style={{color:'#fff'}}>
         <span>加载更多</span>
       </div>
       }
       {
-        !moreText &&       <div className='bottom' style={{color:'#fff'}}>
+        !moreText &&       <div className='getmore-bottom' style={{color:'#fff'}}>
         <span>已加载完毕</span>
       </div>
       }

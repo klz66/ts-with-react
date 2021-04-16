@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 22:35:46
+ * @LastEditTime: 2021-04-16 14:03:06
  */
 /*
  * @Description: 
@@ -23,7 +23,7 @@ function List(props) {
   let [articleList,setArticleList]=useState([])
   useEffect(() => {
     console.log(props);
-    getArticleList(props.match.params.id)
+    getArticleList(props.authorId)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[props]);
   const goToDetail = async(id)=>{
@@ -57,7 +57,7 @@ function List(props) {
     }
   }
   async function getMoreList(current){
-    let res = await http.get(`${demoUrl}/blogservice/blog-comment/pagePersonalCommentList/${props.match.params.id}/${current}/2`);
+    let res = await http.get(`${demoUrl}/blogservice/blog-comment/pagePersonalCommentList/${props.authorId}/${current}/2`);
     
     if(res.code === 20000) {
       console.log(res.data.item);
@@ -103,12 +103,12 @@ function List(props) {
         ))
       }
       {
-        moreText &&       <div onClick={getMore} className='bottom'>
+        moreText &&       <div onClick={getMore} className='getmore-bottom'>
         <span>加载更多</span>
       </div>
       }
       {
-        !moreText &&       <div className='bottom'>
+        !moreText &&       <div className='getmore-bottom'>
         <span>已加载完毕</span>
       </div>
       }
