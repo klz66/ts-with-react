@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 14:02:52
+ * @LastEditTime: 2021-04-16 16:41:24
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -80,7 +80,7 @@ function Personal(props) {
               </div>
             </div>
           </div>
-          <div className='tab'>
+          <div className='tab1'>
             <Tabs defaultActiveKey="1">
               <TabPane
                 tab={
