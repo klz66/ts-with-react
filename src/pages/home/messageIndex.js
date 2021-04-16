@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 17:29:04
+ * @LastEditTime: 2021-04-17 00:14:32
  */
 
 /*
@@ -14,9 +14,8 @@ import { List, Typography, Divider,Modal } from 'antd';
 import http from '@/utils/request'
 import { MessageTwoTone,HeartTwoTone, StarTwoTone} from '@ant-design/icons';
 import CommentList from '../personal/components/CommentList'
-import Personal from '../personal/focusPersonalIndex'
-import AddSearchAndFocus from './components/addSearchAndFocus'
-import {demoUrl} from '@/utils/utils';
+import LikeList from './components/LikeList'
+import CollectionList from './components/CollectionList'
 import React from 'react';
 import './components/less/messageIndex.less'
 
@@ -74,7 +73,15 @@ function FocusIndex(props) {
                 <div>
                   收到的赞
                 </div>
-                <CommentList authorId={memberInfo.id}/>
+                <LikeList authorId={memberInfo.id}/>
+                </div>
+            }
+            {
+              actice === 2 && <div>
+                <div>
+                  收到的收藏
+                </div>
+                <CollectionList authorId={memberInfo.id}/>
                 </div>
             }
           </div>
