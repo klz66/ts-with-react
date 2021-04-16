@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 10:48:20
+ * @LastEditTime: 2021-04-16 10:55:15
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -83,7 +83,7 @@ async function handleCancelFocus(){
            
               </div>
               <div className='topRightBottom'>
-                <div className='item' onClick={()=>{setActice2(1)}}>
+                <div className='item1' onClick={()=>{setActice2(1)}}>
                   <div>
                     {memberInfo.focusNum}
                   </div>
@@ -91,7 +91,7 @@ async function handleCancelFocus(){
                     关注
                   </div>
                 </div>
-                <div className='item' onClick={()=>{setActice2(2)}}>
+                <div className='item1' onClick={()=>{setActice2(2)}}>
                   <div>
                     {memberInfo.fansNum}
                   </div>
@@ -99,7 +99,7 @@ async function handleCancelFocus(){
                     粉丝
                   </div>
                 </div>
-                <div className='item' onClick={()=>{setShowTab(1)}}>
+                <div className='item1' onClick={()=>{setShowTab(1)}}>
                   <div>
                     {memberInfo.blogNum}
                   </div>
@@ -107,7 +107,7 @@ async function handleCancelFocus(){
                     文章
                   </div>
                 </div>
-                <div className='item' onClick={()=>{setShowTab(1)}}>
+                <div className='item1' onClick={()=>{setShowTab(1)}}>
                   <div>
                     {thisAuthorLikes}
                   </div>
@@ -171,16 +171,6 @@ async function handleCancelFocus(){
         <div>
         </div>
       </div>
-        <div className='right'>
-          
-          <div className='rightTop'>
-          个人介绍
-          </div>
-          <div className='rightText'>
-          {memberInfo.introduction}
-          </div>
-          
-        </div>
       </div>
     )
   

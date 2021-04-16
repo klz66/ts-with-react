@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 16:06:46
+ * @LastEditTime: 2021-04-16 09:48:06
  */
 import React, { useRef,useEffect,useState } from 'react';
 import { connect } from 'react-redux';
@@ -272,7 +272,9 @@ function Write(props) {
 			return (
         <div style={{display:'flex',height:'100vh',paddingLeft:'100px'}}>
           <div style={{width:'180px',marginRight:'50px'}}>
-            
+            <div className='goHome' onClick={()=>{ props.history.push('/')}}>
+              回首页
+            </div>
             <List
               size="small"
               style = {{overflowY:'scroll'}}

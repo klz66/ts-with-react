@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-13 16:33:47
+ * @LastEditTime: 2021-04-16 10:16:30
  */
 /*
  * @Description: 
@@ -18,10 +18,11 @@ import { CheckOutlined,PlusOutlined } from '@ant-design/icons';
 
 function FocusList(props) {
   let [memberInfo] = useState(props.memberInfo)
-  console.log(props.memberInfo);
+  // console.log(props.memberInfo);
   let [data,setData] = useState([])
   useEffect(() => {
     getRecommendList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [memberInfo, props])
   async function getRecommendList(){ 
     let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberFocusById/${props.memberInfo.id}`);
