@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 10:48:20
+ * @LastEditTime: 2021-04-16 11:27:00
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -83,7 +83,7 @@ async function handleCancelFocus(){
            
               </div>
               <div className='topRightBottom'>
-                <div className='item' onClick={()=>{setActice2(1)}}>
+                <div className='item' onClick={()=>{setShowTab(2)}}>
                   <div>
                     {memberInfo.focusNum}
                   </div>
@@ -91,7 +91,7 @@ async function handleCancelFocus(){
                     关注
                   </div>
                 </div>
-                <div className='item' onClick={()=>{setActice2(2)}}>
+                <div className='item' onClick={()=>{setShowTab(2)}}>
                   <div>
                     {memberInfo.fansNum}
                   </div>

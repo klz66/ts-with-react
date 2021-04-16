@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 10:53:31
+ * @LastEditTime: 2021-04-16 11:21:32
  */
 
 /*
@@ -13,7 +13,7 @@ import { useState, useEffect } from 'react';
 import { List, Typography, Divider } from 'antd';
 import http from '@/utils/request'
 import Personal from '../personal/focusPersonalIndex'
-import { withRouter } from 'react-router-dom'
+import AddSearchAndFocus from './components/addSearchAndFocus'
 import {demoUrl} from '@/utils/utils';
 import React from 'react';
 import './components/less/focusIndex.less'
@@ -27,17 +27,24 @@ function FocusIndex(props) {
     getRecommendList();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  useEffect(() => {
+    setId(data[actice]?.id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actice])
   async function getRecommendList(){ 
     let res = await http.get(`${demoUrl}/blogservice/blog-member/getMemberFocusById/${memberInfo.id}`);
     let rows = res.data.list?.map((ele,index) =>({
       ...ele,
     }))
-    console.log(rows);
+
     setData(rows)
+    if(rows.length>0){
+      setActice(0)
+    }
   }
   function handleChange(index) {
     setActice(index)
-    setId(data[index].id)
+    // setId(data[index].id)
   }
 			return (
 				<div className='focusContent'>
@@ -45,7 +52,7 @@ function FocusIndex(props) {
           <List
             size="large"
             style = {{overflowY:'scroll'}}
-            header={<div className='listHeader'><span>全部关注</span><span>添加关注</span></div>}
+            header={<div className='listHeader'><span>全部关注</span><span><AddSearchAndFocus /></span></div>}
             // footer={<div>Footer</div>}
             bordered
             dataSource={data}
