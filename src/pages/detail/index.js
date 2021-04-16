@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 22:01:54
+ * @LastEditTime: 2021-04-16 17:26:56
  */
 /*
  * @Description: 
@@ -229,7 +229,7 @@ function Detail(props) {
       }
       let params = {
         commentAuthorId: memberInfo?.id,
-        content: value,
+        content: comment,
         blogId: blogDetail.id,
         reply: 1,
         replyCommentId: commentId,
@@ -385,7 +385,8 @@ function Detail(props) {
   }
   async function handleAddLike() {
     let params = {
-      blogId: blogDetail.id
+      blogId: blogDetail.id,
+      blogAuthorId: blogDetail.authorId,
     }
     let res = await http.post(`${demoUrl}/blogservice/blog-like/addLikeBlog`,params);
     if(res.code === 20000) {

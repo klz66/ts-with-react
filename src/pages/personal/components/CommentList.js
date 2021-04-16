@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 14:03:06
+ * @LastEditTime: 2021-04-16 17:29:40
  */
 /*
  * @Description: 
@@ -12,7 +12,6 @@ import 'antd/dist/antd.css'
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { ListItem, ListInfo } from '@/pages/home/style';
-import { HeartFilled ,MessageFilled} from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
@@ -35,7 +34,7 @@ function List(props) {
   }
 
   async function getArticleList(id){
-    let res = await http.get(`${demoUrl}/blogservice/blog-comment/pagePersonalCommentList/${id}/${current}/2`);
+    let res = await http.get(`${demoUrl}/blogservice/blog-comment/pagePersonalCommentList/${id}/${current}/5`);
     
     if(res.code === 20000) {
       console.log(res);
@@ -57,7 +56,7 @@ function List(props) {
     }
   }
   async function getMoreList(current){
-    let res = await http.get(`${demoUrl}/blogservice/blog-comment/pagePersonalCommentList/${props.authorId}/${current}/2`);
+    let res = await http.get(`${demoUrl}/blogservice/blog-comment/pagePersonalCommentList/${props.authorId}/${current}/5`);
     
     if(res.code === 20000) {
       console.log(res.data.item);
@@ -85,7 +84,6 @@ function List(props) {
     <div>
       {
       articleList.map((item,index) => (
-        // <Link key={index} to={'detail/'+item.get('id')}>
         <div key={item.id}>
           <ListItem >
             <ListInfo>

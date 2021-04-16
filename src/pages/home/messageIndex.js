@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 16:48:59
+ * @LastEditTime: 2021-04-16 17:29:04
  */
 
 /*
@@ -12,12 +12,13 @@
 import { useState, useEffect } from 'react';
 import { List, Typography, Divider,Modal } from 'antd';
 import http from '@/utils/request'
-import { RedoOutlined } from '@ant-design/icons';
+import { MessageTwoTone,HeartTwoTone, StarTwoTone} from '@ant-design/icons';
+import CommentList from '../personal/components/CommentList'
 import Personal from '../personal/focusPersonalIndex'
 import AddSearchAndFocus from './components/addSearchAndFocus'
 import {demoUrl} from '@/utils/utils';
 import React from 'react';
-import './components/less/focusIndex.less'
+import './components/less/messageIndex.less'
 
 const data = ['评论','赞','收藏'
 ]
@@ -25,7 +26,7 @@ const data = ['评论','赞','收藏'
 function FocusIndex(props) {
   let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
   // let [data,setData] = useState([])
-  let [actice,setActice] = useState(-1);
+  let [actice,setActice] = useState(0);
   let [id,setId] = useState('');
   useEffect(() => {
     setId(data[actice]?.id)
@@ -35,7 +36,7 @@ function FocusIndex(props) {
     setActice(index)
   }
 			return (
-				<div className='focusContent'>
+				<div className='messageContent'>
           <div className='left'>
           <List
             size="large"
@@ -43,12 +44,39 @@ function FocusIndex(props) {
             bordered
             dataSource={data}
             renderItem={(item,index) => <List.Item onClick={()=>{handleChange(index)}} style={{display:'flex',justifyContent:'space-between',backgroundColor: index === actice?'#ddd':''}}>
-              {item}
+              
+              {
+                index === 0 && 
+                <span><MessageTwoTone /><span style={{marginLeft:'20px'}}>{item}</span></span>
+              }
+              {
+                index === 1 && 
+                <span><HeartTwoTone /><span style={{marginLeft:'20px'}}>{item}</span></span>
+              }
+              {
+                index === 2 && 
+                <span><StarTwoTone /><span style={{marginLeft:'20px'}}>{item}</span></span>
+              }
             </List.Item>}
           />
           </div>
           <div className='right'>
-            {/* <Personal focusId={id}/> */}
+            {
+              actice === 0 && <div>
+                <div>
+                  收到的评论
+                </div>
+                <CommentList authorId={memberInfo.id}/>
+                </div>
+            }
+            {
+              actice === 1 && <div>
+                <div>
+                  收到的赞
+                </div>
+                <CommentList authorId={memberInfo.id}/>
+                </div>
+            }
           </div>
         </div>
 			)

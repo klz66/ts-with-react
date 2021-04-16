@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 16:41:24
+ * @LastEditTime: 2021-04-16 17:25:51
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -11,7 +11,7 @@ import CommentList from './components/CommentList'
 import {demoUrl} from '@/utils/utils';
 import { Tabs,Avatar } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { SnippetsOutlined ,CommentOutlined,PlusOutlined,CheckOutlined } from '@ant-design/icons';
+import { SnippetsOutlined ,CommentOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import './personal.less'
 
