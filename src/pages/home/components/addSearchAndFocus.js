@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 16:21:20
+ * @LastEditTime: 2021-04-17 21:50:31
  */
 /*
  * @Description: 
@@ -36,26 +36,12 @@ function List(props) {
     handleSearch()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const openNotificationWithIcon = type => {
-    notification[type]({
-      message: '删除成功',
-      duration: 1,
-    });
-  };
-  const handleSelectedDelete = async()=>{
-    if(selectedRowIds.length === 0) {
-      notification['error']({
-        message: '请至少选择一条数据',
-        duration: 1,
-      });
-      return
-    }
-    let res = await http.delete(`${demoUrl}/blogservice/blog-report/deleteReport/selected/${selectedRowIds.join()}`);
-    if(res.data.code === 20000) {
-      openNotificationWithIcon('success')
-      handleSearch()
-    }
-  }
+  // const openNotificationWithIcon = type => {
+  //   notification[type]({
+  //     message: '删除成功',
+  //     duration: 1,
+  //   });
+  // };
   // const handleDelete = async(id)=>{
   //   let res = await http.delete(`${demoUrl}/blogservice/blog-report/deleteReport/${id}`);
   //   if(res.data.code === 20000) {
@@ -189,7 +175,7 @@ function List(props) {
             />
         <Button onClick={handleSearch} type="primary" style={{ marginLeft:'50px'}}>查询</Button>
         <Button onClick={handleClear} style={{ marginLeft:'20px'}} className="green">重置</Button>
-        <Button onClick={handleSelectedDelete} type="primary" danger style={{ marginLeft:'20px'}}>删除</Button>
+        {/* <Button onClick={handleSelectedDelete} type="primary" danger style={{ marginLeft:'20px'}}>删除</Button> */}
       </div>
       {Demo()}
     </div>

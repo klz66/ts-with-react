@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 17:25:51
+ * @LastEditTime: 2021-04-17 21:48:13
  */
 
 import React,{ useState,useEffect }  from 'react';
@@ -37,7 +37,7 @@ function Personal(props) {
       <div className='personalContent'>
         <div className='left'>
           <div className='top'>
-            <div className='avatar'>
+            <div className='avatar' onClick={()=>{window.open('/personal/' + memberInfo.id)}}>
               <Avatar size={64} src={memberInfo.avatar} />
             </div>
             <div className='topRight'>

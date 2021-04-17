@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 16:23:18
+ * @LastEditTime: 2021-04-17 21:46:41
  */
 
 /*
@@ -67,7 +67,10 @@ function FocusIndex(props) {
           />
           </div>
           <div className='right'>
-            <Personal focusId={id}/>
+            {
+              id && <Personal focusId={id}/>
+            }
+            
           </div>
           <Modal
             title={`搜索更多用户`}

@@ -49,7 +49,14 @@ function List(props) {
     if(keyValue === '' && rangeTime === '') {
       console.log(2020);
       let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
-      let res = await http.get(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/${memberInfo.id}`);
+      
+      let params = {
+        keyValue:keyValue,
+        startTime:rangeTime[0]?.format('YYYY-MM-DD HH:mm:ss'),
+        endTime:rangeTime[1]?.format('YYYY-MM-DD HH:mm:ss'),
+      }
+      let res = await http.post(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/search`,params);
+     
       if(res.code === 20000) {
         let articleList = res.data.list.map((i)=>(
           {
