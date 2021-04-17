@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-17 21:46:41
+ * @LastEditTime: 2021-04-17 22:23:48
  */
 
 /*
@@ -40,7 +40,7 @@ function FocusIndex(props) {
     }))
 
     setData(rows)
-    if(rows.length>0){
+    if(rows?.length>0){
       setActice(0)
     }
   }

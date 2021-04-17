@@ -5,7 +5,6 @@ import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
 import { withRouter } from 'react-router-dom';
 import { Input,DatePicker,notification,Table, Divider, Button ,Space,Popconfirm,message  } from 'antd';
-import './less/manageBlog.less'
 import 'moment/locale/zh-cn';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import moment from 'moment';
@@ -162,7 +161,7 @@ function List(props) {
 
   return (
     <div>
-      <div className='header'>
+      <div>
           <Input placeholder="请输入关键字" value={keyValue} onChange={handleChange} style={{ width: 200 }} />
             <RangePicker
               value={rangeTime}
@@ -172,7 +171,7 @@ function List(props) {
               style={{ width: 300,marginLeft:'50px'}}
             />
         <Button onClick={handleSearch} type='primary' style={{ marginLeft:'50px'}} href="#">查询</Button>
-        <Button onClick={handleClear} style={{ marginLeft:'20px'}} className='green' href="#">重置</Button>
+        <Button onClick={handleClear} style={{ marginLeft:'20px'}} href="#">重置</Button>
         <Popconfirm
           title="确定删除吗"
           onConfirm={confirm}

@@ -1,15 +1,16 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-13 11:07:08
+ * @LastEditTime: 2021-04-17 22:28:16
  */
 
 import 'antd/dist/antd.css'
+import React, { useState } from 'react';
 import { connect } from "react-redux";
 import  {  actionCreators  }  from "./store";
 import { Link,withRouter } from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
-import { Menu, Dropdown, Avatar } from 'antd';
+import { Menu, Dropdown, Avatar,List } from 'antd';
 import { FolderOpenOutlined,CaretDownFilled ,SettingOutlined,UserOutlined,HeartOutlined,InteractionOutlined ,PoweroffOutlined} from '@ant-design/icons';
 import {
 	HeaderWrapper,
@@ -17,13 +18,14 @@ import {
 	Nav,
 	NavItem,
 	SearchWrapper,
+  SearchInfo,
 	NavSearch,
 	Addition,
 	Button
 } from './style';
  
-import React from 'react';
 function Header(props) {
+  const [keyValue, setKeyValue] = useState('');
   let memberInfo= JSON.parse(window.localStorage.getItem('memberInfo'))
   const {focused,changeFocusOn,changeFocusOff}=props;
   const handleOut = () =>{
@@ -109,12 +111,36 @@ function Header(props) {
             <NavSearch className={focused?'focused':''}
               onFocus={()=>changeFocusOn()}
               onBlur={changeFocusOff}
+              onKeyDown={()=>{console.log(keyValue);}}
+              onChange={(e)=>{setKeyValue(e.target.value)}}
+              value={keyValue}
             />
+ 
           </CSSTransition>
-          <i className={focused ? 'focused iconfont zoom': 'iconfont zoom'}>
+          <i className={focused ? 'focused iconfont zoom': 'iconfont zoom'} onClick={()=>{console.log(2020)}}>
                 &#xe6e4;
               </i>
+              {
+          focused &&         <SearchInfo>
+          <List
+        itemLayout="horizontal"
+        dataSource={['1','2']}
+        renderItem={item => (
+          <List.Item>
+            <div style={{display:'flex',justifyContent:'space-between'}}>
+             
+                <div> {item}</div>
+                <div style={{position:'absolute',right:'0px',cursor:'pointer'}}>
+2020
+                </div>
+            </div>
+          </List.Item>
+        )}
+      />
+          </SearchInfo>
+        }
         </SearchWrapper>
+
         </Nav>
   
         <Addition>

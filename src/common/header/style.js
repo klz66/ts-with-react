@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 21:47:42
+ * @LastEditTime: 2021-04-17 22:17:28
  */
 import styled from 'styled-components';
 import logoPic from '../../statics/kl.png';
@@ -67,6 +67,16 @@ export const SearchWrapper = styled.div`
 			color: #fff;
 		}
 	}
+`;
+
+export const SearchInfo = styled.div`
+	position: absolute;
+	left: 30px;
+	top: 56px;
+	width: 240px;
+	padding: 0 20px;
+	box-shadow: 0 0 8px rgba(0, 0, 0, .2);
+	background: #fff;
 `;
 
 export const NavSearch = styled.input.attrs({
