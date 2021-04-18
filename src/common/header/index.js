@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 09:50:48
+ * @LastEditTime: 2021-04-18 13:51:47
  */
 
 import 'antd/dist/antd.css'
@@ -82,7 +82,6 @@ function Header(props) {
     
   }
   const toLogin = () => {
-    console.log(2020);
     props.history.push( {pathname:'/login',state:{login:true}});
   }
   const isLogin = ()=>{
@@ -92,6 +91,13 @@ function Header(props) {
         <NavItem onClick={()=>toLogin()} className='right'>登录</NavItem>
       </>   
     )
+  }
+  function handleSearch (e){
+    console.log(e.keyCode);
+    if(e.keyCode === 13) {
+      props.history.push( {pathname:'/search',query:{keyValue:keyValue}});
+    }
+    // props.history.push( {pathname:'/search',query:{keyValue:keyValue}});
   }
   const Header = () => {
     return (
@@ -112,7 +118,7 @@ function Header(props) {
             <NavSearch className={focused?'focused':''}
               onFocus={()=>changeFocusOn()}
               onBlur={changeFocusOff}
-              onKeyDown={()=>{console.log(keyValue);}}
+              onKeyDown={(e)=>{handleSearch(e)}}
               onChange={(e)=>{setKeyValue(e.target.value)}}
               value={keyValue}
             />

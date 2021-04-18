@@ -1,10 +1,9 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 09:48:06
+ * @LastEditTime: 2021-04-18 13:09:50
  */
 import React, { useRef,useEffect,useState } from 'react';
-import { connect } from 'react-redux';
 import http from '@/utils/request'
 import { notification,List,Popconfirm  } from 'antd';
 import {demoUrl,uploadUrl} from '@/utils/utils';
@@ -111,7 +110,7 @@ function Write(props) {
   }
   async function handleSave(content){
     console.log(draftList)
-    if(localStorage.getItem('blogId').length!==19){
+    if(localStorage.getItem('blogId')?.length!==19){
       notification['error']({
         message: '请先选择文章'
       })
@@ -246,24 +245,24 @@ function Write(props) {
   }
   function formatTitle(content) {
     var re1 = new RegExp("<.+?>","g");//匹配html标签的正则表达式，"g"是搜索匹配多个符合的内容
-    if(!_.isEmpty(content.match(/((?<=<h1>).+?)(?=<\/h1>)/))) {
-      return content.match(/((?<=<h1>).+?)(?=<\/h1>)/)[0].replace(re1,'');
+    if(!_.isEmpty(content.match(/((?<=<h.>).+?)(?=<\/h.>)/))) {
+      return content.match(/((?<=<h.>).+?)(?=<\/h.>)/)[0].replace(re1,'');
     }
-    else if(!_.isEmpty(content.match(/((?<=<h2>).+?)(?=<\/h2>)/))) {
-      return content.match(/((?<=<h2>).+?)(?=<\/h2>)/)[0].replace(re1,'');
-    }
-    else if(!_.isEmpty(content.match(/((?<=<h3>).+?)(?=<\/h3>)/))) {
-      return content.match(/((?<=<h3>).+?)(?=<\/h3>)/)[0].replace(re1,'');
-    }
-    else if(!_.isEmpty(content.match(/((?<=<h4>).+?)(?=<\/h4>)/))) {
-      return content.match(/((?<=<h4>).+?)(?=<\/h4>)/)[0].replace(re1,'');
-    }
-    else if(!_.isEmpty(content.match(/((?<=<h5>).+?)(?=<\/h5>)/))) {
-      return content.match(/((?<=<h5>).+?)(?=<\/h5>)/)[0].replace(re1,'');
-    }
-    else if(!_.isEmpty(content.match(/((?<=<h6>).+?)(?=<\/h6>)/))) {
-      return content.match(/((?<=<h6>).+?)(?=<\/h6>)/)[0].replace(re1,'');
-    }
+    // else if(!_.isEmpty(content.match(/((?<=<h2>).+?)(?=<\/h2>)/))) {
+    //   return content.match(/((?<=<h2>).+?)(?=<\/h2>)/)[0].replace(re1,'');
+    // }
+    // else if(!_.isEmpty(content.match(/((?<=<h3>).+?)(?=<\/h3>)/))) {
+    //   return content.match(/((?<=<h3>).+?)(?=<\/h3>)/)[0].replace(re1,'');
+    // }
+    // else if(!_.isEmpty(content.match(/((?<=<h4>).+?)(?=<\/h4>)/))) {
+    //   return content.match(/((?<=<h4>).+?)(?=<\/h4>)/)[0].replace(re1,'');
+    // }
+    // else if(!_.isEmpty(content.match(/((?<=<h5>).+?)(?=<\/h5>)/))) {
+    //   return content.match(/((?<=<h5>).+?)(?=<\/h5>)/)[0].replace(re1,'');
+    // }
+    // else if(!_.isEmpty(content.match(/((?<=<h6>).+?)(?=<\/h6>)/))) {
+    //   return content.match(/((?<=<h6>).+?)(?=<\/h6>)/)[0].replace(re1,'');
+    // }
     else{
       return ''
     } 
@@ -380,7 +379,5 @@ function Write(props) {
   
 }
 
-const mapState = (state) => ({
-})
 
-export default connect(mapState, null)(Write);
+export default Write;

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-08 10:24:19
+ * @LastEditTime: 2021-04-18 10:48:45
  */
 import React, { useState } from 'react';
 import { Form, Input, InputNumber, Button,Radio,notification } from 'antd';
@@ -59,6 +59,10 @@ function Demo() {
         message: '设置成功',
       });
       window.location.reload()
+    } else {
+      notification['error']({
+        message: '改昵称已被使用',
+      });
     }
   };
   function getAvatarImageUrl(img){

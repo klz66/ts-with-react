@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 10:07:01
+ * @LastEditTime: 2021-04-18 14:15:09
  */
 
 /*
@@ -12,7 +12,8 @@
 import { useState, useEffect } from 'react';
 import { List } from 'antd';
 import { MessageTwoTone,HeartTwoTone, StarTwoTone} from '@ant-design/icons';
-import SearchBlog from './components/SearchBlog'
+import SearchBlog from './components/SearchUser'
+import SearchUser from './components/SearchUser'
 import React from 'react';
 import './index.less'
 
@@ -20,8 +21,8 @@ const data = ['用户','博客'
 ]
 
 function FocusIndex(props) {
+  console.log(props.location.query.keyValue);
   let memberInfo = JSON.parse(window.localStorage.getItem('memberInfo'))
-  // let [data,setData] = useState([])
   let [actice,setActice] = useState(0);
   function handleChange(index) {
     setActice(index)
@@ -55,15 +56,15 @@ function FocusIndex(props) {
             {
               actice === 0 && <div>
                 <div>
-                  收到的评论
+                  用户
                 </div>
-                <SearchBlog authorId={memberInfo.id}/>
+                <SearchUser authorId={memberInfo.id} keyValue = {props.location.query.keyValue}/>
                 </div>
             }
             {
               actice === 1 && <div>
                 <div>
-                  收到的赞
+                  博客
                 </div>
                 <SearchBlog authorId={memberInfo.id}/>
                 </div>
