@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 13:58:44
+ * @LastEditTime: 2021-04-18 15:09:49
  */
 import 'antd/dist/antd.css'
 import { BrowserRouter,Route } from "react-router-dom";
@@ -39,7 +39,7 @@ function App(props) {
           {localStorage.getItem('token') &&<Route path='/write' exact component={Write}></Route>}
           {localStorage.getItem('token') &&<Route path='/edit' exact component={Edit}></Route>}
           <Route path='/avatar' exact component={Avatar}></Route>
-          <Route path='/search' exact component={Search}></Route>
+          <Route path='/search/:keyValue' exact component={Search}></Route>
           <Route path='/personal/:id' exact component={Personal}></Route> 
           <Route path='/detail/:id' exact component={Detail}></Route>
           {localStorage.getItem('token') &&<Route path='/TrashDetail/:id' exact component={TrashDetail}></Route>}

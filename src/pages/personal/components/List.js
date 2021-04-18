@@ -1,13 +1,13 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-16 13:58:17
+ * @LastEditTime: 2021-04-18 15:41:17
  */
 import 'antd/dist/antd.css'
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { ListItem, ListInfo } from '@/pages/home/style';
-import { HeartFilled ,MessageFilled} from '@ant-design/icons';
+import { LikeFilled ,MessageFilled} from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
@@ -110,7 +110,7 @@ function List(props) {
             {item.name}
             
             <div>
-              <HeartFilled/>
+              <LikeFilled/>
               {item.zangNum}
             </div>
             <div>
