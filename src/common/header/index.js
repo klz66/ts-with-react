@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-17 22:28:16
+ * @LastEditTime: 2021-04-18 09:50:48
  */
 
 import 'antd/dist/antd.css'
@@ -29,7 +29,7 @@ function Header(props) {
   let memberInfo= JSON.parse(window.localStorage.getItem('memberInfo'))
   const {focused,changeFocusOn,changeFocusOff}=props;
   const handleOut = () =>{
-    props.history.push('login');
+    window.location.href='login'
   }
   const menu = (
     <Menu>
@@ -82,6 +82,7 @@ function Header(props) {
     
   }
   const toLogin = () => {
+    console.log(2020);
     props.history.push( {pathname:'/login',state:{login:true}});
   }
   const isLogin = ()=>{

@@ -46,53 +46,28 @@ function List(props) {
     }
   }
   async function handleSearch() {
-    if(keyValue === '' && rangeTime === '') {
-      let params = {
-        keyValue:keyValue,
-        startTime:rangeTime[0]?.format('YYYY-MM-DD HH:mm:ss'),
-        endTime:rangeTime[1]?.format('YYYY-MM-DD HH:mm:ss'),
-      }
-      let res = await http.post(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/search`,params);
-     
-      if(res.code === 20000) {
-        let articleList = res.data.list.map((i)=>(
-          {
-            'key': i.id,
-            'title': i.title.slice(0,10),
-            'desc': i.content.replace(/<[^>]+>|&[^>]+;/g,"").trim().slice(0,20),
-            'detail': i.content,
-            'id':i.id,
-            'gmtCreate':i.gmtCreate,
-            'gmtModified':i.gmtModified,
-            'collectedNum':i.collectedNum,
-            'zangNum':i.zangNum,
-           }));
-        setData(articleList)
-      }
-    } else {
-      let params = {
-        keyValue:keyValue,
-        startTime:rangeTime[0]?.format('YYYY-MM-DD HH:mm:ss'),
-        endTime:rangeTime[1]?.format('YYYY-MM-DD HH:mm:ss'),
-      }
-      let res = await http.post(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/search`,params);
-      if(res.code === 20000) {
-        let articleList = res.data.list.map((i)=>(
-          {
-            'key': i.id,
-            'title': i.title.slice(0,10),
-            'desc': i.content.replace(/<[^>]+>|&[^>]+;/g,"").trim().slice(0,20),
-            'detail': i.content,
-            'id':i.id,
-            'gmtCreate':i.gmtCreate,
-            'gmtModified':i.gmtModified,
-            'collectedNum':i.collectedNum,
-            'zangNum':i.zangNum,
-           }));
-        setData(articleList)
-      }
+    let params = {
+      keyValue:keyValue,
+      startTime:rangeTime[0]?.format('YYYY-MM-DD HH:mm:ss'),
+      endTime:rangeTime[1]?.format('YYYY-MM-DD HH:mm:ss'),
     }
-
+    let res = await http.post(`${demoUrl}/blogservice/blog-curd/pagePersonalBlogList/search`,params);
+    
+    if(res.code === 20000) {
+      let articleList = res.data.list.map((i)=>(
+        {
+          'key': i.id,
+          'title': i.title.slice(0,10),
+          'desc': i.content.replace(/<[^>]+>|&[^>]+;/g,"").trim().slice(0,20),
+          'detail': i.content,
+          'id':i.id,
+          'gmtCreate':i.gmtCreate,
+          'gmtModified':i.gmtModified,
+          'collectedNum':i.collectedNum,
+          'zangNum':i.zangNum,
+          }));
+      setData(articleList)
+    }
   }
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
