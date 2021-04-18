@@ -1,15 +1,19 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 15:11:42
+ * @LastEditTime: 2021-04-18 18:42:17
  */
 
 import 'antd/dist/antd.css'
-import React, { useState } from 'react';
+import http from '@/utils/request'
+import {demoUrl} from '@/utils/utils';
+import React, {  useEffect,useState } from 'react';
 import { connect } from "react-redux";
 import  {  actionCreators  }  from "./store";
 import { Link,withRouter } from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
+import {CloseOutlined} from '@ant-design/icons';
+
 import { Menu, Dropdown, Avatar,List } from 'antd';
 import { FolderOpenOutlined,CaretDownFilled ,SettingOutlined,UserOutlined,HeartOutlined,InteractionOutlined ,PoweroffOutlined} from '@ant-design/icons';
 import {
@@ -26,8 +30,25 @@ import {
  
 function Header(props) {
   const [keyValue, setKeyValue] = useState('');
+  const [searchList, setSearchList] = useState([]);
   let memberInfo= JSON.parse(window.localStorage.getItem('memberInfo'))
   const {focused,changeFocusOn,changeFocusOff}=props;
+
+  useEffect(() => {
+    getSearchList();
+  },[]);
+
+
+  async function getSearchList() {
+    let res = await http.get(`${demoUrl}/blogservice/blog-search/searchList`);
+    if(res.code === 20000) {
+      setSearchList(res.data.list.map(i=>({
+        id: i.id,
+        keyValue: i.keyValue
+      })))
+    }
+  }
+   
   const handleOut = () =>{
     window.location.href='login'
   }
@@ -92,12 +113,40 @@ function Header(props) {
       </>   
     )
   }
-  function handleSearch (e){
-    console.log(e.keyCode);
+  async function handleKeySearch (e){
     if(e.keyCode === 13) {
-      props.history.push( {pathname:'/search/'+keyValue});
+      if(keyValue.trim() === ''){
+        return; 
+      }
+      let params =  {
+        keyValue:keyValue.trim()
+      }
+      let res = await http.post(`${demoUrl}/blogservice/blog-search/addSearch`,params);
+      props.history.push( {pathname:'/search/'+keyValue.trim()});
+      getSearchList();
     }
-    // props.history.push( {pathname:'/search',query:{keyValue:keyValue}});
+  }
+  async function handleSearch (){
+    if(keyValue.trim() === ''){
+      return; 
+    }
+    else {
+      let params =  {
+        keyValue:keyValue.trim()
+      }
+      let res = await http.post(`${demoUrl}/blogservice/blog-search/addSearch`,params);
+      props.history.push( {pathname:'/search/'+keyValue.trim()});
+      getSearchList();
+    }
+  }
+  function handleClickSearch (e){
+    props.history.push( {pathname:'/search/'+e});
+  }
+  async function handleDeleteSearch (e){
+    let res = await http.delete(`${demoUrl}/blogservice/blog-search/deleteSearch/${e}`);
+    if(res.data.code === 20000) {
+      getSearchList();
+    }
   }
   const Header = () => {
     return (
@@ -118,27 +167,27 @@ function Header(props) {
             <NavSearch className={focused?'focused':''}
               onFocus={()=>changeFocusOn()}
               onBlur={changeFocusOff}
-              onKeyDown={(e)=>{handleSearch(e)}}
+              onKeyDown={(e)=>{handleKeySearch(e)}}
               onChange={(e)=>{setKeyValue(e.target.value)}}
               value={keyValue}
             />
  
           </CSSTransition>
-          <i className={focused ? 'focused iconfont zoom': 'iconfont zoom'} onClick={()=>{console.log(2020)}}>
+          <i className={focused ? 'focused iconfont zoom': 'iconfont zoom'} onClick={()=>{handleSearch()}}>
                 &#xe6e4;
               </i>
               {
           focused &&         <SearchInfo>
           <List
         itemLayout="horizontal"
-        dataSource={['1','2']}
+        dataSource={searchList}
         renderItem={item => (
           <List.Item>
             <div style={{display:'flex',justifyContent:'space-between'}}>
              
-                <div> {item}</div>
-                <div style={{position:'absolute',right:'0px',cursor:'pointer'}}>
-2020
+                <div onClick={()=>{handleClickSearch(item.keyValue)}} style={{overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',width:'160px'}}> {item.keyValue}</div>
+                <div onClick={()=>{handleDeleteSearch(item.id)}} style={{position:'absolute',right:'0px',cursor:'pointer'}}>
+<CloseOutlined />
                 </div>
             </div>
           </List.Item>

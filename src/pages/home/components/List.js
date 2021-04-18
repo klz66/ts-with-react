@@ -1,12 +1,12 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 15:40:54
+ * @LastEditTime: 2021-04-18 18:25:21
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
 import { ListItem, ListInfo, LoadMore } from '../style';
-import { LikeFilled,MessageFilled } from '@ant-design/icons';
+import { HeartFilled,MessageFilled } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
@@ -83,8 +83,8 @@ function List(props) {
     <div>
       {
       articleList.map((item,index) => (
-        <div>
-          <ListItem key={item.id}>
+        <div key={item.id}>
+          <ListItem>
             <ListInfo>
             {formatImg(item.desc)!==null && <img
                 className='pic'
@@ -102,7 +102,7 @@ function List(props) {
             {item.name}
             
             <div>
-              <LikeFilled/>
+              <HeartFilled/>
               {item.zangNum}
             </div>
             <div>

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 15:12:05
+ * @LastEditTime: 2021-04-18 17:27:25
  */
 
 /*
@@ -11,7 +11,7 @@
  */
 import { useState, useEffect } from 'react';
 import { List } from 'antd';
-import { MessageTwoTone,HeartTwoTone, StarTwoTone} from '@ant-design/icons';
+import { TeamOutlined,SnippetsOutlined, StarTwoTone} from '@ant-design/icons';
 import SearchBlog from './components/SearchBlog'
 import SearchUser from './components/SearchUser'
 import React from 'react';
@@ -38,15 +38,11 @@ function FocusIndex(props) {
               
               {
                 index === 0 && 
-                <span><MessageTwoTone /><span style={{marginLeft:'20px'}}>{item}</span></span>
+                <span><TeamOutlined /><span style={{marginLeft:'20px'}}>{item}</span></span>
               }
               {
                 index === 1 && 
-                <span><HeartTwoTone /><span style={{marginLeft:'20px'}}>{item}</span></span>
-              }
-              {
-                index === 2 && 
-                <span><StarTwoTone /><span style={{marginLeft:'20px'}}>{item}</span></span>
+                <span><SnippetsOutlined /><span style={{marginLeft:'20px'}}>{item}</span></span>
               }
             </List.Item>}
           />
