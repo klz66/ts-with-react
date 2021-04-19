@@ -20,6 +20,7 @@ function List(props) {
   let [selectedRowIds,SetSelectedRowIds] = useState([])
   useEffect(() => {
     handleSearch()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const openNotificationWithIcon = type => {
     notification[type]({

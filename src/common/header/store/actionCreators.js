@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-13 11:06:24
+ * @LastEditTime: 2021-04-19 11:43:44
  */
 import * as constants from './constants';
 
@@ -13,3 +13,10 @@ import * as constants from './constants';
    type:constants.SEARCH_BLUR,
    value
  })
+ export const mouseEnter = () => ({
+	type: constants.MOUSE_ENTER
+});
+
+export const mouseLeave = () => ({
+	type: constants.MOUSE_LEAVE
+});

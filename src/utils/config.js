@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-12 10:57:08
+ * @LastEditTime: 2021-04-19 12:18:45
  */
 import axios from 'axios'
 
@@ -21,7 +21,9 @@ function noLogin(url) {
   url.indexOf('blogservice/blog-comment/getCommentList')>=0 ||
   url.indexOf('blogservice/blog-member/login')>=0 ||
   url.indexOf('blogservice/blog-member/register')>=0 ||
-  url.indexOf('logservice/blog-like/getLikeBlogMember')>=0
+  url.indexOf('logservice/blog-like/getLikeBlogMember')>=0 ||
+  url.indexOf('logservice/blog-search')>=0 ||
+  url.indexOf('blogservice/blog-admin')>=0
   ) {
     return true
   }

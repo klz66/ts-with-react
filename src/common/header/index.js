@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 18:42:17
+ * @LastEditTime: 2021-04-19 12:16:31
  */
 
 import 'antd/dist/antd.css'
@@ -29,10 +29,11 @@ import {
 } from './style';
  
 function Header(props) {
+
   const [keyValue, setKeyValue] = useState('');
   const [searchList, setSearchList] = useState([]);
   let memberInfo= JSON.parse(window.localStorage.getItem('memberInfo'))
-  const {focused,changeFocusOn,changeFocusOff}=props;
+  const {focused,changeFocusOn,changeFocusOff,mouseIn, handleMouseEnter, handleMouseLeave}=props;
 
   useEffect(() => {
     getSearchList();
@@ -121,7 +122,7 @@ function Header(props) {
       let params =  {
         keyValue:keyValue.trim()
       }
-      let res = await http.post(`${demoUrl}/blogservice/blog-search/addSearch`,params);
+      await http.post(`${demoUrl}/blogservice/blog-search/addSearch`,params);
       props.history.push( {pathname:'/search/'+keyValue.trim()});
       getSearchList();
     }
@@ -134,13 +135,14 @@ function Header(props) {
       let params =  {
         keyValue:keyValue.trim()
       }
-      let res = await http.post(`${demoUrl}/blogservice/blog-search/addSearch`,params);
+      await http.post(`${demoUrl}/blogservice/blog-search/addSearch`,params);
       props.history.push( {pathname:'/search/'+keyValue.trim()});
       getSearchList();
     }
   }
   function handleClickSearch (e){
     props.history.push( {pathname:'/search/'+e});
+    handleMouseLeave();
   }
   async function handleDeleteSearch (e){
     let res = await http.delete(`${demoUrl}/blogservice/blog-search/deleteSearch/${e}`);
@@ -177,7 +179,10 @@ function Header(props) {
                 &#xe6e4;
               </i>
               {
-          focused &&         <SearchInfo>
+          (focused || mouseIn) &&         <SearchInfo
+          onMouseEnter={handleMouseEnter}
+					onMouseLeave={handleMouseLeave}
+          >
           <List
         itemLayout="horizontal"
         dataSource={searchList}
@@ -185,7 +190,7 @@ function Header(props) {
           <List.Item>
             <div style={{display:'flex',justifyContent:'space-between'}}>
              
-                <div onClick={()=>{handleClickSearch(item.keyValue)}} style={{overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',width:'160px'}}> {item.keyValue}</div>
+                <div onClick={()=>{handleClickSearch(item.keyValue)}} style={{overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',width:'160px',cursor:'pointer'}}> {item.keyValue}</div>
                 <div onClick={()=>{handleDeleteSearch(item.id)}} style={{position:'absolute',right:'0px',cursor:'pointer'}}>
 <CloseOutlined />
                 </div>
@@ -229,6 +234,7 @@ function Header(props) {
 }
 
 const mapStateToProps = (state) => ({
+  mouseIn: state.getIn(['header', 'mouseIn']),
   focused:state.getIn(['header','focused']),
 })
 const mapDispatchToProps = (dispatch) => ({
@@ -237,6 +243,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   changeFocusOff(){
     dispatch(actionCreators.getInputFocusOff(false))
+  },
+  handleMouseEnter() {
+    dispatch(actionCreators.mouseEnter());
+  },
+  handleMouseLeave() {
+    dispatch(actionCreators.mouseLeave());
   },
 })
 

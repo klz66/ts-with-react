@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 17:27:25
+ * @LastEditTime: 2021-04-19 12:17:58
  */
 
 /*
@@ -53,7 +53,7 @@ function FocusIndex(props) {
                 <div>
                   用户
                 </div>
-                <SearchUser authorId={memberInfo.id}/>
+                <SearchUser />
                 </div>
             }
             {
@@ -61,7 +61,7 @@ function FocusIndex(props) {
                 <div>
                   博客
                 </div>
-                <SearchBlog authorId={memberInfo.id}/>
+                <SearchBlog />
                 </div>
             }
           </div>

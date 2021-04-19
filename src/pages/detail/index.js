@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 15:39:35
+ * @LastEditTime: 2021-04-18 18:53:06
  */
 /*
  * @Description: 
@@ -14,7 +14,7 @@ import { Menu, Dropdown,Input,Button,notification,Avatar,Popconfirm ,Comment, Fo
 import moment from 'moment';
 import http from '@/utils/request'
 import {demoUrl} from '@/utils/utils';
-import { MessageOutlined,LikeOutlined,LikeFilled,StarOutlined,StarFilled,PlusOutlined,CheckOutlined,DislikeOutlined ,EllipsisOutlined} from '@ant-design/icons';
+import { MessageOutlined,LikeOutlined,LikeFilled,StarOutlined,StarFilled,PlusOutlined,CheckOutlined,EllipsisOutlined} from '@ant-design/icons';
 import LikeModal from './component/LikeModal'
 import ExposeActicleModal from './component/ExposeActicleModal'
 import ExposeCommentModal from './component/ExposeCommentModal'
