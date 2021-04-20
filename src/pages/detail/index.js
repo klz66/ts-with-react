@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 18:53:06
+ * @LastEditTime: 2021-04-20 23:15:42
  */
 /*
  * @Description: 
@@ -477,6 +477,9 @@ function Detail(props) {
 
           </div>
         </div>
+        <h1>
+          {blogDetail.title}
+        </h1>
         <div className='blogContent' dangerouslySetInnerHTML={{__html:blogDetail.content}}/>
         <div className='blogLike'>
           {isLikeBlog && <LikeFilled onClick={handleRemoveLike}/>}

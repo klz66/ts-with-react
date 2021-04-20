@@ -1,12 +1,11 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 13:12:44
+ * @LastEditTime: 2021-04-20 23:13:34
  */
 import React, { useRef,useEffect,useState } from 'react';
-import { connect } from 'react-redux';
 import http from '@/utils/request'
-import { notification } from 'antd';
+import { notification,Input } from 'antd';
 import {demoUrl,uploadUrl} from '@/utils/utils';
 import tinyMce from 'tinymce/tinymce';
 import zh_CN from '../../../public/tinymce/langs/zh_CN';
@@ -17,13 +16,13 @@ var _ = require('lodash');
 
 
 function Edit(props) {
-  console.log(props);
+  let [title,setTitle] = useState('');
   let blogDetail = props.location.state.blogDetail
-
+  
   let editorRef = useRef()
   useEffect(() => {
     
-
+    setTitle(blogDetail.title)
     setTimeout(function(){
       let trialDom=tinyMce.activeEditor.contentDocument
       if(trialDom) {
@@ -48,13 +47,13 @@ function Edit(props) {
       })
       return
     }
-    if(formatTitle(content) === '') {
+    if(title.trim() === '') {
       notification['error']({
         message: '必须要有标题'
       })
       return;
     }
-    if(formatTitle(content).length>30){
+    if(title.trim().length>30){
       notification['error']({
         message: '标题长度太长'
       })
@@ -63,7 +62,7 @@ function Edit(props) {
     console.log(blogDetail);
       const params = {
         "id": blogDetail.id,
-        "title": formatTitle(content),
+        "title": title,
         "content": content,
         'authorId': blogDetail.authorId,
       }
@@ -72,34 +71,12 @@ function Edit(props) {
         openNotificationWithIcon('success')
       }
   }
-  function formatTitle(content) {
-    var re1 = new RegExp("<.+?>","g");//匹配html标签的正则表达式，"g"是搜索匹配多个符合的内容
-    if(!_.isEmpty(content.match(/((?<=<h.>).+?)(?=<\/h.>)/))) {
-      return content.match(/((?<=<h.>).+?)(?=<\/h.>)/)[0].replace(re1,'');
-    }
-    // else if(!_.isEmpty(content.match(/((?<=<h2>).+?)(?=<\/h2>)/))) {
-    //   return content.match(/((?<=<h2>).+?)(?=<\/h2>)/)[0].replace(re1,'');
-    // }
-    // else if(!_.isEmpty(content.match(/((?<=<h3>).+?)(?=<\/h3>)/))) {
-    //   return content.match(/((?<=<h3>).+?)(?=<\/h3>)/)[0].replace(re1,'');
-    // }
-    // else if(!_.isEmpty(content.match(/((?<=<h4>).+?)(?=<\/h4>)/))) {
-    //   return content.match(/((?<=<h4>).+?)(?=<\/h4>)/)[0].replace(re1,'');
-    // }
-    // else if(!_.isEmpty(content.match(/((?<=<h5>).+?)(?=<\/h5>)/))) {
-    //   return content.match(/((?<=<h5>).+?)(?=<\/h5>)/)[0].replace(re1,'');
-    // }
-    // else if(!_.isEmpty(content.match(/((?<=<h6>).+?)(?=<\/h6>)/))) {
-    //   return content.match(/((?<=<h6>).+?)(?=<\/h6>)/)[0].replace(re1,'');
-    // }
-    else{
-      return '无标题'
-    } 
-  }
   
 			return (
         <div style={{display:'flex',height:'100vh'}}>
 				<div>
+        <Input placeholder="标题" value={title} onChange={(e)=>{setTitle(e.target.value)}} style={{ width: 800 }} />
+        <span onClick={()=>{handPost(editorRef.current.currentContent)}} style={{marginLeft:'20px',cursor:'pointer',color:'green'}}>保存</span>
           <Editor
             ref={editorRef}
             initialValue={''}
@@ -129,14 +106,14 @@ function Edit(props) {
                alignleft aligncenter alignright alignjustify | \
                 fullscreen sumbit back',
               setup: (editor) => {
-                editor.ui.registry.addButton('sumbit', {
-                  text: '确认',
-                  icon: 'redo',
-                  onAction: function(){
-                    let content = editorRef.current.currentContent?editorRef.current.currentContent:editorRef.current.props.initialValue;
-                    handPost(content)
-                  }
-                })
+                // editor.ui.registry.addButton('sumbit', {
+                //   text: '确认',
+                //   icon: 'redo',
+                //   onAction: function(){
+                //     let content = editorRef.current.currentContent?editorRef.current.currentContent:editorRef.current.props.initialValue;
+                //     handPost(content)
+                //   }
+                // })
                 editor.ui.registry.addButton('back', {
                   text: '返回',
                   icon: 'chevron-left',

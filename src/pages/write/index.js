@@ -1,11 +1,11 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 13:09:50
+ * @LastEditTime: 2021-04-20 23:08:15
  */
 import React, { useRef,useEffect,useState } from 'react';
 import http from '@/utils/request'
-import { notification,List,Popconfirm  } from 'antd';
+import { notification,List,Popconfirm ,Input } from 'antd';
 import {demoUrl,uploadUrl} from '@/utils/utils';
 
 import zh_CN from '../../../public/tinymce/langs/zh_CN';
@@ -22,17 +22,17 @@ function Write(props) {
   let editorRef = useRef()
   let [draftList,setDraftList] = useState([]);
   let [actice,setActice] = useState(-1);
+  let [title,setTitle] = useState('');
 
   useEffect(() => {
     updateDraftList(); 
-    console.log(actice);
     if(actice<0){
       localStorage.removeItem('blogId')
     }
   },[actice]);
   function changeContent(index,item) {
     setActice(index)
-    console.log(draftList);
+    setTitle(item.title)
     if(draftList.length>0){
       let item = draftList[index]
       
@@ -67,7 +67,6 @@ function Write(props) {
       },400)
     }
     
-    // changeContent(actice)
   }
   const handleEditorChange = (content, editor) => {
     console.log('Content was updated:', content);
@@ -109,7 +108,6 @@ function Write(props) {
     }
   }
   async function handleSave(content){
-    console.log(draftList)
     if(localStorage.getItem('blogId')?.length!==19){
       notification['error']({
         message: '请先选择文章'
@@ -125,7 +123,7 @@ function Write(props) {
       })
       return
     }
-    if(formatTitle(content) === '') {
+    if(title.trim() === '') {
       notification['error']({
         message: '必须要有标题'
       })
@@ -133,7 +131,7 @@ function Write(props) {
     }
     const params = {
       "id": blogId,
-      "title": formatTitle(content),
+      "title": title,
       "content": content,
       'name': memberInfo.nickname,
       'authorId': memberInfo.id
@@ -146,8 +144,8 @@ function Write(props) {
       updateDraftList();
     }
   }
-  const handSave = async(content) =>{
-    handleSave(content)
+  const handSave = async() =>{
+    handleSave(editorRef.current.currentContent)
   }
   const handPost = async(content) =>{
     if(localStorage.getItem('blogId')?.length!==19){
@@ -164,13 +162,13 @@ function Write(props) {
       })
       return
     }
-    if(formatTitle(content) === '') {
+    if(title.trim() === '') {
       notification['error']({
         message: '必须要有标题'
       })
       return;
     }
-    if(formatTitle(content).length>30){
+    if(title.trim().length>30){
       notification['error']({
         message: '标题长度太长'
       })
@@ -179,7 +177,7 @@ function Write(props) {
     if(localStorage.getItem('blogId')){
       const params = {
         "id": localStorage.getItem('blogId'),
-        "title": formatTitle(content),
+        "title": title,
         "content": content,
         'authorId': memberInfo.id
       }
@@ -187,6 +185,8 @@ function Write(props) {
       if(res.code === 20000) {
         openNotificationWithIcon('success')
         updateDraftList();
+        setTitle('');
+        setActice(-1)
       } else {
         notification['error']({
           message: `${res.data.message}`,
@@ -248,21 +248,6 @@ function Write(props) {
     if(!_.isEmpty(content.match(/((?<=<h.>).+?)(?=<\/h.>)/))) {
       return content.match(/((?<=<h.>).+?)(?=<\/h.>)/)[0].replace(re1,'');
     }
-    // else if(!_.isEmpty(content.match(/((?<=<h2>).+?)(?=<\/h2>)/))) {
-    //   return content.match(/((?<=<h2>).+?)(?=<\/h2>)/)[0].replace(re1,'');
-    // }
-    // else if(!_.isEmpty(content.match(/((?<=<h3>).+?)(?=<\/h3>)/))) {
-    //   return content.match(/((?<=<h3>).+?)(?=<\/h3>)/)[0].replace(re1,'');
-    // }
-    // else if(!_.isEmpty(content.match(/((?<=<h4>).+?)(?=<\/h4>)/))) {
-    //   return content.match(/((?<=<h4>).+?)(?=<\/h4>)/)[0].replace(re1,'');
-    // }
-    // else if(!_.isEmpty(content.match(/((?<=<h5>).+?)(?=<\/h5>)/))) {
-    //   return content.match(/((?<=<h5>).+?)(?=<\/h5>)/)[0].replace(re1,'');
-    // }
-    // else if(!_.isEmpty(content.match(/((?<=<h6>).+?)(?=<\/h6>)/))) {
-    //   return content.match(/((?<=<h6>).+?)(?=<\/h6>)/)[0].replace(re1,'');
-    // }
     else{
       return ''
     } 
@@ -316,6 +301,9 @@ function Write(props) {
             />
           </div>
 				<div>
+          <Input placeholder="标题" value={title} onChange={(e)=>{setTitle(e.target.value)}} style={{ width: 800 }} />
+          <span onClick={()=>{handSave()}} style={{marginLeft:'20px',cursor:'pointer',color:'green'}}>保存</span>
+          <span onClick={()=>{handPost(editorRef.current.currentContent)}} style={{marginLeft:'20px',cursor:'pointer',color:'blue'}}>发表</span>
           <Editor
             ref={editorRef}
             initialValue={''}
@@ -345,22 +333,22 @@ function Write(props) {
                alignleft aligncenter alignright alignjustify | \
                 fullscreen save sumbit back',
               setup: (editor) => {
-                editor.ui.registry.addButton('save', {
-                  text: '保存',
-                  icon: 'new-document',
-                  onAction: function(){
-                    let content = editorRef.current.currentContent?editorRef.current.currentContent:editorRef.current.props.initialValue;
-                    handSave(content)
-                  }
-                })
-                editor.ui.registry.addButton('sumbit', {
-                  text: '发表文章',
-                  icon: 'redo',
-                  onAction: function(){
-                    let content = editorRef.current.currentContent?editorRef.current.currentContent:editorRef.current.props.initialValue;
-                    handPost(content)
-                  }
-                })
+                // editor.ui.registry.addButton('save', {
+                //   text: '保存',
+                //   icon: 'new-document',
+                //   onAction: function(){
+                //     let content = editorRef.current.currentContent?editorRef.current.currentContent:editorRef.current.props.initialValue;
+                //     handSave()
+                //   }
+                // })
+                // editor.ui.registry.addButton('sumbit', {
+                //   text: '发表文章',
+                //   icon: 'redo',
+                //   onAction: function(){
+                //     let content = editorRef.current.currentContent?editorRef.current.currentContent:editorRef.current.props.initialValue;
+                //     handPost(content)
+                //   }
+                // })
                 editor.ui.registry.addButton('back', {
                   text: '返回主页面',
                   icon: 'chevron-left',
