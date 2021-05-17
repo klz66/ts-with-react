@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-15 15:43:26
+ * @LastEditTime: 2021-05-15 18:54:55
  */
 import 'antd/dist/antd.css'
 import {useState } from 'react'
@@ -36,9 +36,7 @@ function Home(props) {
         <Recommend />
         <UserList />
       </HomeRight>
-
     </HomeWrapper>
-    
     )
   }
 
@@ -55,8 +53,5 @@ function Home(props) {
       </div>
   );
 }
-
-
-
 
 export default Home;

@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-20 23:08:15
+ * @LastEditTime: 2021-05-15 19:05:26
  */
 import React, { useRef,useEffect,useState } from 'react';
 import http from '@/utils/request'
@@ -29,6 +29,8 @@ function Write(props) {
     if(actice<0){
       localStorage.removeItem('blogId')
     }
+    setTitle(draftList[actice]?.title)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[actice]);
   function changeContent(index,item) {
     setActice(index)
@@ -194,7 +196,7 @@ function Write(props) {
       }
     }else {
       const params = {
-        "title": formatTitle(content),
+        "title": title,
         "content": content,
         'name': memberInfo.nickname,
         'authorId': memberInfo.id
@@ -276,7 +278,7 @@ function Write(props) {
               }
               bordered
               dataSource={draftList}
-              renderItem={(item,index) => <List.Item style={{display:'flex',justifyContent:'space-between',backgroundColor: index === actice?'#ddd':''}} onClick={()=>{
+              renderItem={(item,index) => <List.Item style={{display:'flex',justifyContent:'space-between',backgroundColor: index === actice?'#ddd':'',cursor: 'pointer'}} onClick={()=>{
                 changeContent(index,item);
               }}>{item.title}
               <div className='icon-margin'>
@@ -333,22 +335,6 @@ function Write(props) {
                alignleft aligncenter alignright alignjustify | \
                 fullscreen save sumbit back',
               setup: (editor) => {
-                // editor.ui.registry.addButton('save', {
-                //   text: '保存',
-                //   icon: 'new-document',
-                //   onAction: function(){
-                //     let content = editorRef.current.currentContent?editorRef.current.currentContent:editorRef.current.props.initialValue;
-                //     handSave()
-                //   }
-                // })
-                // editor.ui.registry.addButton('sumbit', {
-                //   text: '发表文章',
-                //   icon: 'redo',
-                //   onAction: function(){
-                //     let content = editorRef.current.currentContent?editorRef.current.currentContent:editorRef.current.props.initialValue;
-                //     handPost(content)
-                //   }
-                // })
                 editor.ui.registry.addButton('back', {
                   text: '返回主页面',
                   icon: 'chevron-left',

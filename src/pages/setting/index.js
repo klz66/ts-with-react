@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 10:48:45
+ * @LastEditTime: 2021-05-11 13:56:13
  */
 import React, { useState } from 'react';
 import { Form, Input, InputNumber, Button,Radio,notification } from 'antd';
@@ -61,7 +61,7 @@ function Demo() {
       window.location.reload()
     } else {
       notification['error']({
-        message: '改昵称已被使用',
+        message: '该昵称已被使用',
       });
     }
   };

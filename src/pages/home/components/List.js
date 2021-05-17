@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-04-18 18:25:21
+ * @LastEditTime: 2021-05-14 21:11:45
  */
 import 'antd/dist/antd.css'
 import { useState, useEffect } from 'react';
@@ -15,6 +15,7 @@ import './less/list.less'
 
 function List(props) {
   let [current,setCurrent]=useState(1)
+  let [moreText,setMoreText]=useState(true)
   let [articleList,setArticleList]=useState([])
   useEffect(() => {
     getArticleList(current,5)
@@ -48,6 +49,9 @@ function List(props) {
     
     if(res.code === 20000) {
       console.log(res.data.item);
+      if(res.data.rows.length === 0) {
+        setMoreText(false)
+      }
       let list = res.data.rows.map((i,index)=>(
         {
           'title': i.title,
@@ -113,9 +117,19 @@ function List(props) {
           </div>
         ))
       }
-      <LoadMore onClick={getMore}>
+      {/* <LoadMore onClick={getMore}>
+        加载更多
+      </LoadMore> */}
+      {
+        moreText &&       <LoadMore onClick={getMore} className='getmore-bottom'>
         加载更多
       </LoadMore>
+      }
+      {
+        !moreText &&       <LoadMore className='getmore-bottom'>
+        已加载完毕
+      </LoadMore>
+      }
     </div>
   );
 }
