@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: Zhong Kailong
- * @LastEditTime: 2021-05-17 14:43:26
+ * @LastEditTime: 2021-06-01 21:25:43
  */
 /*
  * @Description: 
@@ -379,8 +379,11 @@ function Detail(props) {
   }
   function yesCloseComment() {
     return <div className='no-comment'>
-      <div>评论已关闭</div>
-      <div><Button danger onClick={()=>handleOpenComment()}>打开评论</Button></div>
+      <div className='no-comment-content'>
+        <div>评论已关闭</div>
+        <div>{isAuthor && <Button danger onClick={()=>handleOpenComment()}>打开评论</Button>}</div>
+      </div>
+      
       </div>
   }
   async function handleAddLike() {
